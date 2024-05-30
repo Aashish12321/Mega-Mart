@@ -12,15 +12,18 @@ const Signup = () => {
   const handlePicUpload = async (e) => {
     const file = e.target.files[0];
     const imagePic = await imageTobase64(file);
-
     setProfilePic(imagePic);
+  }
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+    // console.log({email, password});
   }
 
   return (
     <section id="signup" className="shadow-white">
       <div className="mx-auto container p-8">
-        <div className="bg-gray-900 text-white p-2 max-w-md mx-auto">
-
+        <form onSubmit={handleSignup} className="bg-gray-900 text-white p-2 max-w-md mx-auto">
           <div className="w-20 mx-auto mt-2 relative overflow-hidden rounded-full cursor-pointer">
             <img src={profilePic || logo} alt="logo"/>
             <div className="text-xs bg-slate-200 text-black pb-4 pt-2 text-center bg-opacity-60 -mt-10">
@@ -30,12 +33,13 @@ const Signup = () => {
           </div>
           
           <div className="mt-4">
-            Name:
+            Username:
             <div className="mb-2">
               <input
                 type="text"
-                placeholder=" Enter your name..."
+                placeholder=" Enter username..."
                 className="w-full h-8 rounded-md outline-none text-black"
+                required
               />
             </div>
             Email:
@@ -44,6 +48,7 @@ const Signup = () => {
                 type="email"
                 placeholder=" Enter your email..."
                 className="w-full h-8 outline-none bg-transparent text-black"
+                required
               />
             </div>
             Password:
@@ -52,6 +57,7 @@ const Signup = () => {
                 type={showPassword ? "text" : "password"}
                 placeholder=" Enter password..."
                 className="w-full h-8 outline-none bg-transparent text-black"
+                required
               />
               <div
                 className="text-black mr-1 cursor-pointer"
@@ -66,6 +72,7 @@ const Signup = () => {
                 type={showPassword ? "text" : "password"}
                 placeholder=" Enter confirm password..."
                 className="w-full h-8 outline-none bg-transparent text-black"
+                required
               />
               <div
                 className="text-black mr-1 cursor-pointer"
@@ -75,7 +82,7 @@ const Signup = () => {
               </div>
             </div>
             <div className="text-center mt-4">
-              <button className="bg-red-500 w-28 h-8 rounded-2xl hover:bg-red-400">
+              <button type="submit" className="bg-red-500 w-28 h-8 rounded-2xl hover:bg-red-400">
                 SignUp
               </button>
             </div>
@@ -87,7 +94,7 @@ const Signup = () => {
               </Link>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </section>
   );

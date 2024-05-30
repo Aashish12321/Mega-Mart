@@ -20,7 +20,7 @@ const Login = () => {
       <div className="mx-auto container p-8">
         <div className="bg-gray-900 text-white p-2 max-w-md mx-auto">
           <img src={logo} alt="logo" className="w-16 mx-auto mt-2" />
-          <form className="mt-4">
+          <form onSubmit={handleLogin} className="mt-4">
             Email:
             <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md ">
               <input
@@ -29,6 +29,7 @@ const Login = () => {
                 className="w-full h-8 outline-none bg-transparent text-black"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
               />
             </div>
             Password:
@@ -39,6 +40,7 @@ const Login = () => {
                 className="w-full h-8 outline-none bg-transparent text-black"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                required
               />
               <div
                 className="text-black mr-1 cursor-pointer"
@@ -51,7 +53,7 @@ const Login = () => {
               <Link to={"/forgot-password"}>Forgot password?</Link>
             </div>
             <div className="text-center mt-4">
-              <button onClick={handleLogin} className="bg-red-500 w-28 h-8 rounded-2xl hover:bg-red-400">
+              <button type="submit" className="bg-red-500 w-28 h-8 rounded-2xl hover:bg-red-400">
                 Login
               </button>
             </div>
