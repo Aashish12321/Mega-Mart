@@ -23,12 +23,12 @@ const Signup = () => {
     const file = e.target.files[0];
     const imagePic = await imageTobase64(file);
 
-    console.log(imagePic);
+    // console.log(imagePic);
 
     setUser((previousData) => {
       return {
         ...previousData,
-        profilePic: imagePic,
+        profilePic: imagePic
       };
     });
   };

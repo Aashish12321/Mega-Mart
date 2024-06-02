@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import logo from "../Assets/loginIcon.gif";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
+import SummaryApi from "../Common";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(1);
@@ -10,7 +12,9 @@ const Login = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
-  })
+  });
+
+  const navigate = useNavigate();
 
   const handleOnchange = (e) => {
     const {name, value} = e.target;
@@ -23,9 +27,28 @@ const Login = () => {
     })
   }
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     // console.log({email, password});
+
+    const data = await fetch(SummaryApi.login.url, {
+      method: SummaryApi.login.method,
+      credentials: 'include',
+      body: JSON.stringify(user),
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+
+    const userData = await data.json();
+    if (userData.success){
+      toast.success('User LoggedIn successfully');
+      console.log(userData);
+      navigate('/login');
+    }
+    if (userData.error){
+      toast.error(userData.message);
+    }
   }
 
   return (

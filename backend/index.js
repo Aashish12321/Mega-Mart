@@ -2,16 +2,22 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const router = require('./routes');
+const cookieParser = require('cookie-parser');
+// const bodyParser = require('body-parser')
 require('dotenv').config()
 
 const port = 7000
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true
+}));
+app.use(cookieParser());
+
 app.use(express.json());
 
 app.use('/api', router);
-
 
 
 connectDB().then(()=>{
