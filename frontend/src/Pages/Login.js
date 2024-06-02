@@ -6,9 +6,22 @@ import { IoEyeOff } from "react-icons/io5";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(1);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  })
 
+  const handleOnchange = (e) => {
+    const {name, value} = e.target;
+
+    setUser((previousData)=>{
+      return{
+        ...previousData,
+        [name]: value
+      }
+    })
+  }
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -25,10 +38,11 @@ const Login = () => {
             <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md ">
               <input
                 type="email"
+                name="email"
                 placeholder=" Enter your email..."
                 className="w-full h-8 outline-none bg-transparent text-black"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={user.email}
+                onChange={handleOnchange}
                 required
               />
             </div>
@@ -36,10 +50,11 @@ const Login = () => {
             <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md items-center">
               <input
                 type={showPassword ? "text" : "password"}
+                name="password"
                 placeholder=" Enter password..."
                 className="w-full h-8 outline-none bg-transparent text-black"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={user.password}
+                onChange={handleOnchange}
                 required
               />
               <div

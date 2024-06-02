@@ -15,6 +15,11 @@ async function userSignUpController (req, resp){
             throw new Error('Please provide Password')
         }
 
+        const user = await User.findOne({email});
+        if (user){
+            throw new Error("User already exists with this email");
+        }
+
         const saltRounds = 10;
         const salt = bcrypt.genSaltSync(saltRounds);
         const hashedPassword = bcrypt.hashSync(password, salt);
@@ -25,12 +30,11 @@ async function userSignUpController (req, resp){
 
         const payload = {
             ...req.body,
+            role: 'GENERAL',
             password: hashedPassword
         }
         let userData = new User(payload);
         const saveUser = await userData.save();
-
-        // console.log(saveUser);
 
         resp.status(201).json({
             data: saveUser,
@@ -41,7 +45,7 @@ async function userSignUpController (req, resp){
 
     } catch (err) {
         resp.json({
-            message: err,
+            message: err.message,
             error: true,
             success: false
         })

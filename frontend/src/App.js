@@ -5,10 +5,15 @@ import { ForgotPassword, Homepage, Login, Signup } from './Routes';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 
+// display the notification
+import { ToastContainer } from 'react-toastify';      
+import 'react-toastify/dist/ReactToastify.css';
+
 const App = () => {
   return (
     <BrowserRouter>
       <Header />
+      <ToastContainer />
       <main className='min-h-[calc(100vh-137px)]'>
         <Routes>
           <Route path='/' element={<Homepage />} />
