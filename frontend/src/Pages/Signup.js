@@ -23,7 +23,7 @@ const Signup = () => {
     const file = e.target.files[0];
     const imagePic = await imageTobase64(file);
 
-    // console.log(imagePic);
+    console.log(imagePic);
 
     setUser((previousData) => {
       return {
@@ -84,6 +84,7 @@ const Signup = () => {
             <div className="text-xs bg-slate-200 text-black pb-4 pt-2 text-center bg-opacity-60 -mt-10">
               <input
                 type="file"
+                name="profilePic"
                 id="fileInput"
                 className="hidden"
                 onChange={handlePicUpload}
