@@ -166,7 +166,7 @@ const Signup = () => {
             <div className="text-sm mt-5">
               Already have account?
               <Link to={"/login"} className="text-red-500">
-                Login
+              &nbsp;&nbsp;Login
               </Link>
             </div>
           </div>

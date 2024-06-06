@@ -5,7 +5,7 @@ import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
 import SummaryApi from "../Common";
 import { toast } from "react-toastify";
-import Context from "../context";
+import Context from "../Context";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(1);
@@ -54,9 +54,9 @@ const Login = () => {
   }
 
   return (
-    <section id="login" className="shadow-white">
+    <section id="login" className=''>
       <div className="mx-auto container p-8">
-        <div className="bg-gray-900 text-white p-2 max-w-md mx-auto">
+        <div className="bg-gray-900 text-white p-2 mt-28 max-w-md mx-auto rounded-lg">
           <img src={logo} alt="logo" className="w-16 mx-auto mt-2" />
           <form onSubmit={handleLogin} className="mt-4">
             Email:
@@ -98,9 +98,9 @@ const Login = () => {
               </button>
             </div>
             <div className="text-sm mt-5">
-              Don't have an account ?
-              <Link to={"/signup"} className="text-red-500 hover:underline">
-                SignUp
+              Don't have an account? 
+              <Link to={"/signup"} className="text-red-500">
+                &nbsp;&nbsp;SignUp
               </Link>
             </div>
           </form>

@@ -7,7 +7,7 @@ async function userDetailsController(req, resp){
 
         resp.status(200).json({
             message: "Login successful",
-            data:user,
+            data: user,
             error: false,
             success: true
         })
