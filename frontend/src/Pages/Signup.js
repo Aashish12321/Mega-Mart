@@ -6,6 +6,7 @@ import { IoEyeOff } from "react-icons/io5";
 import imageTobase64 from "../helpers/imageTobase64";
 import SummaryApi from "../Common";
 import { toast } from "react-toastify";
+import role from "../Common/role";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(1);
@@ -17,6 +18,7 @@ const Signup = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    role: role.general
   });
 
   const handlePicUpload = async (e) => {
@@ -74,10 +76,10 @@ const Signup = () => {
 
   return (
     <section id="signup" className="shadow-white">
-      <div className="mx-auto container p-8">
+      <div className=" mx-auto container p-8">
         <form
           onSubmit={handleSignup}
-          className="bg-gray-900 text-white p-2 max-w-md mx-auto"
+          className="bg-gray-900 text-white p-2 max-w-md mx-auto rounded-md"
         >
           <div className="w-20 mx-auto mt-2 relative overflow-hidden rounded-full cursor-pointer">
             <img src={user.profilePic || logo} alt="logo" />

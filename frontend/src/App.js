@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import './App.css'
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import { ForgotPassword, Homepage, Login, Signup } from './Routes';
+import { Admin, AllProducts, AllUsers, ForgotPassword, Homepage, Login, Signup } from './Routes';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 import SummaryApi from './Common';
@@ -44,12 +44,16 @@ const App = () => {
       <BrowserRouter>
         <Header />
         <ToastContainer position='top-center' autoClose={3000}/>
-        <main className='min-h-[calc(100vh-137px)]'>
+        <main className='min-h-[calc(100vh-144px)] min-[320px]:mt-16 xl:mt-20'>
           <Routes>
             <Route path='/' element={<Homepage />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/forgot-password' element={<ForgotPassword />} />
+            <Route path='/admin' element={<Admin />} >
+              <Route path='all-users' element={<AllUsers />} />
+              <Route path='all-products' element={<AllProducts />} />
+            </Route>
           </Routes>
         </main>
         <Footer />

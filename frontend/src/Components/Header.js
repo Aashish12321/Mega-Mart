@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logo from '../Assets/logo.png'
 import { GoSearch } from "react-icons/go";
 import { FaUserCircle } from "react-icons/fa";
@@ -13,9 +13,11 @@ import { setUserDetails } from '../Store/userSlice';
 // border-2 border-yellow-950
 
 const Header = () => {
+  const [showuserMenu, setShowUserMenu] = useState(0);
+
   const user = useSelector(state => state.user.user)
   const dispatch = useDispatch();
-  console.log('user header', user);
+  // console.log('user header', user);
 
   const handleLogout = async () => {
     let userData = await fetch(SummaryApi.logout.url, {
@@ -47,10 +49,23 @@ const Header = () => {
         </div>
 
         <div className='flex w-full items-center h-12 max-w-md space-x-5 justify-end'>
-          <div className='text-3xl cursor-pointer text-white'>
+          <div className='relative flex justify-center'>
+            <div onClick={()=> setShowUserMenu(!showuserMenu)} className='text-3xl cursor-pointer text-white'>
+              {
+                user?.profilePic?(<img className='w-10  rounded-full' src={user.profilePic} alt={user?.username} />):<FaUserCircle />
+              }
+            </div>
             {
-              user?.profilePic?(<img className='w-10  rounded-full' src={user.profilePic} alt={user?.username} />):<FaUserCircle />
+              showuserMenu?
+                <div className='absolute rounded-b-md top-11 p-1  bg-gray-900  text-white'>
+                  <span>
+                    <Link to={'/admin'} onClick={()=> setShowUserMenu(0)} className='hidden md:flex whitespace-nowrap p-1 hover:text-red-500'>Admin</Link>
+                  </span>
+                </div>
+                :
+                null
             }
+
           </div>
 
           <div className='text-3xl  flex cursor-pointer relative text-white'>
