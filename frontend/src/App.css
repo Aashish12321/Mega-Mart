@@ -16,3 +16,11 @@ body {
     scroll-behavior: smooth;
     @apply bg-gray-700;
 }
+
+
+.allUser th{
+  @apply border text-center
+}
+.allUser td{
+  @apply border text-center;
+}
