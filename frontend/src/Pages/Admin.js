@@ -6,14 +6,14 @@ const Admin = () => {
   const user = useSelector(state => state.user.user)
 
   return (
-    <div className="hidden md:flex min-h-[calc(100vh-128px)] xl:min-h-[calc(100vh-144px)]  text-white">
-      <aside className="bg-gray-600 shadow-md text-white min-h-full max-w-64 w-full ">
+    <div className="hidden lg:flex min-h-[calc(100vh-128px)] xl:min-h-[calc(100vh-144px)]  text-white">
+      <aside className="relative bg-gray-600 shadow-md text-white min-h-full max-w-64 w-full ">
           <div className='py-2  shadow-lg text-white'>
             {
               user?.profilePic?(<img className='w-20 h-20 mx-auto rounded-full' src={user.profilePic} alt={user?.username} />):<FaUserCircle />
             }
             <div className="text-center">
-              {user.username}
+              {user.name}
             </div>
             <div className="text-center">
               {user.role}

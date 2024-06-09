@@ -3,9 +3,9 @@ const User = require('../models/User')
 
 async function userSignUpController (req, resp){
     try {
-        const {username, email, password} = req.body;
+        const {name, email, password} = req.body;
 
-        if (!username){
+        if (!name){
             throw new Error('Please provide Username')
         }
         if (!email){

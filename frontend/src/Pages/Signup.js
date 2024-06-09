@@ -14,7 +14,7 @@ const Signup = () => {
 
   const [user, setUser] = useState({
     profilePic: "",
-    username: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -96,14 +96,14 @@ const Signup = () => {
           </div>
 
           <div className="mt-4">
-            Username:
+            Name:
             <div className="mb-2">
               <input
                 type="text"
-                name="username"
-                placeholder=" Enter username..."
+                name="name"
+                placeholder=" Enter full name..."
                 className="w-full h-8 rounded-md outline-none text-black"
-                value={user.username}
+                value={user.name}
                 onChange={handleOnchange}
                 required
               />

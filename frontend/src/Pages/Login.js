@@ -45,7 +45,7 @@ const Login = () => {
     const userData = await data.json();
     if (userData.success){
       toast.success('User LoggedIn successfully');
-      navigate('/login');
+      navigate('/');
       fetchUserDetails();
     }
     if (userData.error){
@@ -96,6 +96,7 @@ const Login = () => {
               <button type="submit" className="bg-red-500 w-28 h-8 rounded-2xl hover:bg-red-400">
                 Login
               </button>
+
             </div>
             <div className="text-sm mt-5">
               Don't have an account? 

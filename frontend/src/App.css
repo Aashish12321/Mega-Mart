@@ -19,8 +19,12 @@ body {
 
 
 .allUser th{
-  @apply border text-center
+  @apply p-2 border text-center border-none;
 }
 .allUser td{
-  @apply border text-center;
+  @apply p-2 border text-center border-none ;
+}
+
+.allUser tbody tr{
+  @apply odd:bg-gray-600 even:bg-gray-500;
 }

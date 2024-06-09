@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const UserSchema = new mongoose.Schema({
     profilePic: String,
-    username: String,
+    name: String,
     email : {
         type: String,
         unique: true,
