@@ -10,6 +10,7 @@ const AllUsers = () => {
   const [allUser, setAllUser] = useState([]);
   const [showUpdateBox, setShowUpdateBox] = useState(false);
   const [updateEachUser, setUpdateEachUser] = useState({
+    _id: "",
     name: "",
     email: "",
     role: "",
@@ -37,8 +38,8 @@ const AllUsers = () => {
   },[]);
 
   return (
-    <div className="allUser px-3">
-      <table className="bg-gray-600 mt-3 border-collapse border-green-400 w-full">
+    <div className="allUser px-2">
+      <table className="bg-gray-600 mt-2 border-collapse border-green-400 w-full">
         <thead>
           <tr className="bg-gray-800">
             <th>S.N.</th>
@@ -57,7 +58,7 @@ const AllUsers = () => {
                 <td>{user.name}</td>
                 <td>{user.role}</td>
                 <td>{user.email}</td>
-                <td>{moment(user.createdAt).format("lll")}</td>
+                <td>{moment(user?.createdAt).format("lll")}</td>
                 <td className="flex justify-between">
                   <button
                     onClick={() => {
@@ -85,6 +86,7 @@ const AllUsers = () => {
             email={updateEachUser.email}
             role={updateEachUser.role}
             onClose={() => setShowUpdateBox(false)}
+            callFunc={fetchAllUsers}
           />
         )}
       </div>

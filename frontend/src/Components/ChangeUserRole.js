@@ -4,7 +4,7 @@ import { FaRegWindowClose } from "react-icons/fa";
 import SummaryApi from "../Common";
 import { toast } from "react-toastify";
 
-const ChangeUserRole = ({id, name, email, role, onClose}) => {
+const ChangeUserRole = ({id, name, email, role, onClose, callFunc}) => {
   const [userRole, setUserRole] = useState(role);
 
   // console.log(userRole);
@@ -22,9 +22,12 @@ const ChangeUserRole = ({id, name, email, role, onClose}) => {
     const userData = await userResponse.json();
     if (userData.success){
       toast.success(userData.message);
+      callFunc();
+      onClose();
     }
     if(userData.error){
       toast.error(userData.message);
+      onClose();
     }
   }
   return (

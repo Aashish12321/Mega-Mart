@@ -65,7 +65,7 @@ const Login = () => {
                 type="email"
                 name="email"
                 placeholder=" Enter your email..."
-                className="w-full h-8 outline-none bg-transparent text-black"
+                className="w-full h-8 pl-1 outline-none bg-transparent text-black"
                 value={user.email}
                 onChange={handleOnchange}
                 required
@@ -77,7 +77,7 @@ const Login = () => {
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder=" Enter password..."
-                className="w-full h-8 outline-none bg-transparent text-black"
+                className="w-full h-8 pl-1 outline-none bg-transparent text-black"
                 value={user.password}
                 onChange={handleOnchange}
                 required
@@ -93,7 +93,7 @@ const Login = () => {
               <Link to={"/forgot-password"}>Forgot password?</Link>
             </div>
             <div className="text-center mt-4">
-              <button type="submit" className="bg-red-500 w-28 h-8 rounded-2xl hover:bg-red-400">
+              <button type="submit" className="bg-red-500 w-28 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
                 Login
               </button>
 

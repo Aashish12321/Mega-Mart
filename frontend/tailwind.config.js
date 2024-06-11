@@ -16,6 +16,9 @@ module.exports = {
         "1300px":"1300px",
         "400px":"400px",
       },
+      buttonShadow: {
+        'custom': '0px 10px 0px 0px white',
+      }
     },
   },
   plugins: [],

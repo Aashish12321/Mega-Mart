@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import SummaryApi from '../Common';
 import { toast } from 'react-toastify';
 import { setUserDetails } from '../Store/userSlice';
+import role from '../Common/role';
 
 // border-2 border-yellow-950
 
@@ -52,14 +53,22 @@ const Header = () => {
           <div className='relative flex justify-center'>
             <div onClick={()=> setShowUserMenu(!showuserMenu)} className='text-3xl cursor-pointer text-white'>
               {
-                user?.profilePic?(<img className='w-10  rounded-full' src={user.profilePic} alt={user?.username} />):<FaUserCircle />
+                user?._id?
+                user?.profilePic? 
+                (<img className='w-10  rounded-full' src={user?.profilePic} alt={user?.username} />)
+                :<FaUserCircle />
+                :null
               }
             </div>
             {
               showuserMenu?
                 <div className='absolute rounded-b-md top-11 p-1  bg-gray-900  text-white'>
                   <span>
-                    <Link to={'/admin'} onClick={()=> setShowUserMenu(0)} className='hidden md:flex whitespace-nowrap p-1 hover:text-red-500'>Admin</Link>
+                  {
+                    user?.role === role.admin && (
+                      <Link to={'/admin/all-products'} onClick={()=> setShowUserMenu(0)} className='hidden md:flex whitespace-nowrap p-1 hover:text-red-500'>Admin</Link>
+                    )
+                  }
                   </span>
                 </div>
                 :

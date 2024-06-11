@@ -76,14 +76,14 @@ const Signup = () => {
 
   return (
     <section id="signup" className="shadow-white">
-      <div className=" mx-auto container p-8">
+      <div className=" mx-auto container p-8 ">
         <form
           onSubmit={handleSignup}
-          className="bg-gray-900 text-white p-2 max-w-md mx-auto rounded-md"
+          className="bg-gray-900 text-white p-2 max-w-md mx-auto rounded-md "
         >
           <div className="w-20 mx-auto mt-2 relative overflow-hidden rounded-full cursor-pointer">
             <img src={user.profilePic || logo} alt="logo" />
-            <div className="text-xs bg-slate-200 text-black pb-4 pt-2 text-center bg-opacity-60 -mt-10">
+            <div className="text-xs bg-slate-200 text-white pb-4 pt-2 text-center bg-opacity-60 -mt-10">
               <input
                 type="file"
                 name="profilePic"
@@ -102,7 +102,7 @@ const Signup = () => {
                 type="text"
                 name="name"
                 placeholder=" Enter full name..."
-                className="w-full h-8 rounded-md outline-none text-black"
+                className="w-full h-8 pl-1 rounded-md outline-none text-black"
                 value={user.name}
                 onChange={handleOnchange}
                 required
@@ -114,7 +114,7 @@ const Signup = () => {
                 type="email"
                 name="email"
                 placeholder=" Enter your email..."
-                className="w-full h-8 outline-none bg-transparent text-black"
+                className="w-full h-8 pl-1 outline-none bg-transparent text-black"
                 value={user.email}
                 onChange={handleOnchange}
                 required
@@ -127,7 +127,7 @@ const Signup = () => {
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder=" Enter password..."
-                className="w-full h-8 outline-none bg-transparent text-black"
+                className="w-full h-8 pl-1 outline-none bg-transparent text-black"
                 value={user.password}
                 onChange={handleOnchange}
                 required
@@ -145,7 +145,7 @@ const Signup = () => {
                 type={showPassword ? "text" : "password"}
                 name="confirmPassword"
                 placeholder=" Enter confirm password..."
-                className="w-full h-8 outline-none bg-transparent text-black"
+                className="w-full h-8 pl-1 outline-none bg-transparent text-black"
                 value={user.confirmPassword}
                 onChange={handleOnchange}
                 required
@@ -160,7 +160,7 @@ const Signup = () => {
             <div className="text-center mt-4">
               <button
                 type="submit"
-                className="bg-red-500 w-28 h-8 rounded-2xl hover:bg-red-400"
+                className="bg-red-500 w-28 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
               >
                 SignUp
               </button>
