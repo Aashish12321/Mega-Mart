@@ -4,7 +4,8 @@ async function updateUser(req, resp){
     try {
         const sessionUser = req.userId;
 
-        const { userId, name, email, role } = req.body;
+        const { id, name, email, role } = req.body;
+        // console.log(id, name, email, role );
         const payload = {
             ...(email && {email: email}),
             ...(name && {name: name}),
@@ -13,8 +14,8 @@ async function updateUser(req, resp){
 
         const user = await User.findById(sessionUser);
         if (user.role === 'ADMIN'){
-            const update = await User.findByIdAndUpdate(userId, payload);
-            console.log(update);
+            const update = await User.findByIdAndUpdate(id, payload);
+            // console.log(update);
             resp.json({
                 data: update,
                 message: "User updated!",

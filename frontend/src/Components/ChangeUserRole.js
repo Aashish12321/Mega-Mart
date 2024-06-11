@@ -4,8 +4,10 @@ import { FaRegWindowClose } from "react-icons/fa";
 import SummaryApi from "../Common";
 import { toast } from "react-toastify";
 
-const ChangeUserRole = ({name, email, role, onClose}) => {
+const ChangeUserRole = ({id, name, email, role, onClose}) => {
   const [userRole, setUserRole] = useState(role);
+
+  // console.log(userRole);
 
   const updateUserRole = async () => {
     const userResponse = await fetch(SummaryApi.update_user.url, {
@@ -14,7 +16,7 @@ const ChangeUserRole = ({name, email, role, onClose}) => {
       headers:{
         "content-type":"application/json"
       },
-      body: JSON.stringify({role: userRole})
+      body: JSON.stringify({id:id, name: name, email: email, role: userRole})
     })
     
     const userData = await userResponse.json();

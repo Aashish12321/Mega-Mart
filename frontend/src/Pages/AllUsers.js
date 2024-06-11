@@ -34,7 +34,7 @@ const AllUsers = () => {
 
   useEffect(() => {
     fetchAllUsers();
-  });
+  },[]);
 
   return (
     <div className="allUser px-3">
@@ -80,6 +80,7 @@ const AllUsers = () => {
       <div>
         {showUpdateBox && (
           <ChangeUserRole
+            id={updateEachUser._id}
             name={updateEachUser.name}
             email={updateEachUser.email}
             role={updateEachUser.role}
