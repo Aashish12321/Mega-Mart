@@ -9,7 +9,7 @@ import ChangeUserRole from "../Components/ChangeUserRole";
 const AllUsers = () => {
   const [allUser, setAllUser] = useState([]);
   const [showUpdateBox, setShowUpdateBox] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
+  const [searchKey, setSearchKey] = useState('');
   const [updateEachUser, setUpdateEachUser] = useState({
     _id: "",
     name: "",
@@ -36,50 +36,43 @@ const AllUsers = () => {
 
   useEffect(() => {
     fetchAllUsers();
-  },[]);
+  }, []);
 
-  const handleUserSearch = async (key) => {
-    let response = await fetch(`http://localhost:7000/api/search-user/${key}`, {
-      method: 'get',
-      headers: {
-        "content-type": "application/json",
-      },
-      credentials: 'include'
-    })
-
-    const data = await response.json();
-    console.log(data.data);
-
-
-    if (data){
-      setAllUser(data.data);
+  const handleUserSearch = async (e) => {
+    if (searchKey && e.key==='Enter'){
+      let response = await fetch(SummaryApi.search_user.url + `/${searchKey}`, {
+        method: SummaryApi.search_user.method,
+        headers: {
+          "content-type": "application/json",
+        },
+        credentials: "include",
+      });
+  
+      let data = await response.json();
+      // console.log(data.data);
+      data = data.data;
+      if (data) {
+        setAllUser(data);
+      }
     }
-    else {
-      setAllUser([]);
-      // fetchAllUsers();
+    else{
+      fetchAllUsers();
     }
-
-    
-  }
+  };
 
   return (
     <div className="mt-2 allUser px-2">
       <div className="relative flex justify-between">
-        <input onChange={(e)=> handleUserSearch(e.target.value)} className="bg-gray-900 w-72 rounded-full px-4 h-10 outline-none " type="text" placeholder="Search for the user..." />
-        <div onClick={()=> setShowMenu(!showMenu)} className="mt-2 absolute cursor-pointer right-0 border-2 border-black hover:bg-red-500  rounded-xl inline-table w-28  text-center px-0">
-          <div>All users</div>
-          {
-            showMenu && (
-              <ul className="pt-2 w-28 bg-red-500 rounded-b-lg">
-                <li className="border-t cursor-pointer">All</li>
-                <li className="border-t cursor-pointer">Admin</li>
-                <li className="border-t cursor-pointer">General</li>
-              </ul>
-            )
-          }
-        </div>
+        <input
+          // onChange={(e) => handleUserSearch(e.target.value)}
+          onChange={(e) => setSearchKey(e.target.value)}
+          onKeyDown={handleUserSearch}
+          className="bg-gray-900 w-72 rounded-full px-4 h-10 outline-none "
+          type="text"
+          placeholder="Search for the user..."
+        />
       </div>
-      
+
       <table className="mt-2 border-collapse w-full">
         <thead className="rounded-md">
           <tr className="bg-gray-900">
@@ -94,7 +87,7 @@ const AllUsers = () => {
         <tbody>
           {allUser.map((user, index) => {
             return (
-                <tr key={user._id}>
+              <tr key={user._id}>
                 <td>{index + 1}</td>
                 <td>{user.name}</td>
                 <td>{user.role}</td>
@@ -103,8 +96,8 @@ const AllUsers = () => {
                 <td className="flex justify-between">
                   <button
                     onClick={() => {
-                      setUpdateEachUser(user)
-                      setShowUpdateBox(true)
+                      setUpdateEachUser(user);
+                      setShowUpdateBox(true);
                     }}
                     className="text-green-400 text-2xl text-center mx-auto"
                   >
