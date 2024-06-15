@@ -64,7 +64,7 @@ const Login = () => {
               <input
                 type="email"
                 name="email"
-                placeholder=" Enter your email..."
+                placeholder="Enter your email..."
                 className="w-full h-8 pl-1 outline-none bg-transparent text-black"
                 value={user.email}
                 onChange={handleOnchange}
@@ -76,7 +76,7 @@ const Login = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder=" Enter password..."
+                placeholder="Enter password..."
                 className="w-full h-8 pl-1 outline-none bg-transparent text-black"
                 value={user.password}
                 onChange={handleOnchange}

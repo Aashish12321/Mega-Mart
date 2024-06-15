@@ -7,6 +7,7 @@ import ForgotPassword from "./Pages/ForgotPassword";
 import Admin from "./Pages/Admin";
 import AllUsers from "./Pages/AllUsers"
 import AllProducts from "./Pages/AllProducts";
+import Dashboard from './Pages/Dashboard';
 
 
 const router = createBrowserRouter([
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
                 path: 'admin',
                 element: <Admin />,              
                 children: [
+                    {
+                        path: 'dashboard',
+                        element: <Dashboard />
+                    },
                     {
                         path: 'all-users',
                         element: <AllUsers />

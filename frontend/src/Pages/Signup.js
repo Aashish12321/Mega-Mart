@@ -101,7 +101,7 @@ const Signup = () => {
               <input
                 type="text"
                 name="name"
-                placeholder=" Enter full name..."
+                placeholder="Enter full name..."
                 className="w-full h-8 pl-1 rounded-md outline-none text-black"
                 value={user.name}
                 onChange={handleOnchange}
@@ -113,7 +113,7 @@ const Signup = () => {
               <input
                 type="email"
                 name="email"
-                placeholder=" Enter your email..."
+                placeholder="Enter your email..."
                 className="w-full h-8 pl-1 outline-none bg-transparent text-black"
                 value={user.email}
                 onChange={handleOnchange}
@@ -126,7 +126,7 @@ const Signup = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder=" Enter password..."
+                placeholder="Enter password..."
                 className="w-full h-8 pl-1 outline-none bg-transparent text-black"
                 value={user.password}
                 onChange={handleOnchange}
@@ -144,7 +144,7 @@ const Signup = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 name="confirmPassword"
-                placeholder=" Enter confirm password..."
+                placeholder="Enter confirm password..."
                 className="w-full h-8 pl-1 outline-none bg-transparent text-black"
                 value={user.confirmPassword}
                 onChange={handleOnchange}

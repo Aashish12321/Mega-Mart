@@ -26,5 +26,5 @@ body {
 }
 
 .allUser tbody tr{
-  @apply odd:bg-gray-600 even:bg-gray-500;
+  @apply odd:bg-gray-700 even:bg-gray-500 rounded-md;
 }

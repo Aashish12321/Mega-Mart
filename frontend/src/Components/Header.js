@@ -43,7 +43,7 @@ const Header = () => {
         </div>
 
         <div className='hidden lg:flex shadow items-center w-full max-w-md justify-between rounded-lg cursor-pointer mx-28'>
-          <input className='w-full outline-none h-9 pl-1 border-l-8 border-red-500 rounded-l-lg' type="text" placeholder=' Search product here...'/>
+          <input className='w-full outline-none h-9 pl-1 border-l-8 border-red-500 rounded-l-lg' type="text" placeholder='Search product here...'/>
           <div className='h-9 w-9 p-2.5 rounded-r-lg bg-red-500'>
             <GoSearch />
           </div>

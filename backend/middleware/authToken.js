@@ -3,10 +3,9 @@ const jwt = require('jsonwebtoken');
 async function authToken(req, resp, next){
     try {
         const token = req.cookies.token
-        
 
         if(!token){
-            console.log('user not login');
+            console.log('user not login, please provide the token');
             throw new Error('User not login');
         }
 
