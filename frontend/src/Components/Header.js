@@ -36,7 +36,7 @@ const Header = () => {
     }
   }
   return (
-    <header className='shadow-md shadow-red-500 bg-gray-900  fixed top-0 w-full'>
+    <header className='shadow-md shadow-red-500 bg-gray-900 fixed top-0 w-full'>
       <div className='container min-[320px]:h-16 lg:h-auto mx-auto px-3 flex  items-center justify-between'>
         <div className='cursor-pointer  min-[320px]:w-80 md:w-52 lg:w-auto 2xl:w-72'>
           <Link to={'/'} className=''><img  src={logo} alt="logo" /></Link>
@@ -66,7 +66,7 @@ const Header = () => {
                   <span>
                   {
                     user?.role === role.admin && (
-                      <Link to={'/admin/all-products'} onClick={()=> setShowUserMenu(0)} className='hidden md:flex whitespace-nowrap p-1 hover:text-red-500'>Admin</Link>
+                      <Link to={'/admin/view-products'} onClick={()=> setShowUserMenu(0)} className='hidden md:flex whitespace-nowrap p-1 hover:text-red-500'>Admin</Link>
                     )
                   }
                   </span>

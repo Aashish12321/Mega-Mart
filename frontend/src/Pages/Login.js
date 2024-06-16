@@ -56,7 +56,7 @@ const Login = () => {
   return (
     <section id="login">
       <div className="mx-auto container p-8">
-        <div className="bg-gray-900 text-white p-2 max-w-md mx-auto rounded-lg">
+        <div className=" bg-customCard text-white shadow-custom p-2 max-w-md mx-auto rounded-lg">
           <img src={logo} alt="logo" className="w-16 mx-auto mt-2" />
           <form onSubmit={handleLogin} className="mt-4">
             Email:

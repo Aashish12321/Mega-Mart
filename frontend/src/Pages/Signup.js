@@ -75,15 +75,15 @@ const Signup = () => {
   };
 
   return (
-    <section id="signup" className="shadow-white">
+    <section id="signup" className="">
       <div className=" mx-auto container p-8 ">
         <form
           onSubmit={handleSignup}
-          className="bg-gray-900 text-white p-2 max-w-md mx-auto rounded-md "
+          className="bg-customCard text-white shadow-custom p-2 max-w-md mx-auto rounded-md "
         >
           <div className="w-20 mx-auto mt-2 relative overflow-hidden rounded-full cursor-pointer">
             <img src={user.profilePic || logo} alt="logo" />
-            <div className="text-xs bg-slate-200 text-white pb-4 pt-2 text-center bg-opacity-60 -mt-10">
+            <div className="text-xs bg-slate-500 text-white pb-4 pt-2 text-center bg-opacity-60 -mt-10">
               <input
                 type="file"
                 name="profilePic"
@@ -97,19 +97,19 @@ const Signup = () => {
 
           <div className="mt-4">
             Name:
-            <div className="mb-2">
+            <div className="mb-2 bg-slate-100 rounded-md ">
               <input
                 type="text"
                 name="name"
                 placeholder="Enter full name..."
-                className="w-full h-8 pl-1 rounded-md outline-none text-black"
+                className="w-full h-8 pl-1 rounded-md outline-none bg-transparent text-black"
                 value={user.name}
                 onChange={handleOnchange}
                 required
               />
             </div>
             Email:
-            <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md ">
+            <div className="mb-2 bg-slate-100 w-full rounded-md ">
               <input
                 type="email"
                 name="email"

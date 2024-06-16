@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import SummaryApi from "../Common";
+import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
 import moment from "moment";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import ChangeUserRole from "../Components/ChangeUserRole";
+import ChangeUserRole from "../../Components/ChangeUserRole";
 
-const AllUsers = () => {
+const Users = () => {
   const [allUser, setAllUser] = useState([]);
   const [showUpdateBox, setShowUpdateBox] = useState(false);
   const [searchKey, setSearchKey] = useState('');
@@ -61,13 +61,12 @@ const AllUsers = () => {
   };
 
   return (
-    <div className="mt-2 allUser px-2">
-      <div className="relative flex justify-between">
+    <div className="allUser mt-2 px-2">
+      <div className="text-center">
         <input
-          // onChange={(e) => handleUserSearch(e.target.value)}
           onChange={(e) => setSearchKey(e.target.value)}
           onKeyDown={handleUserSearch}
-          className="bg-gray-900 w-72 rounded-full px-4 h-10 outline-none "
+          className="bg-gray-900 w-[500px] rounded-full px-4 h-10 outline-none"
           type="text"
           placeholder="Search for the user..."
         />
@@ -128,4 +127,4 @@ const AllUsers = () => {
   );
 };
 
-export default AllUsers;
+export default Users;

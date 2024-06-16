@@ -4,10 +4,11 @@ import Homepage from "./Pages/Homepage";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import ForgotPassword from "./Pages/ForgotPassword";
-import Admin from "./Pages/Admin";
-import AllUsers from "./Pages/AllUsers"
-import AllProducts from "./Pages/AllProducts";
-import Dashboard from './Pages/Dashboard';
+import Admin from "./Pages/Admin/Admin";
+import Users from "./Pages/Admin/Users"
+import Dashboard from './Pages/Admin/Dashboard';
+import AddProduct from './Pages/Admin/AddProduct';
+import ViewProducts from './Pages/Admin/ViewProducts';
 
 
 const router = createBrowserRouter([
@@ -40,13 +41,22 @@ const router = createBrowserRouter([
                         element: <Dashboard />
                     },
                     {
-                        path: 'all-users',
-                        element: <AllUsers />
+                        path: 'users',
+                        element: <Users />
                     },
                     {
-                        path: 'all-products',
-                        element: <AllProducts />
+                        path: 'products',
+                        element: <ViewProducts />
                     },
+                    {
+                        path: 'view-products',
+                        element: <ViewProducts />
+                    },
+                    {
+                        path: 'add-product',
+                        element: <AddProduct />
+                    },
+                    
                 ]
             },
         ]

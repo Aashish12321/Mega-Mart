@@ -16,9 +16,15 @@ module.exports = {
         "1300px":"1300px",
         "400px":"400px",
       },
-      buttonShadow: {
-        'custom': '0px 10px 0px 0px white',
-      }
+      
+      boxShadow: {
+        custom: '5px 5px 5px 0px rgba(0, 0, 0, 0.8)',
+      },
+      backgroundColor: {
+        custom: '#666',
+        customCard: '#444'
+      },
+      
     },
   },
   plugins: [],
