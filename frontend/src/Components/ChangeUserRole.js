@@ -7,8 +7,6 @@ import { toast } from "react-toastify";
 const ChangeUserRole = ({id, name, email, role, onClose, callFunc}) => {
   const [userRole, setUserRole] = useState(role);
 
-  // console.log(userRole);
-
   const updateUserRole = async () => {
     const userResponse = await fetch(SummaryApi.update_user.url, {
       method: SummaryApi.update_user.method,
