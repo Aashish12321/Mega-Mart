@@ -10,22 +10,31 @@ const AddProduct = () => {
     name: "",
     brand: "",
     category: "",
+    subCategory: "",
     images: [],
     description: "",
-    price: "",
+    costPrice: "",
+    markedPrice: "",
     discount: "",
+    discountType: "",
     sellingPrice: "",
   });
 
   const [fullImage, setFullImage] = useState("");
   const [openFullImage, setOpenFullImage] = useState(false);
-
+  const filteredSubcategories = ProductCategories.find(category => category.name === product.category)?.subcategories || []
+  
   const handleProductData = (e) => {
     const { name, value } = e.target;
+
     setProduct((previousData) => {
+      const { markedPrice, discount } = previousData;
+      const sellPrice = markedPrice - (markedPrice * discount) / 100;
+
       return {
         ...previousData,
         [name]: value,
+        sellingPrice: sellPrice,
       };
     });
   };
@@ -43,23 +52,23 @@ const AddProduct = () => {
     console.log("Upload image: ", uploadImageCloudinary.url);
   };
 
-  const handleDeleteImage = async(index) => {
+  const handleDeleteImage = async (index) => {
     const productNewImages = [...product.images];
-    productNewImages.splice(index,1);     // Remove the item from index position.
-    
-    setProduct((previousData)=>{
-      return{
-        ...previousData, 
-        images : [...productNewImages]
-      }
-    })
-  }
+    productNewImages.splice(index, 1); // Remove the item from index position.
 
-  const handleSubmit = () => {};
+    setProduct((previousData) => {
+      return {
+        ...previousData,
+        images: [...productNewImages],
+      };
+    });
+  };
+
+  const handleFormSubmit = () => {};
   return (
     <div>
       <div className="p-2 m-1">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleFormSubmit}>
           <div className=" mb-4 flex items-center justify-between">
             <span className="text-xl font-bold">Add new product</span>
             <button
@@ -97,9 +106,8 @@ const AddProduct = () => {
                 type="text"
                 id="description"
                 name="description"
-                placeholder="Describe the product..."
+                placeholder="Describe about product..."
                 className="max-w-xl h-20 outline-none pl-2 text-white bg-zinc-800 rounded-lg"
-                required
               ></textarea>
 
               <label htmlFor="brand" className="mt-2">
@@ -117,7 +125,9 @@ const AddProduct = () => {
             </div>
 
             <div className="w-full max-w-lg flex flex-col px-4 py-2 rounded-lg bg-custom">
-              <label className="text-lg">Upload product images</label>
+              <label htmlFor="ProductImages" className="text-lg">
+                Upload product images
+              </label>
 
               <div className="flex flex-col h-full my-2 justify-between">
                 <label
@@ -125,7 +135,7 @@ const AddProduct = () => {
                   className="w-full h-36 max-w-lg cursor-pointer text-center bg-zinc-800 rounded-md"
                 >
                   <FaCloudUploadAlt className="text-2xl mx-auto mt-10" />
-                  <label>Upload image</label>
+                  <label htmlFor="UploadImage">Upload image</label>
                   <input
                     type="file"
                     name="image"
@@ -146,6 +156,7 @@ const AddProduct = () => {
                           src={image}
                           alt="photos"
                           id="images"
+                          name="images"
                           className="w-16 rounded-md cursor-pointer"
                           onClick={() => {
                             setOpenFullImage(true);
@@ -153,7 +164,10 @@ const AddProduct = () => {
                           }}
                         />
 
-                        <div onClick={()=>handleDeleteImage(index)} className="hidden group-hover:block absolute -mt-3 -right-1 bg-red-500 rounded-full ">
+                        <div
+                          onClick={() => handleDeleteImage(index)}
+                          className="hidden group-hover:block absolute -mt-3 -right-1 bg-red-500 rounded-full "
+                        >
                           <MdDelete className="text-md p-0.5" />
                         </div>
                       </label>
@@ -169,18 +183,34 @@ const AddProduct = () => {
               <label className="text-lg">Pricing and Stock</label>
               <div className="flex justify-between items-center">
                 <div className="flex flex-col">
-                  <label htmlFor="price" className="mt-2">
-                    Price :
+                  <label htmlFor="costPrice" className="mt-2">
+                    Cost Price :
                   </label>
                   <input
-                    value={product.price}
+                    value={product.costPrice}
                     onChange={handleProductData}
                     type="number"
-                    id="price"
-                    name="price"
+                    id="costPrice"
+                    name="costPrice"
                     min={0}
-                    placeholder="0"
-                    className="w-64 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                    placeholder="Eg: 2599"
+                    className="w-48 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                    required
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label htmlFor="markedPrice" className="mt-2">
+                    Marked Price :
+                  </label>
+                  <input
+                    value={product.markedPrice}
+                    onChange={handleProductData}
+                    type="number"
+                    id="markedPrice"
+                    name="markedPrice"
+                    min={0}
+                    placeholder="Eg: 3999"
+                    className="w-48 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
                     required
                   />
                 </div>
@@ -195,8 +225,8 @@ const AddProduct = () => {
                     id="stock"
                     name="stock"
                     min={0}
-                    placeholder="0"
-                    className="w-64 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                    placeholder="Eg: 12"
+                    className="w-48 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
                     required
                   />
                 </div>
@@ -213,8 +243,8 @@ const AddProduct = () => {
                     id="discount"
                     name="discount"
                     min={0}
-                    placeholder="0 %"
-                    className="w-64 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                    placeholder="Eg: 15"
+                    className="w-48 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
                   />
                 </div>
                 <div className="flex flex-col">
@@ -228,7 +258,23 @@ const AddProduct = () => {
                     id="discountType"
                     name="discountType"
                     placeholder="Enter discount type"
-                    className="w-64 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                    className="w-48 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  <label htmlFor="sellingPrice" className="mt-2">
+                    Selling Price:
+                  </label>
+                  <input
+                    value={product.sellingPrice}
+                    onChange={handleProductData}
+                    type="number"
+                    id="sellingPrice"
+                    name="sellingPrice"
+                    min={0}
+                    placeholder="Eg: 3399"
+                    className="w-48 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                    required
                   />
                 </div>
               </div>
@@ -236,23 +282,48 @@ const AddProduct = () => {
 
             <div className="w-full px-4 py-2 mt-4 max-w-lg flex flex-col rounded-lg bg-custom">
               <label htmlFor="ProductCategory" className="text-lg py-2">
-                Category
+                Categories
               </label>
-
-              <label htmlFor="category">Product Category</label>
-              <select
-                name="category"
-                id="category"
-                className="w-64 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
-              >
-                {ProductCategories.map((category, index) => {
-                  return (
-                    <option value={category.name} id={category.id}>
-                      {category.name}
-                    </option>
-                  );
-                })}
-              </select>
+              <div className="flex justify-between">
+                <div className="flex flex-col">
+                  <label htmlFor="category">Choose Category</label>
+                  <select
+                    name="category"
+                    id="category"
+                    value={product.category}
+                    onChange={handleProductData}
+                    className="w-52 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                  >
+                    {ProductCategories.map((category, index) => (
+                        <option key={category.id} value={category.name}>
+                          {category.name}
+                        </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex flex-col">
+                  <label htmlFor="subCategory">Choose Sub-category</label>
+                  <select
+                    name="subCategory"
+                    id="subCategory"
+                    value={product.subCategory}
+                    onChange={handleProductData}
+                    className="w-52 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                    disabled={!product.category}
+                  >
+                    {
+                      filteredSubcategories.map((sub_category, index) => (
+                        <option key={sub_category.id} value={sub_category.name}>
+                          {sub_category.name}
+                        </option>
+                      ))
+                    }
+                  </select>
+                </div>
+              </div>
+              <div className="flex justify-between mt-2">
+                
+              </div>
             </div>
           </div>
         </form>
