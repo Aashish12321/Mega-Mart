@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import ProductCategories from "../../helpers/productCategories";
 import uploadImage from "../../helpers/uploadImage";
 import DisplayFullImage from "./DisplayFullImage";
@@ -32,7 +33,6 @@ const AddProduct = () => {
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     let uploadImageCloudinary = await uploadImage(file);
-    // uploadImageCloudinary = uploadImageCloudinary.url;
 
     setProduct((previousData) => {
       return {
@@ -42,6 +42,18 @@ const AddProduct = () => {
     });
     console.log("Upload image: ", uploadImageCloudinary.url);
   };
+
+  const handleDeleteImage = async(index) => {
+    const productNewImages = [...product.images];
+    productNewImages.splice(index,1);     // Remove the item from index position.
+    
+    setProduct((previousData)=>{
+      return{
+        ...previousData, 
+        images : [...productNewImages]
+      }
+    })
+  }
 
   const handleSubmit = () => {};
   return (
@@ -104,204 +116,49 @@ const AddProduct = () => {
               />
             </div>
 
-            <div className="w-full max-w-lg flex flex-col px-1 py-2 rounded-lg bg-custom">
-              <label htmlFor="images" className="text-lg">
-                Upload product images
-              </label>
-              <div className="flex h-full my-2 justify-around">
-                {product.images[0]? (
-                  <img
-                    src={product.images[0]}
-                    alt="photos"
-                    id="images"
-                    className="w-56 rounded-md cursor-pointer"
-                    onClick={()=>{
-                      setOpenFullImage(true);
-                      setFullImage(product.images[0]);
-                    }}
+            <div className="w-full max-w-lg flex flex-col px-4 py-2 rounded-lg bg-custom">
+              <label className="text-lg">Upload product images</label>
+
+              <div className="flex flex-col h-full my-2 justify-between">
+                <label
+                  htmlFor="uploadProductImage"
+                  className="w-full h-36 max-w-lg cursor-pointer text-center bg-zinc-800 rounded-md"
+                >
+                  <FaCloudUploadAlt className="text-2xl mx-auto mt-10" />
+                  <label>Upload image</label>
+                  <input
+                    type="file"
+                    name="image"
+                    id="uploadProductImage"
+                    className="hidden"
+                    onChange={handleImageUpload}
                   />
-                ) : 
-                (
-                  <label
-                    htmlFor="image0"
-                    className="w-full h-full max-w-xs cursor-pointer text-center bg-zinc-800 rounded-md"
-                  >
-                    <FaCloudUploadAlt className="text-2xl mx-auto mt-20" />
-                    <label htmlFor="uploadProductImage">Upload image</label>
-                    <input
-                      type="file"
-                      name="image"
-                      id="image0"
-                      className="hidden"
-                      onChange={handleImageUpload}
-                    />
-                  </label>
-                )
-                }
+                </label>
 
-                <div className="flex flex-col gap-4">
-                  {product.images[1] ? (
-                    <img
-                      src={product.images[1]}
-                      alt="photos"
-                      id="images"
-                      className="w-16 rounded-md cursor-pointer"
-                      onClick={()=>{
-                        // setOpenFullImage(true);
-                        setFullImage(product.images[1]);
-                      }}
-                    />
-                  ) : (
-                    <label
-                      htmlFor="image1"
-                      className="w-20 h-16 bg-zinc-800 rounded-md cursor-pointer"
-                    >
-                      <FaCloudUploadAlt className="text-xl mt-5 mx-auto" />
-                      <input
-                        type="file"
-                        name="image"
-                        id="image1"
-                        className="hidden"
-                        onChange={handleImageUpload}
-                      />
-                    </label>
-                  )}
+                <div className="flex gap-4">
+                  {product.images.map((image, index) => {
+                    return (
+                      <label
+                        htmlFor="images"
+                        className="relative group w-16 bg-zinc-800 rounded-md cursor-pointer"
+                      >
+                        <img
+                          src={image}
+                          alt="photos"
+                          id="images"
+                          className="w-16 rounded-md cursor-pointer"
+                          onClick={() => {
+                            setOpenFullImage(true);
+                            setFullImage(image);
+                          }}
+                        />
 
-                  {product.images[2] ? (
-                    <img
-                      src={product.images[2]}
-                      alt="photos"
-                      id="images"
-                      className="w-16 rounded-md cursor-pointer"
-                      onClick={()=>{
-                        setOpenFullImage(true);
-                        setFullImage(product.images[2]);
-                      }}
-                    />
-                  ) : (
-                    <label
-                      htmlFor="image2"
-                      className="w-20 h-16 bg-zinc-800 rounded-md cursor-pointer"
-                    >
-                      <FaCloudUploadAlt className="text-xl mt-5 mx-auto" />
-                      <input
-                        type="file"
-                        name="image"
-                        id="image2"
-                        className="hidden"
-                        onChange={handleImageUpload}
-                      />
-                    </label>
-                  )}
-
-                  {product.images[3] ? (
-                    <img
-                      src={product.images[3]}
-                      alt="photos"
-                      id="images"
-                      className="w-16 rounded-md cursor-pointer"
-                      onClick={()=>{
-                        setOpenFullImage(true);
-                        setFullImage(product.images[3]);
-                      }}
-                    />
-                  ) : (
-                    <label
-                      htmlFor="image3"
-                      className="w-20 h-16 bg-zinc-800 rounded-md cursor-pointer"
-                    >
-                      <FaCloudUploadAlt className="text-xl mt-5 mx-auto" />
-                      <input
-                        type="file"
-                        name="image"
-                        id="image3"
-                        className="hidden"
-                        onChange={handleImageUpload}
-                      />
-                    </label>
-                  )}
-                </div>
-                <div className="flex flex-col gap-4">
-                  {product.images[4] ? (
-                    <img
-                      src={product.images[4]}
-                      alt="photos"
-                      id="images"
-                      className="w-16 rounded-md cursor-pointer"
-                      onClick={()=>{
-                        setOpenFullImage(true);
-                        setFullImage(product.images[4]);
-                      }}
-                    />
-                  ) : (
-                    <label
-                      htmlFor="image1"
-                      className="w-20 h-16 bg-zinc-800 rounded-md cursor-pointer"
-                    >
-                      <FaCloudUploadAlt className="text-xl mt-5 mx-auto" />
-                      <input
-                        type="file"
-                        name="image"
-                        id="image4"
-                        className="hidden"
-                        onChange={handleImageUpload}
-                      />
-                    </label>
-                  )}
-
-                  {product.images[5] ? (
-                    <img
-                      src={product.images[5]}
-                      alt="photos"
-                      id="images"
-                      className="w-16 rounded-md cursor-pointer"
-                      onClick={()=>{
-                        setOpenFullImage(true);
-                        setFullImage(product.images[5]);
-                      }}
-                    />
-                  ) : (
-                    <label
-                      htmlFor="image5"
-                      className="w-20 h-16 bg-zinc-800 rounded-md cursor-pointer"
-                    >
-                      <FaCloudUploadAlt className="text-xl mt-5 mx-auto" />
-                      <input
-                        type="file"
-                        name="image"
-                        id="image5"
-                        className="hidden"
-                        onChange={handleImageUpload}
-                      />
-                    </label>
-                  )}
-
-                  {product.images[6] ? (
-                    <img
-                      src={product.images[6]}
-                      alt="photos"
-                      id="images"
-                      className="w-16 rounded-md cursor-pointer"
-                      onClick={()=>{
-                        setOpenFullImage(true);
-                        setFullImage(product.images[6]);
-                      }}
-                    />
-                  ) : (
-                    <label
-                      htmlFor="image6"
-                      className="w-20 h-16 bg-zinc-800 rounded-md cursor-pointer"
-                    >
-                      <FaCloudUploadAlt className="text-xl mt-5 mx-auto" />
-                      <input
-                        type="file"
-                        name="image"
-                        id="image6"
-                        className="hidden"
-                        onChange={handleImageUpload}
-                      />
-                    </label>
-                  )}
+                        <div onClick={()=>handleDeleteImage(index)} className="hidden group-hover:block absolute -mt-3 -right-1 bg-red-500 rounded-full ">
+                          <MdDelete className="text-md p-0.5" />
+                        </div>
+                      </label>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -400,11 +257,12 @@ const AddProduct = () => {
           </div>
         </form>
       </div>
-      {
-        openFullImage &&
-          <DisplayFullImage imgUrl={fullImage} onClose={()=> setOpenFullImage(false)} /> 
-
-      }   
+      {openFullImage && (
+        <DisplayFullImage
+          imgUrl={fullImage}
+          onClose={() => setOpenFullImage(false)}
+        />
+      )}
     </div>
   );
 };

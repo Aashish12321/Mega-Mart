@@ -14,10 +14,10 @@ const Admin = () => {
   return (
     <div className="hidden lg:flex min-h-[calc(100vh-128px)] xl:min-h-[calc(100vh-144px)]  text-white">
       <aside className="relative mx-2 my-3 shadow-lg rounded-lg text-white flex-col  max-w-64 w-full">
-          <div className='absolute w-full py-2 rounded-lg bg-customCard text-white'>
+          <div className='w-full py-2 rounded-lg bg-customCard text-white'>
             {
               user?.profilePic?(<img className='w-20 h-20 mx-auto rounded-full' src={user?.profilePic} alt={user?.name} />):<FaUserCircle className='w-16 h-16 mx-auto rounded-full' />
-            }
+            } 
             <div className="text-center">
               {user?.name}
             </div>
