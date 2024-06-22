@@ -8,7 +8,7 @@ import Admin from "./Pages/Admin/Admin";
 import Users from "./Pages/Admin/Users"
 import Dashboard from './Pages/Admin/Dashboard';
 import AddProduct from './Pages/Admin/AddProduct';
-import ViewProducts from './Pages/Admin/ViewProducts';
+import AllProducts from './Pages/Admin/AllProducts';
 
 
 const router = createBrowserRouter([
@@ -33,6 +33,10 @@ const router = createBrowserRouter([
                 element: <ForgotPassword />
             },
             {
+                path: 'products',
+                element: <AllProducts />
+            },
+            {
                 path: 'admin',
                 element: <Admin />,              
                 children: [
@@ -45,12 +49,8 @@ const router = createBrowserRouter([
                         element: <Users />
                     },
                     {
-                        path: 'products',
-                        element: <ViewProducts />
-                    },
-                    {
-                        path: 'view-products',
-                        element: <ViewProducts />
+                        path: 'all-products',
+                        element: <AllProducts />
                     },
                     {
                         path: 'add-product',

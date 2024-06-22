@@ -48,7 +48,7 @@ const Login = () => {
       navigate('/');
       fetchUserDetails();
     }
-    if (userData.error){
+    else {
       toast.error(userData.message);
     }
   }

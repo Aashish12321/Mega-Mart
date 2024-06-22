@@ -4,6 +4,9 @@ import { MdDelete } from "react-icons/md";
 import ProductCategories from "../../helpers/productCategories";
 import uploadImage from "../../helpers/uploadImage";
 import DisplayFullImage from "./DisplayFullImage";
+import SummaryApi from "../../Common";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
   const [product, setProduct] = useState({
@@ -22,6 +25,7 @@ const AddProduct = () => {
 
   const [fullImage, setFullImage] = useState("");
   const [openFullImage, setOpenFullImage] = useState(false);
+  const navigate = useNavigate();
   const filteredSubcategories = ProductCategories.find(category => category.name === product.category)?.subcategories || []
   
   const handleProductData = (e) => {
@@ -29,7 +33,7 @@ const AddProduct = () => {
 
     setProduct((previousData) => {
       const { markedPrice, discount } = previousData;
-      const sellPrice = markedPrice - (markedPrice * discount) / 100;
+      const sellPrice = markedPrice - parseInt((markedPrice * discount) / 100);
 
       return {
         ...previousData,
@@ -64,7 +68,27 @@ const AddProduct = () => {
     });
   };
 
-  const handleFormSubmit = () => {};
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    let dataResponse = await fetch(SummaryApi.upload_product.url, {
+      method: SummaryApi.upload_product.method,
+      body: JSON.stringify(product),
+      headers: {
+        "content-type": "application/json"
+      },
+      credentials: "include"
+    })
+
+    dataResponse = await dataResponse.json();
+    if (dataResponse.success){
+      toast.success(dataResponse.message);
+      navigate('/admin/all-products')
+    }
+    else{
+      toast.error(dataResponse.message);
+    }
+  };
   return (
     <div>
       <div className="p-2 m-1">
@@ -257,8 +281,8 @@ const AddProduct = () => {
                     type="text"
                     id="discountType"
                     name="discountType"
-                    placeholder="Enter discount type"
                     className="w-48 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                    disabled={!product.discount}
                   />
                 </div>
                 <div className="flex flex-col">
@@ -293,6 +317,7 @@ const AddProduct = () => {
                     value={product.category}
                     onChange={handleProductData}
                     className="w-52 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                    required
                   >
                     {ProductCategories.map((category, index) => (
                         <option key={category.id} value={category.name}>

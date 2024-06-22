@@ -41,12 +41,12 @@ const Admin = () => {
                 :
                 <MdKeyboardArrowRight className="text-3xl"/>
               }
-              <Link to={'view-products'} onClick={(e)=>setExpandProduct(!expandProduct)}>Products</Link>
+              <Link to={'all-products'} onClick={(e)=>setExpandProduct(!expandProduct)}>Products</Link>
             </div>
             {
               expandProduct && 
               <div className="ml-20 flex flex-col">
-                  <Link to={'view-products'} className="hover:text-red-500">View Product</Link>
+                  <Link to={'all-products'} className="hover:text-red-500">All Products</Link>
                   <Link to={'add-product'} className="my-2 hover:text-red-500">Add Product</Link>
               </div>
             }

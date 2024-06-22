@@ -87,7 +87,7 @@ const Header = () => {
           <div>
           {
             user?.email ? 
-            <Link to={'/login'} onClick={handleLogout} className='text-white text-3xl'><IoLogOutOutline /></Link> 
+            <Link to={'/login'} onClick={handleLogout} className='text-white text-4xl'><IoLogOutOutline /></Link> 
             : 
             <Link to={'/login'} className='px-3 py-1 rounded-full text-white bg-red-500 cursor-pointer'>Login</Link>
           }
