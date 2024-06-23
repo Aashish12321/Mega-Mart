@@ -93,7 +93,7 @@ const AddProduct = () => {
     <div>
       <div className="p-2 m-1">
         <form onSubmit={handleFormSubmit}>
-          <div className=" mb-4 flex items-center justify-between">
+          <div className="mb-4 mx-2 px-2 rounded-full bg-custom h-10 flex items-center justify-between ">
             <span className="text-xl font-bold">Add new product</span>
             <button
               type="submit"

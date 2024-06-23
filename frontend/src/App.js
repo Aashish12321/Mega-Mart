@@ -40,7 +40,7 @@ const App = () => {
   return (
     <>
     <Context.Provider value={{ fetchUserDetails }}>
-      <ToastContainer position='top-center' autoClose={3000}/>
+      <ToastContainer hideProgressBar draggable position='top-center' autoClose={2000} className="transition-all"/>
 
       <Header />
       <main className='min-h-[calc(100vh-144px)] min-[320px]:mt-16 xl:mt-20'>

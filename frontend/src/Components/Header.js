@@ -66,7 +66,7 @@ const Header = () => {
                   <span>
                   {
                     user?.role === role.admin && (
-                      <Link to={'/admin/view-products'} onClick={()=> setShowUserMenu(0)} className='hidden md:flex whitespace-nowrap p-1 hover:text-red-500'>Admin</Link>
+                      <Link to={'/admin/all-products'} onClick={()=> setShowUserMenu(0)} className='hidden md:flex whitespace-nowrap p-1 hover:text-red-500'>Admin</Link>
                     )
                   }
                   </span>

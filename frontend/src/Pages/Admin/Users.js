@@ -72,7 +72,7 @@ const Users = () => {
         />
       </div>
 
-      <table className="mt-2 border-collapse w-full">
+      <table className="my-2 border-collapse w-full">
         <thead className="rounded-md">
           <tr className="bg-gray-900">
             <th>S.N.</th>

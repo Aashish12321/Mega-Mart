@@ -24,6 +24,7 @@ async function userLoginController (req, resp){
                 const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, {expiresIn: 60*60*8});
                 const tokenOption = {
                     httpOnly: true,
+                    sameSite: 'None',
                     secure: true
                 }
 
@@ -33,6 +34,8 @@ async function userLoginController (req, resp){
                     error: false,
                     success: true
                 })
+
+                
             }
             else{
                 throw new Error('Wrong password, Please try again');
