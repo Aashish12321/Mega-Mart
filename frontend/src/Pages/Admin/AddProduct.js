@@ -3,7 +3,7 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import ProductCategories from "../../helpers/productCategories";
 import uploadImage from "../../helpers/uploadImage";
-import DisplayFullImage from "./DisplayFullImage";
+import DisplayFullImage from '../../Components/DisplayFullImage';
 import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -18,9 +18,11 @@ const AddProduct = () => {
     description: "",
     costPrice: "",
     markedPrice: "",
+    stock: "",
     discount: "",
     discountType: "",
     sellingPrice: "",
+
   });
 
   const [fullImage, setFullImage] = useState("");

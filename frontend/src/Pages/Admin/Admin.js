@@ -27,28 +27,28 @@ const Admin = () => {
               </div>
             </div>
             <div className="h-[410px] flex flex-col  w-full mt-3 rounded-lg bg-customCard">
-              <div className="cursor-pointer flex space-x-3 mt-4 my-2 mx-8 hover:text-red-500 rounded-xl px-2">
+              <Link to={'dashboard'} className="cursor-pointer flex space-x-3 mt-4 my-2 mx-8 hover:text-red-500 rounded-xl px-2">
                 <RiDashboardFill className="text-xl mt-0.5"/>
-                <Link to={'dashboard'}>Dashboard</Link>
-              </div>
-              <div className="cursor-pointer flex space-x-3 my-2 mx-8 hover:text-red-500  rounded-xl px-2">
+                <Link>Dashboard</Link>
+              </Link>
+              <Link to={'users'} className="cursor-pointer flex space-x-3 my-2 mx-8 hover:text-red-500  rounded-xl px-2">
                 <IoPeople className="text-lg mt-1"/>
-                <Link to={'users'}>Users</Link>
-              </div>
-              <div className="cursor-pointer flex space-x-1 my-2 mx-8 hover:text-red-500  rounded-xl px-1 items-center">
+                <Link>Users</Link>
+              </Link>
+              <Link onClick={(e)=>setExpandProduct(!expandProduct)} className="cursor-pointer flex space-x-1 my-2 mx-8 hover:text-red-500  rounded-xl px-1 items-center">
                 {
                   expandProduct?
                   <MdOutlineKeyboardArrowDown className="text-3xl"/>
                   :
                   <MdKeyboardArrowRight className="text-3xl"/>
                 }
-                <Link to={'all-products'} onClick={(e)=>setExpandProduct(!expandProduct)}>Products</Link>
-              </div>
+                <Link>Products</Link>
+              </Link>
               {
                 expandProduct && 
                 <div className="ml-20 flex flex-col">
-                    <Link to={'all-products'} className="hover:text-red-500">All Products</Link>
-                    <Link to={'add-product'} className="my-2 hover:text-red-500">Add Product</Link>
+                  <Link to={'all-products'} className="hover:text-red-500">All products</Link>
+                  <Link to={'add-product'} className="my-2 hover:text-red-500">Add product</Link>
                 </div>
               }
             </div>

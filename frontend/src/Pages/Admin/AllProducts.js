@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import SummaryApi from '../../Common';
+import AdminProductCard from '../../Components/AdminProductCard';
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
@@ -11,6 +12,7 @@ const AllProducts = () => {
 
     productResponse = await productResponse.json();
     if (productResponse.success){
+      console.log(productResponse.data);
       setProducts(productResponse.data);
     }
   }
@@ -24,10 +26,10 @@ const AllProducts = () => {
       <div className="mb-4">
         <span className="text-xl font-bold">All Products</span>
       </div>
-      <div>
+      <div className='flex flex-wrap gap-6 h-[calc(100vh-250px)] overflow-auto'>
         {
           products.map((product,index)=> (
-            <h2>{product.name}</h2>
+            <AdminProductCard product={product} fetchAllProducts={handleAllProducts}/>
           ))
         }
       </div>
