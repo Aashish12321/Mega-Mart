@@ -46,16 +46,17 @@ const AddProduct = () => {
   };
 
   const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    let uploadImageCloudinary = await uploadImage(file);
+    const images = e.target.files;
+    for (let i = 0; i < images.length; i++) {
+      let uploadImageCloudinary = await uploadImage(images[i]);
 
-    setProduct((previousData) => {
-      return {
-        ...previousData,
-        images: [...previousData.images, uploadImageCloudinary.url],
-      };
-    });
-    console.log("Upload image: ", uploadImageCloudinary.url);
+      setProduct((previousData) => {
+        return {
+          ...previousData,
+          images: [...previousData.images, uploadImageCloudinary.url],
+        };
+      });
+    }
   };
 
   const handleDeleteImage = async (index) => {
@@ -165,6 +166,7 @@ const AddProduct = () => {
                   <input
                     type="file"
                     name="image"
+                    multiple='image/*'
                     id="uploadProductImage"
                     className="hidden"
                     onChange={handleImageUpload}
@@ -176,14 +178,14 @@ const AddProduct = () => {
                     return (
                       <label
                         htmlFor="images"
-                        className="relative group w-16 bg-zinc-800 rounded-md cursor-pointer"
+                        className="relative group w-16 h-16 bg-zinc-800 rounded-md cursor-pointer"
                       >
                         <img
                           src={image}
                           alt="photos"
                           id="images"
                           name="images"
-                          className="w-16 rounded-md cursor-pointer"
+                          className="w-full h-full object-contain rounded-md cursor-pointer"
                           onClick={() => {
                             setOpenFullImage(true);
                             setFullImage(image);
@@ -321,6 +323,9 @@ const AddProduct = () => {
                     className="w-52 outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
                     required
                   >
+                    <option value="" selected disabled>
+                      Select a category
+                    </option>
                     {ProductCategories.map((category, index) => (
                         <option key={category.id} value={category.name}>
                           {category.name}

@@ -3,16 +3,18 @@ const ProductCategories = [
         id: 1,
         name: 'Electronics',
         subcategories: [
-            { id: 101, name: 'Smartphones' },
-            { id: 102, name: 'Laptops' },
-            { id: 103, name: 'Accessories' },
-            { id: 104, name: 'Cameras' },
-            { id: 105, name: 'Audio Devices' },
-            { id: 106, name: 'Wearables' },
-            { id: 107, name: 'Gaming' },
-            { id: 108, name: 'Networking' },
-            { id: 109, name: 'Storage' },
-            { id: 110, name: 'Computer Components' },
+          { id: 101, name: 'Smartphones and Mobiles' },
+          { id: 102, name: 'Laptops' },
+          { id: 103, name: 'Mobile Accessories' },
+          { id: 104, name: 'Cameras' },
+          { id: 105, name: 'Audio Devices and Speakers' },
+          { id: 106, name: 'Wearable and Smartwatches' },
+          { id: 107, name: 'Gaming' },
+          { id: 108, name: 'TV' },
+          { id: 109, name: 'Storage' },
+          { id: 110, name: 'Home appliances' },
+          { id: 111, name: 'Computer Components' },
+          { id: 112, name: 'Home security and CCTVs' },
         ]
       },
       {
@@ -31,6 +33,13 @@ const ProductCategories = [
           { id: 301, name: 'Fiction' },
           { id: 302, name: 'Non-Fiction' }
         ]
-      }
+      },
+      {
+        id: 4,
+        name: 'Fashion & personal care',
+        subcategories: [
+          { id: 401, name: 'Mens grooming and shaving' },
+        ]
+      },
 ]
 export default ProductCategories;

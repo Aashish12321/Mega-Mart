@@ -18,7 +18,7 @@ module.exports = {
       },
       
       boxShadow: {
-        custom: '5px 5px 5px 0px rgba(0, 0, 0, 0.8)',
+        custom: '5px 5px 5px 0px rgba(0, 0, 0, 0.8) ',
       },
       backgroundColor: {
         custom: '#666',

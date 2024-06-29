@@ -94,7 +94,7 @@ const AdminEditProduct = ({productData, onClose, fetchAllProducts}) => {
   };
   return (
     <div className="pt-3 fixed top-0 left-0 bottom-0 right-0 z-10 bg-slate-300 bg-opacity-50 flex items-center">
-      <div className="ml-[260px] w-full bg-customCard mr-3 my-3 shadow-lg rounded-lg">
+      <div className="ml-[260px] w-full bg-customCard mr-3 my-3 shadow-lg rounded-lg overflow-y-auto">
         <div className="py-2 my-0.5">
           <form onSubmit={handleFormSubmit}>
             <button onClick={onClose} className="-mt-3 ml-auto block outline-none">
@@ -181,14 +181,14 @@ const AdminEditProduct = ({productData, onClose, fetchAllProducts}) => {
                       return (
                         <label
                           htmlFor="images"
-                          className="relative group w-16 bg-zinc-800 rounded-md cursor-pointer"
+                          className="relative group w-16 h-16 bg-zinc-800 rounded-md cursor-pointer"
                         >
                           <img
                             src={image}
                             alt="photos"
                             id="images"
                             name="images"
-                            className="w-16 rounded-md cursor-pointer"
+                            className="w-full h-full object-contain rounded-md cursor-pointer"
                             onClick={() => {
                               setOpenFullImage(true);
                               setFullImage(image);
