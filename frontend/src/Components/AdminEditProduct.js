@@ -93,8 +93,8 @@ const AdminEditProduct = ({productData, onClose, fetchAllProducts}) => {
     }
   };
   return (
-    <div className="pt-3 fixed top-0 left-0 bottom-0 right-0 z-10 bg-slate-300 bg-opacity-50 flex items-center">
-      <div className="ml-[260px] w-full bg-customCard mr-3 my-3 shadow-lg rounded-lg overflow-y-auto">
+    <div className="pt-3 fixed top-0 left-0 bottom-0 right-0 z-10 bg-slate-300 bg-opacity-50 flex items-center overflow-y-auto">
+      <div className="ml-[260px] w-full bg-customCard mr-3 my-3 shadow-lg rounded-lg ">
         <div className="py-2 my-0.5">
           <form onSubmit={handleFormSubmit}>
             <button onClick={onClose} className="-mt-3 ml-auto block outline-none">

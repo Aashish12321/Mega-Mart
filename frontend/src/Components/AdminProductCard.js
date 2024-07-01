@@ -7,7 +7,7 @@ const AdminProductCard = ({ product, fetchAllProducts }) => {
   return (
     <div>
       <div className="w-44 shadow-custom cursor-pointer bg-custom rounded-lg">
-        <div className="w-full h-44">
+        <div className="w-full h-44 bg-zinc-800 rounded-t-lg">
           <img
             src={product.images[0]}
             className="w-full h-full object-contain mx-auto rounded-t-lg"
@@ -15,8 +15,8 @@ const AdminProductCard = ({ product, fetchAllProducts }) => {
           />
         </div>
         
-        <div className="mx-2">
-          <h1 className=" text-ellipsis line-clamp-1">{product.name}</h1>
+        <div className="mx-2 ">
+          <h1 className=" text-ellipsis line-clamp-2">{product.name}</h1>
           <div className="flex justify-between">
             <p className="font-semibold text-lg text-green-400" >
               {

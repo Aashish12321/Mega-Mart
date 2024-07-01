@@ -1,15 +1,36 @@
-import React from 'react'
-import { FaRegWindowClose } from "react-icons/fa";
+import React, { useEffect, useRef, useState } from 'react'
 
 const DisplayFullImage = ({imgUrl, onClose}) => {
+  const [imagewidth, setImagewidth] = useState(0);
+  const modalRef = useRef(null);
+
+  useEffect(()=> {
+    const img = new Image();
+    img.src = imgUrl;
+    img.onload = () => {
+      setImagewidth(img.width);
+    }
+
+    const handleKeyDown = (e) => {
+      if(e.key === 'Escape'){
+        onClose();
+      }
+    };
+
+    const handleClickOutsideImage = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mousedown', handleClickOutsideImage);
+
+  },[onClose, imgUrl]);
+
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-full z-10 bg-slate-300 bg-opacity-50 flex justify-between items-center">
-        <div className="relative w-full mx-auto rounded-md shadow-custom max-w-lg overflow-auto">
-          <button onClick={onClose} className="absolute ml-[495px]">
-            <FaRegWindowClose className='rounded-tr-lg text-white bg-black'/>
-          </button>
-          <img src={imgUrl} alt="photos" className='w-full rounded-lg '/>
-        </div>
+    <div ref={modalRef} className='fixed flex justify-center h-[100vh] items-center top-0 left-80'>
+      <img style={{width: imagewidth/1.45}}  src={imgUrl} alt="photos" className='bg-zinc-800 rounded-xl'/>
     </div>
   )
 }
