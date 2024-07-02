@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const User = require("../models/User");
+const User = require("../../models/User");
 const jwt = require('jsonwebtoken');
 
 async function userLoginController (req, resp){
@@ -29,7 +29,7 @@ async function userLoginController (req, resp){
                 }
 
                 resp.cookie('token', token, tokenOption).status(200).json({
-                    message: "Login successful",
+                    message: "User LoggedIn successfully",
                     data: token,
                     error: false,
                     success: true

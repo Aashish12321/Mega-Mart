@@ -1,12 +1,12 @@
-const User = require("../models/User");
+const User = require("../../models/User");
 
-async function userDetailsController(req, resp){
+async function allUsersController(req, resp){
     try {
-        const userId = req.userId
-        const user = await User.findById(userId);
+        const userId =  req.userId;
+        const user = await User.find();
 
         resp.status(200).json({
-            message: "Login successful",
+            message: "All users fetched successful",
             data: user,
             error: false,
             success: true
@@ -20,4 +20,4 @@ async function userDetailsController(req, resp){
     }
 }
 
-module.exports = userDetailsController;
+module.exports = allUsersController;

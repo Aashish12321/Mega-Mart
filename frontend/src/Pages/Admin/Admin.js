@@ -29,11 +29,11 @@ const Admin = () => {
             <div className="h-[410px] flex flex-col  w-full mt-3 rounded-lg bg-customCard">
               <Link to={'dashboard'} className="cursor-pointer flex space-x-3 mt-4 my-2 mx-8 hover:text-red-500 rounded-xl px-2">
                 <RiDashboardFill className="text-xl mt-0.5"/>
-                <Link>Dashboard</Link>
+                <p>Dashboard</p>
               </Link>
               <Link to={'users'} className="cursor-pointer flex space-x-3 my-2 mx-8 hover:text-red-500  rounded-xl px-2">
                 <IoPeople className="text-lg mt-1"/>
-                <Link>Users</Link>
+                <p>Users</p>
               </Link>
               <Link onClick={(e)=>setExpandProduct(!expandProduct)} className="cursor-pointer flex space-x-1 my-2 mx-8 hover:text-red-500  rounded-xl px-1 items-center">
                 {
@@ -42,7 +42,7 @@ const Admin = () => {
                   :
                   <MdKeyboardArrowRight className="text-3xl"/>
                 }
-                <Link>Products</Link>
+                <p>Products</p>
               </Link>
               {
                 expandProduct && 

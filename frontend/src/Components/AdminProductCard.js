@@ -15,8 +15,8 @@ const AdminProductCard = ({ product, fetchAllProducts }) => {
           />
         </div>
         
-        <div className="mx-2 ">
-          <h1 className=" text-ellipsis line-clamp-2">{product.name}</h1>
+        <div className="mx-2 h-24">
+          <h1 className="text-ellipsis line-clamp-2">{product.name}</h1>
           <div className="flex justify-between">
             <p className="font-semibold text-lg text-green-400" >
               {

@@ -9,12 +9,7 @@ const port = 7000
 
 
 const app = express();
-app.use(cors(
-    {
-    origin: process.env.FRONTEND_URL,
-    credentials: true
-    }
-));
+app.use(cors());
 app.use(cookieParser());
 
 app.use(express.json({limit: "10mb"}));

@@ -1,44 +1,44 @@
-const backendDomain = "http://localhost:7000"
+// const backendDomain = "http://localhost:7000"
 
 const SummaryApi = {
     signup : {
-        url: `${backendDomain}/api/signup`,
+        url: `/api/signup`,
         method: 'post'
     },
     login : {
-        url: `${backendDomain}/api/login`,
+        url: `/api/login`,
         method: 'post'
     },
     current_user : {
-        url: `${backendDomain}/api/user-details`,
+        url: `/api/user-details`,
         method: 'get'
     },
     logout : {
-        url: `${backendDomain}/api/logout`,
+        url: `/api/logout`,
         method: 'get'
     },
     all_users : {
-        url: `${backendDomain}/api/all-users`,
+        url: `/api/all-users`,
         method: 'get'
     },
     update_user : {
-        url: `${backendDomain}/api/update-user`,
+        url: `/api/update-user`,
         method: 'post'
     },
     search_user : {
-        url: `${backendDomain}/api/search-user`,
+        url: `/api/search-user`,
         method: 'get'
     },
     upload_product : {
-        url: `${backendDomain}/api/upload-product`,
+        url: `/api/upload-product`,
         method: 'post'
     },
     all_products : {
-        url: `${backendDomain}/api/get-products`,
+        url: `/api/get-products`,
         method: 'get'
     },
     update_product : {
-        url: `${backendDomain}/api/update-product`,
+        url: `/api/update-product`,
         method: 'post'
     },
 

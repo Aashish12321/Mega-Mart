@@ -64,7 +64,7 @@ const Signup = () => {
       const userData = await data.json();
 
       if (userData.success){
-        toast.success('User created successfully');
+        toast.success(userData.message);
         console.log(userData);
         navigate('/login');
       }

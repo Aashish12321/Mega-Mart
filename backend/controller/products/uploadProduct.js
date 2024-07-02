@@ -1,5 +1,5 @@
-const Product = require("../models/Product");
-const User = require("../models/User");
+const Product = require("../../models/Product");
+const User = require("../../models/User");
 
 async function uploadProduct(req, resp){
     try {

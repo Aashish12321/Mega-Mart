@@ -12,7 +12,6 @@ const AllProducts = () => {
 
     productResponse = await productResponse.json();
     if (productResponse.success){
-      console.log(productResponse.data);
       setProducts(productResponse.data);
     }
   }
@@ -29,7 +28,7 @@ const AllProducts = () => {
       <div className='flex flex-wrap gap-6 pl-2 py-2 h-[calc(100vh-250px)] overflow-auto'>
         {
           products.map((product,index)=> (
-            <AdminProductCard product={product} fetchAllProducts={handleAllProducts}/>
+            <AdminProductCard product={product} fetchAllProducts={handleAllProducts} key={product._id}/>
           ))
         }
       </div>

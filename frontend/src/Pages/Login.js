@@ -44,7 +44,7 @@ const Login = () => {
 
     const userData = await data.json();
     if (userData.success){
-      toast.success('User LoggedIn successfully');
+      toast.success(userData.message);
       navigate('/');
       fetchUserDetails();
     }

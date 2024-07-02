@@ -28,7 +28,7 @@ const Header = () => {
 
     userData = await userData.json();
     if (userData.success){
-      toast.success("Logged out successfully");
+      toast.success(userData.message);
       dispatch(setUserDetails(null));
     }
     else{
@@ -54,8 +54,8 @@ const Header = () => {
             <div onClick={()=> setShowUserMenu(!showuserMenu)} className='text-3xl cursor-pointer text-white'>
               {
                 user?._id?
-                user?.profilePic? 
-                (<img className='w-10  rounded-full' src={user?.profilePic} alt={user?.username} />)
+                user.profilePic? 
+                (<img className='w-10  rounded-full' src={user.profilePic} alt={user.username} />)
                 :<FaUserCircle />
                 :null
               }
@@ -65,7 +65,7 @@ const Header = () => {
                 <div className='absolute rounded-b-md top-11 p-1  bg-gray-900  text-white'>
                   <span>
                   {
-                    user?.role === role.admin && (
+                    user.role === role.admin && (
                       <Link to={'/admin/all-products'} onClick={()=> setShowUserMenu(0)} className='hidden md:flex whitespace-nowrap p-1 hover:text-red-500'>Admin</Link>
                     )
                   }
