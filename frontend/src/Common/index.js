@@ -41,6 +41,11 @@ const SummaryApi = {
         url: `/api/update-product`,
         method: 'post'
     },
+    get_categories : {
+        url: `/api/get-categories`,
+        method: 'get'
+    },
+    
 
 }
 

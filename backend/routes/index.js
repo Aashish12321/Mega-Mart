@@ -13,14 +13,14 @@ const searchUser = require('../controller/users/searchUser');
 const uploadProduct = require('../controller/products/uploadProduct');
 const getProduct = require('../controller/products/getProduct');
 const updateProduct = require('../controller/products/updateProduct');
-const getCategorywiseProducts = require('../controller/products/getCategorywiseProducts');
+const getCategories = require('../controller/products/getCategories');
 
 router.post('/signup', userSignUpController);
 router.post('/login', userLoginController);
 router.get("/user-details", authToken, userDetailsController);
 router.get("/logout", userLogout);
 router.get('/get-products', getProduct);
-router.get('/get-categoryproducts', getCategorywiseProducts);
+router.get('/get-categories', getCategories);
 
 // admin 
 router.get('/all-users', allUsersController);

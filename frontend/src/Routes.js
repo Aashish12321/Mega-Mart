@@ -9,6 +9,7 @@ import Users from "./Pages/Admin/Users"
 import Dashboard from './Pages/Admin/Dashboard';
 import AddProduct from './Pages/Admin/AddProduct';
 import AllProducts from './Pages/Admin/AllProducts';
+import Categories from './Components/CategoriesList';
 
 
 const router = createBrowserRouter([
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
             {
                 path: 'products',
                 element: <AllProducts />
+            },
+            {
+                path: 'categories/:categoryName',
+                element: <Categories />
             },
             {
                 path: 'admin',
