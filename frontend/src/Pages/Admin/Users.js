@@ -61,20 +61,20 @@ const Users = () => {
   };
 
   return (
-    <div className="allUser mt-2 px-2 ">
+    <div className="allUser pt-2 px-2 ">
       <div className="text-center mb-2">
         <input
           onChange={(e) => setSearchKey(e.target.value)}
           onKeyDown={handleUserSearch}
-          className="bg-gray-900 w-[500px] rounded-full px-4 h-10 outline-none"
+          className="bg-gray-900 w-full md:max-w-lg rounded-full px-4 h-8 md:h-10 outline-none"
           type="text"
           placeholder="Search for the user..."
         />
       </div>
 
-      <div className="h-[calc(100vh-90px)] overflow-auto rounded-lg">
-        <table className="w-full  border-collapse">
-            <thead>
+      <div className="h-[calc(100vh-100px)] overflow-auto rounded-lg">
+        <table className="w-full border-collapse">
+            <thead className="">
               <tr className="bg-gray-900">
                 <th>S.N.</th>
                 <th>Name</th>

@@ -21,11 +21,11 @@ const AllProducts = () => {
   },[])
 
   return (
-    <div className='p-4'>
-      <div className="mb-4">
-        <span className="text-xl font-bold">All Products</span>
+    <div className='px-1 py-2 md:py-4'>
+      <div className="mb-1 md:mb-4">
+        <span className="text-xl pl-2 font-bold">All Products</span>
       </div>
-      <div className='flex flex-wrap gap-6 pl-2 py-2 h-[calc(100vh-100px)] overflow-auto '>
+      <div  className='justify-center flex flex-wrap gap-4 py-2 h-[calc(100vh-100px)] overflow-auto no-scrollbar'>
         {
           products.map((product,index)=> (
             <AdminProductCard product={product} fetchAllProducts={handleAllProducts} key={product._id}/>

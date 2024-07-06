@@ -93,17 +93,17 @@ const AddProduct = () => {
     }
   };
   return (
-    <div>
+    <div className="">
       <div className="">
-        <form onSubmit={handleFormSubmit} className="m-2 ">
-          <div className="mb-2 p-2 rounded-full flex items-center justify-between">
+        <form onSubmit={handleFormSubmit} className="mt-2 mx-4">
+        
+          <div className="p-2 rounded-full flex items-center justify-between">
             <span className="text-xl font-bold">Add new product</span>
-            
           </div>
 
-          <div className="h-[calc(100vh-90px)] overflow-auto">
+          <div className="h-[calc(100vh-100px)] overflow-auto">
 
-            <div className="flex md:flex-wrap lg:flex-nowrap justify-around gap-2">
+            <div className="flex flex-wrap lg:flex-nowrap justify-around gap-4">
               <div className="w-full max-w-2xl flex flex-col p-4 bg-custom rounded-lg">
                 <label className="text-lg">General information</label>
 
@@ -203,13 +203,13 @@ const AddProduct = () => {
               </div>
             </div>
 
-            <div className="flex my-2 md:flex-wrap lg:flex-nowrap justify-around gap-2">
+            <div className="flex flex-wrap lg:flex-nowrap justify-around gap-4 my-4 ">
               <div className="w-full max-w-2xl flex flex-col p-4 bg-custom rounded-lg">
                 <label htmlFor="Pricing and Stock" className="text-lg ">
                   Pricing and Stock
                 </label>
-                <div className="flex flex-wrap justify-around items-center">
-                  <div className="flex flex-col w-full max-w-40">
+                <div className="flex flex-wrap justify-around items-center gap-2">
+                  <div className="flex flex-col w-full md:max-w-36 ">
                     <label htmlFor="costPrice" className="mt-2">
                       Cost Price :
                     </label>
@@ -225,7 +225,7 @@ const AddProduct = () => {
                       required
                     />
                   </div>
-                  <div className="flex flex-col w-full max-w-40">
+                  <div className="flex flex-col w-full md:max-w-36 ">
                     <label htmlFor="markedPrice" className="mt-2">
                       Marked Price :
                     </label>
@@ -241,7 +241,7 @@ const AddProduct = () => {
                       required
                     />
                   </div>
-                  <div className="flex flex-col w-full max-w-40">
+                  <div className="flex flex-col w-full md:max-w-36">
                     <label htmlFor="stock" className="mt-2">
                       Stock :
                     </label>
@@ -257,7 +257,7 @@ const AddProduct = () => {
                       required
                     />
                   </div>
-                  <div className="flex flex-col w-full max-w-40">
+                  <div className="flex flex-col w-full md:max-w-36">
                     <label htmlFor="discount" className="mt-2">
                       Discount (in %):
                     </label>
@@ -272,7 +272,7 @@ const AddProduct = () => {
                       className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
                     />
                   </div>
-                  <div className="flex flex-col w-full max-w-40">
+                  <div className="flex flex-col w-full md:max-w-36">
                     <label htmlFor="discountType" className="mt-2">
                       Discount Type :
                     </label>
@@ -286,7 +286,7 @@ const AddProduct = () => {
                       disabled={!product.discount}
                     />
                   </div>
-                  <div className="flex flex-col w-full max-w-40">
+                  <div className="flex flex-col w-full md:max-w-36">
                     <label htmlFor="sellingPrice" className="mt-2">
                       Selling Price:
                     </label>
@@ -309,8 +309,8 @@ const AddProduct = () => {
                 <label htmlFor="ProductCategory" className="text-lg">
                   Categories
                 </label>
-                <div className="flex flex-wrap justify-around">
-                  <div className="flex flex-col w-full max-w-[160px]">
+                <div className="flex flex-wrap justify-around mt-2 gap-2">
+                  <div className="flex flex-col w-full md:max-w-[160px]">
                     <label htmlFor="category">Choose Category</label>
                     <select
                       name="category"
@@ -330,7 +330,7 @@ const AddProduct = () => {
                       ))}
                     </select>
                   </div>
-                  <div className="flex flex-col">
+                  <div className="flex flex-col w-full md:max-w-[160px]">
                     <label htmlFor="subCategory">Choose Sub-category</label>
                     <select
                       name="subCategory"
@@ -348,22 +348,18 @@ const AddProduct = () => {
                     </select>
                   </div>
                 </div>
-                <div className="flex justify-between mt-2"></div>
               </div>
             </div>
 
             <div className="text-center my-4">
               <button
                 type="submit"
-                className="bg-red-500 w-40 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+                className="bg-red-500 w-32 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
               >
                 Add Product
               </button>
             </div>
           </div>
-
-          
-
         </form>
       </div>
       {openFullImage && (

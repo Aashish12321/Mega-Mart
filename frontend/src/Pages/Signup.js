@@ -76,7 +76,7 @@ const Signup = () => {
 
   return (
     <section id="signup" className="">
-      <div className=" mx-auto container p-8 ">
+      <div className=" mx-auto container p-4 ">
         <form
           onSubmit={handleSignup}
           className="bg-customCard text-white shadow-custom p-2 max-w-md mx-auto rounded-md "

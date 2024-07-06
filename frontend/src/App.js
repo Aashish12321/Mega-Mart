@@ -43,7 +43,7 @@ const App = () => {
       <ToastContainer hideProgressBar draggable position='top-center' autoClose={2000} className="transition-all"/>
 
       <Header />
-      <main className='h-[100vh] min-[320px]:mt-16 min-[1024px]:mt-16 min-[1440px]:mt-16 border-2 border-yellow-500'>
+      <main className='h-[100vh] scrollbar-none min-[320px]:mt-16 min-[1024px]:mt-16 min-[1440px]:mt-16 border-2 border-transparent'>
         <Outlet />
       </main>
       <Footer />

@@ -51,7 +51,7 @@ const ChangeUserRole = ({id, name, email, role, onClose, callFunc}) => {
             })}
           </select>
         </div>
-        <button onClick={updateUserRole} className="bg-red-500 rounded-full px-6 py-1 mx-auto block">
+        <button onClick={updateUserRole} className="bg-red-500 w-28 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all mx-auto block mt-2">
           Update
         </button>
       </div>

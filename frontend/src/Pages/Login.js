@@ -53,7 +53,7 @@ const Login = () => {
   };
 
   return (
-    <div className="m-8">
+    <div className="my-8 mx-4">
       <div className="items-center bg-customCard text-white shadow-custom p-2 max-w-md mx-auto rounded-lg">
         <img src={logo} alt="logo" className="w-16 mx-auto mt-2" />
         <form onSubmit={handleLogin} className="mt-4">

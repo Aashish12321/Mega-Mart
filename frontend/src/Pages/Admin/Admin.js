@@ -12,8 +12,8 @@ const Admin = () => {
   const user = useSelector((state) => state?.user?.user);
   const [expandProduct, setExpandProduct] = useState(false);
   return (
-    <div className="hidden md:flex h-full justify-between text-white">
-      <aside className="w-full max-w-56 mx-3 my-3 shadow-lg rounded-lg bg-customCard text-white flex-col ">
+    <div className="md:flex h-full justify-between text-white">
+      <aside className="hidden md:flex w-full max-w-56 ml-3 my-3 shadow-lg rounded-lg bg-customCard text-white flex-col ">
         <div className="top-0 w-full py-2 rounded-lg  text-white">
           {user?.profilePic ? (
             <img
@@ -67,7 +67,14 @@ const Admin = () => {
         </div>
       </aside>
 
-      <div className="w-full bg-customCard mr-3 my-3 shadow-lg rounded-lg">
+      <div className="md:hidden mx-1 my-2 p-1 text-center text-sm rounded-md h-8 bg-customCard">
+        <Link className="mr-2 hover:text-red-500" to={'dashboard'}>Dashboard</Link>
+        <Link className="mx-2 hover:text-red-500" to={'users'}>Users</Link>
+        <Link className="mx-2 hover:text-red-500" to={'all-products'}>Products</Link>
+        <Link className="ml-2 hover:text-red-500" to={'add-product'}>Add Product</Link>
+      </div>
+
+      <div className="w-full bg-customCard md:m-3 shadow-lg rounded-lg">
         <Outlet />
       </div>
     </div>
