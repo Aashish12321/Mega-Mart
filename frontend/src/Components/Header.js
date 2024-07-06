@@ -57,7 +57,7 @@ const Header = () => {
   }, []);
   return (
     <header className="shadow-md shadow-red-500 bg-gray-900 fixed top-0 w-full">
-      <div className="flex items-center lg:py-1 min-[320px]:py-2 2xl:py-0 justify-around ">
+      <div className="flex items-center min-[320px]:py-2 2xl:py-0 justify-around ">
         <div className="flex text-white text-2xl gap-4 cursor-pointer items-center justify-around">
           <div
             onClick={() => setShowCategorySidebar(!showCategorySidebar)}
@@ -127,7 +127,7 @@ const Header = () => {
                     <Link
                       to={"/admin/all-products"}
                       onClick={() => setShowUserMenu(!showuserMenu)}
-                      className="hidden md:flex mx-6 font-semibold whitespace-nowrap p-1 hover:text-red-500 text-black"
+                      className="min-[320px]:flex mx-6 font-semibold whitespace-nowrap p-1 hover:text-red-500 text-black"
                     >
                       Admin
                     </Link>

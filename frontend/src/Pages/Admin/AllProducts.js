@@ -25,7 +25,7 @@ const AllProducts = () => {
       <div className="mb-4">
         <span className="text-xl font-bold">All Products</span>
       </div>
-      <div className='flex flex-wrap gap-6 pl-2 py-2 h-[calc(100vh-250px)] overflow-auto '>
+      <div className='flex flex-wrap gap-6 pl-2 py-2 h-[calc(100vh-100px)] overflow-auto '>
         {
           products.map((product,index)=> (
             <AdminProductCard product={product} fetchAllProducts={handleAllProducts} key={product._id}/>

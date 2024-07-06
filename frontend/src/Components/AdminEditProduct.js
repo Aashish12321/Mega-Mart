@@ -93,8 +93,8 @@ const AdminEditProduct = ({productData, onClose, fetchAllProducts}) => {
     }
   };
   return (
-    <div className="pt-3 fixed top-0 left-0 bottom-0 right-0 z-10 bg-slate-300 bg-opacity-50 flex items-center overflow-y-auto">
-      <div className="ml-[260px] w-full bg-customCard mr-3 my-3 shadow-lg rounded-lg ">
+    <div className="pt-3 fixed top-0 left-0 bottom-0 right-0 z-10 bg-slate-300 bg-opacity-50  items-center overflow-y-auto">
+      <div className="md:mx-1 lg:ml-[260px] w-full bg-customCard mr-3 my-3 shadow-lg rounded-lg ">
         <div className="py-2 my-0.5">
           <form onSubmit={handleFormSubmit}>
             <button onClick={onClose} className="-mt-3 ml-auto block outline-none">
@@ -110,7 +110,7 @@ const AdminEditProduct = ({productData, onClose, fetchAllProducts}) => {
               </button>
             </div>
 
-            <div className="flex justify-around">
+            <div className="flex md:flex-col justify-around ">
               <div className="w-full max-w-2xl flex flex-col px-4 py-2  bg-custom rounded-lg">
                 <label className="text-lg">General information</label>
 
@@ -124,7 +124,7 @@ const AdminEditProduct = ({productData, onClose, fetchAllProducts}) => {
                   id="name"
                   name="name"
                   placeholder="Enter product name..."
-                  className="max-w-xl outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                  className=" md:max-w-lg lg:max-w-xl outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
                   required
                 />
 
@@ -209,7 +209,7 @@ const AdminEditProduct = ({productData, onClose, fetchAllProducts}) => {
               </div>
             </div>
 
-            <div className="flex  justify-around">
+            <div className="md:flex-col flex justify-around">
               <div className="w-full max-w-2xl mt-4 flex flex-col p-4 bg-custom rounded-lg">
                 <label className="text-lg">Pricing and Stock</label>
                 <div className="flex justify-between items-center">

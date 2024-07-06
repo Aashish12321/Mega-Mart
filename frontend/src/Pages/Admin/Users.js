@@ -61,8 +61,8 @@ const Users = () => {
   };
 
   return (
-    <div className="allUser mt-2 px-2">
-      <div className="text-center">
+    <div className="allUser mt-2 px-2 ">
+      <div className="text-center mb-2">
         <input
           onChange={(e) => setSearchKey(e.target.value)}
           onKeyDown={handleUserSearch}
@@ -72,45 +72,48 @@ const Users = () => {
         />
       </div>
 
-      <table className="my-2 border-collapse w-full">
-        <thead className="rounded-md">
-          <tr className="bg-gray-900">
-            <th>S.N.</th>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Email</th>
-            <th>Created Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allUser.map((user, index) => {
-            return (
-              <tr key={user._id}>
-                <td>{index + 1}</td>
-                <td>{user.name}</td>
-                <td>{user.role}</td>
-                <td>{user.email}</td>
-                <td>{moment(user?.createdAt).format("lll")}</td>
-                <td className="flex justify-between">
-                  <button
-                    onClick={() => {
-                      setUpdateEachUser(user);
-                      setShowUpdateBox(true);
-                    }}
-                    className="text-green-400 text-2xl text-center mx-auto"
-                  >
-                    <FaRegEdit />
-                  </button>
-                  <button className="text-red-600 text-2xl text-center mx-auto">
-                    <MdDelete />
-                  </button>
-                </td>
+      <div className="h-[calc(100vh-90px)] overflow-auto rounded-lg">
+        <table className="w-full  border-collapse">
+            <thead>
+              <tr className="bg-gray-900">
+                <th>S.N.</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Email</th>
+                <th>Created Date</th>
+                <th>Actions</th>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {allUser.map((user, index) => {
+                return (
+                  <tr key={user._id}>
+                    <td>{index + 1}</td>
+                    <td>{user.name}</td>
+                    <td>{user.role}</td>
+                    <td>{user.email}</td>
+                    <td>{moment(user?.createdAt).format("lll")}</td>
+                    <td className="flex justify-between">
+                      <button
+                        onClick={() => {
+                          setUpdateEachUser(user);
+                          setShowUpdateBox(true);
+                        }}
+                        className="text-green-400 text-2xl text-center mx-auto"
+                      >
+                        <FaRegEdit />
+                      </button>
+                      <button className="text-red-600 text-2xl text-center mx-auto">
+                        <MdDelete />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+        </table>
+      </div>
+
       <div>
         {showUpdateBox && (
           <ChangeUserRole
