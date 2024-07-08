@@ -80,7 +80,6 @@ const AdminEditProduct = ({productData, onClose, fetchAllProducts}) => {
       headers: {
         "content-type": "application/json",
       },
-      credentials: "include",
     });
 
     dataResponse = await dataResponse.json();

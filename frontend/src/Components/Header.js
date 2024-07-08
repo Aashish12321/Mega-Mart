@@ -7,7 +7,7 @@ import { IoLogOutOutline } from "react-icons/io5";
 import { HiMiniBars3 } from "react-icons/hi2";
 import { RxCross2 } from "react-icons/rx";
 import { MdArrowDropUp } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import SummaryApi from "../Common";
 import { toast } from "react-toastify";
@@ -19,22 +19,21 @@ const Header = () => {
   const [categories, setCategories] = useState([]);
   const [showuserMenu, setShowUserMenu] = useState(false);
   const [showCategorySidebar, setShowCategorySidebar] = useState(false);
+  const navigate = useNavigate();
 
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
-    let userData = await fetch(SummaryApi.logout.url, {
-      method: SummaryApi.logout.method,
-      credentials: "include",
-    });
-
-    userData = await userData.json();
-    if (userData.success) {
-      toast.success(userData.message);
+    const token = localStorage.getItem("token");
+    if (token) {
+      localStorage.removeItem("token");
       dispatch(setUserDetails(null));
+      toast.success("Logout successful");
+      console.log(token);
     } else {
-      toast.error(userData.message);
+      toast.info("You are not logged in.");
+      navigate("/login");
     }
   };
 
@@ -55,22 +54,14 @@ const Header = () => {
   useEffect(() => {
     allCategory();
   }, []);
+
   return (
     <header className="shadow-md shadow-red-500 bg-gray-900 fixed top-0 w-full">
       <div className="flex items-center min-[320px]:py-2 2xl:py-0 justify-around ">
-        <div className="flex text-white text-2xl gap-4 cursor-pointer items-center justify-around">
-          <div
-            onClick={() => setShowCategorySidebar(!showCategorySidebar)}
-            className="2xl:text-3xl"
-          >
-            {showCategorySidebar ? <RxCross2 /> : <HiMiniBars3 />}
-          </div>
-
-          <div className="cursor-pointer min-[320px]:w-36  md:w-40 lg:w-48 2xl:w-60">
-            <Link to={"/"}>
-              <img src={logo} alt="logo" />
-            </Link>
-          </div>
+        <div className="flex min-[320px]:w-40 md:w-44 lg:w-48 2xl:w-56 text-white cursor-pointer items-center justify-around">
+          <Link to={"/"}>
+            <img src={logo} alt="logo" />
+          </Link>
         </div>
 
         <div className="hidden md:flex w-full md:max-w-xs lg:max-w-md 2xl:max-w-lg  items-center rounded-lg cursor-pointer">
@@ -84,21 +75,21 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="flex items-center h-12 gap-8 justify-end">
+        <div className="flex items-center h-12 gap-5 lg:gap-8 justify-end">
           <div className="relative text-3xl flex cursor-pointer text-white">
             <span>
               <FaCartShopping />
             </span>
-            <div className="absolute bg-red-500 w-5 flex justify-center rounded-2xl -top-2 -right-3">
+            <div className="absolute bg-red-500 w-5 flex justify-center rounded-2xl -top-2 -right-1.5">
               <p className="text-sm text-white">88</p>
             </div>
           </div>
 
           <div className="relative flex justify-center">
             {!user?.email && (
-              <span className="mb-1 px-4 py-1 text-lg rounded-full bg-red-500  text-white items-center">
-                <Link to={"/login"}>Login</Link>
-              </span>
+              <button onClick={()=> navigate('/login')} className="bg-red-500 w-24 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
+                Login
+              </button>
             )}
             {user?.email && (
               <div
@@ -114,7 +105,7 @@ const Header = () => {
                     alt={user?.username}
                   />
                 ) : (
-                  <FaUserCircle />
+                  <FaUserCircle className="h-10" />
                 )}
               </div>
             )}
@@ -150,6 +141,13 @@ const Header = () => {
               </div>
             )}
           </div>
+
+          <div
+            onClick={() => setShowCategorySidebar(!showCategorySidebar)}
+            className="text-3xl text-white cursor-pointer"
+          >
+            {showCategorySidebar ? <RxCross2 /> : <HiMiniBars3 />}
+          </div>
         </div>
       </div>
 
@@ -158,17 +156,13 @@ const Header = () => {
         {showCategorySidebar ? (
           <div
             onMouseLeave={() => setShowCategorySidebar(!showCategorySidebar)}
-            className="fixed top-17 left-0 duration-700 ease-in-out "
+            className="fixed top-0 left-0 duration-700 ease-in-out "
           >
-            <CategoriesList
-              categories={categories}
-            />
+            <CategoriesList categories={categories} />
           </div>
         ) : (
-          <div className="fixed top-17 -left-[250px] duration-500 ease-in-out">
-            <CategoriesList
-              categories={categories}
-            />
+          <div className="fixed top-0 -left-[250px] duration-500 ease-in-out">
+            <CategoriesList categories={categories} />
           </div>
         )}
       </div>

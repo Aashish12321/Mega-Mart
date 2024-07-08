@@ -13,10 +13,6 @@ const SummaryApi = {
         url: `/api/user-details`,
         method: 'get'
     },
-    logout : {
-        url: `/api/logout`,
-        method: 'get'
-    },
     all_users : {
         url: `/api/all-users`,
         method: 'get'

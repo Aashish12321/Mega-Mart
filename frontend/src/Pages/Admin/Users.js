@@ -39,17 +39,17 @@ const Users = () => {
   }, []);
 
   const handleUserSearch = async (e) => {
+    const token = localStorage.getItem('token');
     if (searchKey && e.key==='Enter'){
       let response = await fetch(SummaryApi.search_user.url + `/${searchKey}`, {
         method: SummaryApi.search_user.method,
         headers: {
           "content-type": "application/json",
+          'authorization': `${token}`
         },
-        credentials: "include",
       });
   
       let data = await response.json();
-      // console.log(data.data);
       data = data.data;
       if (data) {
         setAllUser(data);

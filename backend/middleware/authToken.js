@@ -2,17 +2,18 @@ const jwt = require('jsonwebtoken');
 
 async function authToken(req, resp, next){
     try {
-        const token = req.cookies.token
-
+        const token = req.headers['authorization'];
+        
         if(!token){
-            console.log('user not login, please provide the token');
-            throw new Error('User not login');
+            console.log('Permission denied ! Please provide the token');
+            throw new Error('Permission denied ! Please provide the token');
         }
 
         jwt.verify(token, process.env.TOKEN_SECRET_KEY, function(err, decoded) {
             // console.log("decoded",decoded._id);
             if (err) {
                 console.log(err);
+                throw new Error('Unauthorized! Invalid token');
             }
 
             req.userId = decoded._id

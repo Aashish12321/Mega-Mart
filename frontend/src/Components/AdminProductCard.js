@@ -2,25 +2,25 @@ import React, { useEffect, useState } from "react";
 import { MdEdit } from "react-icons/md";
 import AdminEditProduct from "./AdminEditProduct";
 import displayNepCurrency from "../helpers/displayNepCurrency";
-import Loading from "./Loading";
+import ProductLoader from "./Loaders/ProductLoader";
 
 
 const AdminProductCard = ({ product, fetchAllProducts }) => {
   const [editProduct, setEditProduct] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setLoading(false);
+      setLoader(false);
     }, 500);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [loader]);
 
-  if (loading) {
-    return <Loading />;
+  if (loader) {
+    return <ProductLoader />;
   }
-  // 
+
   return (
     <div className="duration-500 ease-in-out">
       <div className="w-36 min-[375px]:w-40 md:w-36 lg:w-40 xl:w-44 shadow-custom cursor-pointer bg-custom rounded-lg">

@@ -75,13 +75,14 @@ const AddProduct = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
+    const token = localStorage.getItem('token');
     let dataResponse = await fetch(SummaryApi.upload_product.url, {
       method: SummaryApi.upload_product.method,
       body: JSON.stringify(product),
       headers: {
         "content-type": "application/json",
+        'authorization': `${token}`
       },
-      credentials: "include",
     });
 
     dataResponse = await dataResponse.json();

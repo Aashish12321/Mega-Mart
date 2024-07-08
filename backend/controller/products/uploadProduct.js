@@ -16,7 +16,7 @@ async function uploadProduct(req, resp){
                 data: saveProduct,
                 success: true,
                 error: false,
-                message: 'Product added successfully!'
+                message: 'Product added successfully'
             })
         }
         else{

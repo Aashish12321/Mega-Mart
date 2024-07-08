@@ -6,7 +6,6 @@ const userSignUpController = require("../controller/users/userSignup");
 const userLoginController = require('../controller/users/userLogin');
 const userDetailsController = require('../controller/users/userDetails');
 const authToken = require('../middleware/authToken');
-const userLogout = require('../controller/users/userLogout');
 const allUsersController = require('../controller/users/allUsers');
 const updateUser = require('../controller/users/updateUser');
 const searchUser = require('../controller/users/searchUser');
@@ -18,7 +17,6 @@ const getCategories = require('../controller/products/getCategories');
 router.post('/signup', userSignUpController);
 router.post('/login', userLoginController);
 router.get("/user-details", authToken, userDetailsController);
-router.get("/logout", userLogout);
 router.get('/get-products', getProduct);
 router.get('/get-categories', getCategories);
 

@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import Context from "../Context";
 
 const Login = () => {
-  const [showPassword, setShowPassword] = useState(1);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [user, setUser] = useState({
     email: "",
@@ -31,9 +31,8 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    // console.log({email, password});
 
-    const data = await fetch(SummaryApi.login.url, {
+    let response = await fetch(SummaryApi.login.url, {
       method: SummaryApi.login.method,
       credentials: "include",
       body: JSON.stringify(user),
@@ -42,18 +41,21 @@ const Login = () => {
       },
     });
 
-    const userData = await data.json();
-    if (userData.success) {
-      toast.success(userData.message);
+    response = await response.json();
+    const token = response.data;
+    localStorage.setItem('token', token);
+
+    if (response.success) {
       navigate("/");
       fetchUserDetails();
+      toast.success(response.message);
     } else {
-      toast.error(userData.message);
+      toast.error(response.message);
     }
   };
 
   return (
-    <div className="my-8 mx-4">
+    <div className="fixed top-0 left-0 right-0 bottom-0 mt-32 mx-4">
       <div className="items-center bg-customCard text-white shadow-custom p-2 max-w-md mx-auto rounded-lg">
         <img src={logo} alt="logo" className="w-16 mx-auto mt-2" />
         <form onSubmit={handleLogin} className="mt-4">

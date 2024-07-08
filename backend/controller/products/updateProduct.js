@@ -7,13 +7,13 @@ async function updateProduct(req, resp) {
         if (productData){
             resp.status(200).json({
                 data: productData,
-                message: "Product updated!",
+                message: "Product updated successfully",
                 success: true,
                 error: false
             })
         }
         else{
-            throw new Error('some error occurs!');
+            throw new Error('Some error occurs, please try again');
         }
     } catch (err) {
         resp.status(400).json({

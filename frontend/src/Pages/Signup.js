@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import role from "../Common/role";
 
 const Signup = () => {
-  const [showPassword, setShowPassword] = useState(1);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
@@ -75,20 +75,20 @@ const Signup = () => {
   };
 
   return (
-    <section id="signup" className="">
-      <div className=" mx-auto container p-4 ">
+    <section id="signup">
+      <div className="fixed top-0 left-0 right-0 bottom-0 mt-32 mx-4 my-8">
         <form
           onSubmit={handleSignup}
           className="bg-customCard text-white shadow-custom p-2 max-w-md mx-auto rounded-md "
         >
-          <div className="w-20 mx-auto mt-2 relative overflow-hidden rounded-full cursor-pointer">
+          <div className="w-20 mx-auto mt-2 overflow-hidden rounded-full cursor-pointer">
             <img src={user.profilePic || logo} alt="logo" />
-            <div className="text-xs bg-slate-500 text-white pb-4 pt-2 text-center bg-opacity-60 -mt-10">
+            <div className="text-xs bg-slate-500 text-white pb-4 pt-2 text-center -mt-10">
               <input
                 type="file"
                 name="profilePic"
                 id="fileInput"
-                className="hidden"
+                className="hidden overflow-auto"
                 onChange={handlePicUpload}
               />
               <label htmlFor="fileInput">Upload</label>
