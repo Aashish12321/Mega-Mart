@@ -25,7 +25,7 @@ const Signup = () => {
     const file = e.target.files[0];
     const imagePic = await imageTobase64(file);
 
-    console.log(imagePic);
+    // console.log(imagePic);
 
     setUser((previousData) => {
       return {
@@ -65,7 +65,6 @@ const Signup = () => {
 
       if (userData.success){
         toast.success(userData.message);
-        console.log(userData);
         navigate('/login');
       }
       if (userData.error){
@@ -136,7 +135,7 @@ const Signup = () => {
                 className="text-black mr-1 cursor-pointer"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                <span>{showPassword ? <IoEyeOff /> : <FaEye />}</span>
+                <span>{showPassword ? <FaEye /> : <IoEyeOff />}</span>
               </div>
             </div>
             Confirm Password:
@@ -154,7 +153,7 @@ const Signup = () => {
                 className="text-black mr-1 cursor-pointer"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                <span>{showPassword ? <IoEyeOff /> : <FaEye />}</span>
+                <span>{showPassword ? <FaEye /> : <IoEyeOff />}</span>
               </div>
             </div>
             <div className="text-center mt-4">

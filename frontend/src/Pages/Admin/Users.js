@@ -5,11 +5,13 @@ import moment from "moment";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import ChangeUserRole from "../../Components/ChangeUserRole";
+import Spinner from "../../Components/Loaders/Spinner";
 
 const Users = () => {
   const [allUser, setAllUser] = useState([]);
   const [showUpdateBox, setShowUpdateBox] = useState(false);
-  const [searchKey, setSearchKey] = useState('');
+  const [searchKey, setSearchKey] = useState("");
+  const [loader, setLoader] = useState(true);
   const [updateEachUser, setUpdateEachUser] = useState({
     _id: "",
     name: "",
@@ -28,6 +30,7 @@ const Users = () => {
     const data = await response.json();
     if (data.success) {
       setAllUser(data.data);
+      setLoader(false);
       // console.log(data.data[0]);
     } else {
       toast.error(data.message);
@@ -39,23 +42,22 @@ const Users = () => {
   }, []);
 
   const handleUserSearch = async (e) => {
-    const token = localStorage.getItem('token');
-    if (searchKey && e.key==='Enter'){
+    const token = localStorage.getItem("token");
+    if (searchKey && e.key === "Enter") {
       let response = await fetch(SummaryApi.search_user.url + `/${searchKey}`, {
         method: SummaryApi.search_user.method,
         headers: {
           "content-type": "application/json",
-          'authorization': `${token}`
+          authorization: `${token}`,
         },
       });
-  
+
       let data = await response.json();
       data = data.data;
       if (data) {
         setAllUser(data);
       }
-    }
-    else{
+    } else {
       fetchAllUsers();
     }
   };
@@ -74,43 +76,42 @@ const Users = () => {
 
       <div className="h-[calc(100vh-100px)] overflow-auto rounded-lg">
         <table className="w-full border-collapse">
-            <thead className="">
-              <tr className="bg-gray-900">
-                <th>S.N.</th>
-                <th>Name</th>
-                <th>Role</th>
-                <th>Email</th>
-                <th>Created Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {allUser.map((user, index) => {
-                return (
-                  <tr key={user._id}>
-                    <td>{index + 1}</td>
-                    <td>{user.name}</td>
-                    <td>{user.role}</td>
-                    <td>{user.email}</td>
-                    <td>{moment(user?.createdAt).format("lll")}</td>
-                    <td className="flex justify-between">
-                      <button
-                        onClick={() => {
-                          setUpdateEachUser(user);
-                          setShowUpdateBox(true);
-                        }}
-                        className="text-green-400 text-2xl text-center mx-auto"
-                      >
-                        <FaRegEdit />
-                      </button>
-                      <button className="text-red-600 text-2xl text-center mx-auto">
-                        <MdDelete />
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
+          <thead className="">
+            <tr className="bg-gray-900">
+              <th>S.N.</th>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Email</th>
+              <th>Created Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {!allUser ? <Spinner /> :
+              allUser.map((user, index) => (
+                <tr key={user._id}>
+                  <td>{index + 1}</td>
+                  <td>{user.name}</td>
+                  <td>{user.role}</td>
+                  <td>{user.email}</td>
+                  <td>{moment(user?.createdAt).format("lll")}</td>
+                  <td className="flex justify-between">
+                    <button
+                      onClick={() => {
+                        setUpdateEachUser(user);
+                        setShowUpdateBox(true);
+                      }}
+                      className="text-green-400 text-2xl text-center mx-auto"
+                    >
+                      <FaRegEdit />
+                    </button>
+                    <button className="text-red-600 text-2xl text-center mx-auto">
+                      <MdDelete />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
         </table>
       </div>
 

@@ -34,7 +34,6 @@ const Login = () => {
 
     let response = await fetch(SummaryApi.login.url, {
       method: SummaryApi.login.method,
-      credentials: "include",
       body: JSON.stringify(user),
       headers: {
         "content-type": "application/json",
@@ -45,9 +44,9 @@ const Login = () => {
     const token = response.data;
     localStorage.setItem('token', token);
 
-    if (response.success) {
-      navigate("/");
+    if (token) {
       fetchUserDetails();
+      navigate("/");
       toast.success(response.message);
     } else {
       toast.error(response.message);
@@ -86,7 +85,7 @@ const Login = () => {
               className="text-black mr-1 cursor-pointer"
               onClick={() => setShowPassword(!showPassword)}
             >
-              <span>{showPassword ? <IoEyeOff /> : <FaEye />}</span>
+              <span>{showPassword ? <FaEye /> : <IoEyeOff />}</span>
             </div>
           </div>
           <div className="text-right text-sm text-red-500 hover:underline">

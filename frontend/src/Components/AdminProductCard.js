@@ -1,25 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { MdEdit } from "react-icons/md";
 import AdminEditProduct from "./AdminEditProduct";
 import displayNepCurrency from "../helpers/displayNepCurrency";
-import ProductLoader from "./Loaders/ProductLoader";
 
-
-const AdminProductCard = ({ product, fetchAllProducts }) => {
+const AdminProductCard = ({ product, fetchAllProducts}) => {
   const [editProduct, setEditProduct] = useState(false);
-  const [loader, setLoader] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoader(false);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [loader]);
-
-  if (loader) {
-    return <ProductLoader />;
-  }
 
   return (
     <div className="duration-500 ease-in-out">
@@ -31,7 +16,7 @@ const AdminProductCard = ({ product, fetchAllProducts }) => {
             alt="product.jpg"
           />
         </div>
-        
+          
         <div className="mx-2 h-24">
           <h1 className="text-ellipsis line-clamp-2">{product.name}</h1>
           <div className="flex justify-between">
@@ -59,8 +44,8 @@ const AdminProductCard = ({ product, fetchAllProducts }) => {
           <MdEdit />
         </div>
       </div>
-
-      <div>{editProduct && <AdminEditProduct productData={product} onClose={()=> setEditProduct(false)} fetchAllProducts={fetchAllProducts}/>}</div>
+      <div>
+      {editProduct && <AdminEditProduct productData={product} onClose={()=> setEditProduct(false)} fetchAllProducts={fetchAllProducts}/>}</div>
     </div>
   );
 };

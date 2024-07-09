@@ -12,6 +12,8 @@ import AllProducts from "./Pages/Admin/AllProducts";
 import Categories from "./Components/CategoriesList";
 import ProtectedRoute from "./ProtectedRoute";
 import PermissionDenied from "./Pages/PermissionDenied";
+import PageNotFound from "./PageNotFound";
+import AdminEditProduct from "./Components/AdminEditProduct";
 
 const router = createBrowserRouter([
   {
@@ -19,16 +21,20 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
+        path: "*", 
+        element: <PageNotFound />,
+      },
+      {
         path: "",
         element: <Homepage />,
       },
       {
         path: "signup",
-        element: <Signup />,
+        element: <ProtectedRoute><Signup /></ProtectedRoute>,
       },
       {
         path: "login",
-        element: <Login />,
+        element: <ProtectedRoute><Login /></ProtectedRoute>,
       },
       {
         path: "forgot-password",
@@ -69,6 +75,14 @@ const router = createBrowserRouter([
           {
             path: "add-product",
             element: <AddProduct />,
+          },
+          {
+            path: "add-product",
+            element: <AddProduct />,
+          },
+          {
+            path: "edit-product",
+            element: <AdminEditProduct />,
           },
         ],
       },

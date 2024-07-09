@@ -7,10 +7,13 @@ import { RiDashboardFill } from "react-icons/ri";
 
 import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
+import { selectUser } from "../../Store/selector";
 
 const Admin = () => {
-  const user = useSelector((state) => state?.user?.user);
-  const [expandProduct, setExpandProduct] = useState(false);
+  const user = useSelector(selectUser);
+  const [expandProduct, setExpandProduct] = useState(false);          
+
+
   return (
     <div className="md:flex h-full justify-between text-white">
       <aside className="hidden md:flex w-full max-w-56 ml-3 my-3 shadow-lg rounded-lg bg-customCard text-white flex-col ">

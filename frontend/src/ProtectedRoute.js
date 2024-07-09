@@ -1,54 +1,53 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Context from "./Context";
 import Spinner from "./Components/Loaders/Spinner";
 import { toast } from "react-toastify";
+import { selectUser } from "./Store/selector";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user.user);
-  const { fetchUserDetails } = useContext(Context);
+  var user = useSelector(selectUser);
   const [loader, setLoader] = useState(true);
   var currentRoute = useLocation().pathname;
 
   useEffect(() => {
-    const checkGeneralUser = () => {
-      const token = localStorage.getItem("token");
-      setLoader(false);
-      if (!token) {
-        navigate("/login");
-        toast.info("Login first");
-        return;
-      } else {
-        return children;
-      }
-    };
-
+    const token = localStorage.getItem("token");
     const checkAdmin = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        navigate("/login");
-        toast.error("Login first");
-        return;
-      }
-
-      await fetchUserDetails();
-      if (user?.role === "ADMIN") {
-        setLoader(false);
-        return;
-      } else if (user?.role === "GENERAL") {
-        navigate("/permission-denied");
+      try {
+        if (user?.role === "ADMIN") {
+          setLoader(false);
+          return;
+        } else if (user?.role === "GENERAL") {
+          navigate("/permission-denied");
+          setLoader(false);
+          return;
+        }
+        else{
+          throw new Error("Error fetching user details. Please login again.");
+        }
+      } catch (err) {
+        toast.error(err);
         return;
       }
     };
 
-    if (currentRoute.startsWith("/admin")) {
-      checkAdmin();
+    if (!token && (currentRoute !== "/login" && currentRoute !== '/signup')) {
+      navigate("/login");
+      setLoader(false);
+      toast.info('Login First');
     } else {
-      checkGeneralUser();
+      if (token && (currentRoute === "/login" || currentRoute === "/signup")) {
+        navigate("/");
+        setLoader(false);
+        toast.info("Already logged in");
+      } else if (currentRoute.startsWith("/admin")) {
+        checkAdmin();
+      } else {
+        setLoader(false);
+      }
     }
-  }, [fetchUserDetails, navigate, loader, user, children, currentRoute]);
+  }, [user, navigate, loader, currentRoute]);
 
   if (loader) {
     return <Spinner />;

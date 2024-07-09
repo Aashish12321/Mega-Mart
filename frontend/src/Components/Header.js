@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { setUserDetails } from "../Store/userSlice";
 import role from "../Common/role";
 import CategoriesList from "./CategoriesList";
+import { selectUser } from "../Store/selector";
 
 const Header = () => {
   const [categories, setCategories] = useState([]);
@@ -21,16 +22,16 @@ const Header = () => {
   const [showCategorySidebar, setShowCategorySidebar] = useState(false);
   const navigate = useNavigate();
 
-  const user = useSelector((state) => state.user.user);
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
     const token = localStorage.getItem("token");
     if (token) {
+      navigate('/');
       localStorage.removeItem("token");
       dispatch(setUserDetails(null));
       toast.success("Logout successful");
-      console.log(token);
     } else {
       toast.info("You are not logged in.");
       navigate("/login");
@@ -64,11 +65,11 @@ const Header = () => {
           </Link>
         </div>
 
-        <div className="hidden md:flex w-full md:max-w-xs lg:max-w-md 2xl:max-w-lg  items-center rounded-lg cursor-pointer">
+        <div className="hidden md:flex w-full md:max-w-xs lg:max-w-md 2xl:max-w-md bg-slate-100 items-center rounded-lg cursor-pointer">
           <input
-            className="w-full  outline-none h-9 pl-1 border-l-8 border-red-500 rounded-l-lg"
+            className="w-full bg-transparent outline-none h-9 pl-1 border-l-8 border-red-500 rounded-l-lg"
             type="text"
-            placeholder="Search product here..."
+            placeholder="Search for product, brand and more..."
           />
           <div className="h-9 w-9 p-2.5 rounded-r-lg bg-red-500">
             <GoSearch />
@@ -87,25 +88,25 @@ const Header = () => {
 
           <div className="relative flex justify-center">
             {!user?.email && (
-              <button onClick={()=> navigate('/login')} className="bg-red-500 w-24 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
+              <button onClick={()=> navigate('/login')} className="bg-red-500 w-16 h-8 text-white rounded-full shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
                 Login
               </button>
             )}
             {user?.email && (
               <div
-                className="text-3xl cursor-pointer text-white items-center"
+                className=" mx-3 text-3xl cursor-pointer text-white items-center"
                 onClick={() => {
                   setShowUserMenu(!showuserMenu);
                 }}
               >
                 {user?.profilePic ? (
                   <img
-                    className="w-10 rounded-full"
+                    className="w-10 h-10 rounded-full"
                     src={user?.profilePic}
                     alt={user?.username}
                   />
                 ) : (
-                  <FaUserCircle className="h-10" />
+                  <FaUserCircle className="w-10 h-10" />
                 )}
               </div>
             )}

@@ -171,7 +171,7 @@ const AddProduct = () => {
                     />
                   </label>
 
-                  <div className="flex gap-4">
+                  <div className="mt-5 flex gap-4">
                     {product.images.map((image, index) => {
                       return (
                         <label
