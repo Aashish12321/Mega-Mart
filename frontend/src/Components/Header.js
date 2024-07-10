@@ -20,6 +20,7 @@ const Header = () => {
   const [categories, setCategories] = useState([]);
   const [showuserMenu, setShowUserMenu] = useState(false);
   const [showCategorySidebar, setShowCategorySidebar] = useState(false);
+  const [expandSearch, setExpandSearch] = useState(false);
   const navigate = useNavigate();
 
   const user = useSelector(selectUser);
@@ -28,7 +29,7 @@ const Header = () => {
   const handleLogout = async () => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate('/');
+      navigate("/");
       localStorage.removeItem("token");
       dispatch(setUserDetails(null));
       toast.success("Logout successful");
@@ -71,12 +72,41 @@ const Header = () => {
             type="text"
             placeholder="Search for product, brand and more..."
           />
-          <div className="h-9 w-9 p-2.5 rounded-r-lg bg-red-500">
+          <div className="h-9 w-9 p-2.5 text-white rounded-r-lg bg-red-500">
             <GoSearch />
           </div>
         </div>
 
-        <div className="flex items-center h-12 gap-5 lg:gap-8 justify-end">
+        <div
+          onMouseEnter={() => setExpandSearch(true)}
+          className="flex md:hidden h-9 w-9 p-1.5 rounded-r-lg text-white text-2xl cursor-pointer"
+        >
+          <GoSearch />
+        </div>
+        <div
+          onMouseEnter={() => setExpandSearch(true)}
+          onMouseLeave={() => setExpandSearch(false)}
+          className={`flex md:hidden w-full transition-transform duration-500 ${
+            expandSearch ? "translate-y-0" : "-translate-y-16"
+          } fixed justify-between z-10 md:max-w-xs lg:max-w-md 2xl:max-w-md bg-slate-100 items-center rounded-lg cursor-pointer `}
+        >
+          {expandSearch && (
+            <>
+              <input
+                className="w-full bg-transparent outline-none h-12 pl-1 border-l-8 border-red-500 rounded-l-lg"
+                type="text"
+                placeholder="Search for product, brand and more..."
+              />
+              <div
+                className={`w-12 p-3.5  rounded-r-lg text-xl text-white bg-red-500 cursor-pointer`}
+              >
+                <GoSearch />
+              </div>
+            </>
+          )}
+        </div>
+
+        <div className="flex items-center h-12 gap-4 lg:gap-8 justify-end">
           <div className="relative text-3xl flex cursor-pointer text-white">
             <span>
               <FaCartShopping />
@@ -88,7 +118,10 @@ const Header = () => {
 
           <div className="relative flex justify-center">
             {!user?.email && (
-              <button onClick={()=> navigate('/login')} className="bg-red-500 w-16 h-8 text-white rounded-full shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
+              <button
+                onClick={() => navigate("/login")}
+                className="bg-red-500 w-16 h-8 text-white rounded-full shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+              >
                 Login
               </button>
             )}

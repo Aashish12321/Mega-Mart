@@ -56,6 +56,7 @@ const Users = () => {
       data = data.data;
       if (data) {
         setAllUser(data);
+        setLoader(false);
       }
     } else {
       fetchAllUsers();
@@ -86,9 +87,11 @@ const Users = () => {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
-            {!allUser ? <Spinner /> :
-              allUser.map((user, index) => (
+          {loader ? (
+            <Spinner />
+          ) : (
+            <tbody>
+              {allUser.map((user, index) => (
                 <tr key={user._id}>
                   <td>{index + 1}</td>
                   <td>{user.name}</td>
@@ -111,7 +114,8 @@ const Users = () => {
                   </td>
                 </tr>
               ))}
-          </tbody>
+            </tbody>
+          )}
         </table>
       </div>
 

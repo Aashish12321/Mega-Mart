@@ -42,9 +42,9 @@ const Login = () => {
 
     response = await response.json();
     const token = response.data;
-    localStorage.setItem('token', token);
+    localStorage.setItem("token", token);
 
-    if (token) {
+    if (response.success) {
       fetchUserDetails();
       navigate("/");
       toast.success(response.message);
@@ -52,7 +52,6 @@ const Login = () => {
       toast.error(response.message);
     }
   };
-
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 mt-32 mx-4">
       <div className="items-center bg-customCard text-white shadow-custom p-2 max-w-md mx-auto rounded-lg">
@@ -110,5 +109,4 @@ const Login = () => {
     </div>
   );
 };
-
 export default Login;

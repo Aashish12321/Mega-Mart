@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect } from "react";
 import "./App.css";
-import { Outlet } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import SummaryApi from "./Common";
 
 import Context from "./Context";
 
-import { Bounce, ToastContainer } from "react-toastify";
+import { Bounce,toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // react-redux
@@ -16,27 +16,39 @@ import { setUserDetails } from "./Store/userSlice";
 
 const App = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   const fetchUserDetails = useCallback(async () => {
-    let userData = await fetch(SummaryApi.current_user.url, {
+    let currentUserData = await fetch(SummaryApi.current_user.url, {
       method: SummaryApi.current_user.method,
       headers: {
         authorization: `${token}`,
       },
     });
 
-    userData = await userData.json();
-    if (userData.success) {
-      dispatch(setUserDetails(userData.data));
+    currentUserData = await currentUserData.json();
+    if (currentUserData.success) {
+      dispatch(setUserDetails(currentUserData.data));
     }
-  },[dispatch, token]);
+    else{
+      if(currentUserData.message === 'TokenExpiredError'){
+        localStorage.removeItem('token');
+        dispatch(setUserDetails(null));
+        navigate('/login');
+        toast.error('TokenExpiredError! Please Login again');
+      }
+      else{
+        toast.error(currentUserData.message);
+      }
+    }
+  },[dispatch, token, navigate]);
 
   useEffect(() => {
     if (token) {
       fetchUserDetails();
     }
-  }, [fetchUserDetails, token]);
+  },[fetchUserDetails, token]);
 
   return (
     <>

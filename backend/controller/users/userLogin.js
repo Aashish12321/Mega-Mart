@@ -38,7 +38,7 @@ async function userLoginController(req, resp) {
       throw new Error("User does not exist");
     }
   } catch (err) {
-    resp.json({
+    resp.status(400).json({
       message: err.message,
       error: true,
       success: false,

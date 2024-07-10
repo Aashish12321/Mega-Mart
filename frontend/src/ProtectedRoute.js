@@ -23,27 +23,34 @@ const ProtectedRoute = ({ children }) => {
           setLoader(false);
           return;
         }
-        else{
-          throw new Error("Error fetching user details. Please login again.");
-        }
+        // else {
+        //   throw new Error('Token expired admin, Please login again');
+        // }
       } catch (err) {
-        toast.error(err);
-        return;
+        // localStorage.removeItem("token");
+        // navigate('/login');
+        // toast.error(err.message);
+        // return;
       }
     };
 
-    if (!token && (currentRoute !== "/login" && currentRoute !== '/signup')) {
-      navigate("/login");
-      setLoader(false);
-      toast.info('Login First');
+    if (!token) {
+      if (currentRoute === "/login" || currentRoute === "/signup") {
+        setLoader(false);
+      } else {
+        navigate("/login");
+        setLoader(false);
+        toast.info("Login First");
+      }
     } else {
-      if (token && (currentRoute === "/login" || currentRoute === "/signup")) {
+      if (currentRoute.startsWith("/admin")) {
+        checkAdmin();
+      } else if (currentRoute === "/login" || currentRoute === "/signup") {
         navigate("/");
         setLoader(false);
         toast.info("Already logged in");
-      } else if (currentRoute.startsWith("/admin")) {
-        checkAdmin();
       } else {
+        // checkGeneral();
         setLoader(false);
       }
     }
@@ -52,7 +59,6 @@ const ProtectedRoute = ({ children }) => {
   if (loader) {
     return <Spinner />;
   }
-
   return children;
 };
 

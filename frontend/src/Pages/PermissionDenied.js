@@ -11,7 +11,7 @@ const PermissionDenied = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-custom">
       <div className="text-center p-5 bg-customCard shadow-md rounded-md">
-        <h1 className="text-3xl font-bold text-red-500">Permission Denied</h1>
+        <h1 className="text-3xl font-bold text-red-500">403 Forbidden! Permission Denied</h1>
         <p className="mt-4 text-lg text-white">You do not have the necessary permissions to access this page.</p>
         <button
           onClick={handleBackToHome}
