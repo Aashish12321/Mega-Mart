@@ -14,6 +14,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import PermissionDenied from "./Pages/PermissionDenied";
 import PageNotFound from "./PageNotFound";
 import AdminEditProduct from "./Components/AdminEditProduct";
+import Addcategory from "./Pages/Admin/Addcategory";
 
 const router = createBrowserRouter([
   {
@@ -69,12 +70,12 @@ const router = createBrowserRouter([
             element: <Users />,
           },
           {
-            path: "all-products",
-            element: <AllProducts />,
+            path: "add-category",
+            element: <Addcategory />
           },
           {
-            path: "add-product",
-            element: <AddProduct />,
+            path: "all-products",
+            element: <AllProducts />,
           },
           {
             path: "add-product",

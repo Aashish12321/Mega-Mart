@@ -274,20 +274,6 @@ const AddProduct = () => {
                     />
                   </div>
                   <div className="flex flex-col w-full md:max-w-36">
-                    <label htmlFor="discountType" className="mt-2">
-                      Discount Type :
-                    </label>
-                    <input
-                      value={product.discountType}
-                      onChange={handleProductData}
-                      type="text"
-                      id="discountType"
-                      name="discountType"
-                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
-                      disabled={!product.discount}
-                    />
-                  </div>
-                  <div className="flex flex-col w-full md:max-w-36">
                     <label htmlFor="sellingPrice" className="mt-2">
                       Selling Price:
                     </label>

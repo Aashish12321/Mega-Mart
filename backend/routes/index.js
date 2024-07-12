@@ -13,6 +13,7 @@ const uploadProduct = require('../controller/products/uploadProduct');
 const getProduct = require('../controller/products/getProduct');
 const updateProduct = require('../controller/products/updateProduct');
 const getCategories = require('../controller/products/getCategories');
+const addCategory = require('../controller/products/addCategory');
 
 router.post('/signup', userSignUpController);
 router.post('/login', userLoginController);
@@ -26,6 +27,7 @@ router.post('/update-user',authToken, updateUser);
 router.get('/search-user/:key', authToken, searchUser);
 router.post('/upload-product', authToken, uploadProduct);
 router.post('/update-product', authToken, updateProduct);
+router.post('/add-category', authToken, addCategory);
 
 
 module.exports = router;

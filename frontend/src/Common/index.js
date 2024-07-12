@@ -41,6 +41,10 @@ const SummaryApi = {
         url: `/api/get-categories`,
         method: 'get'
     },
+    add_categories : {
+        url: `/api/add-category`,
+        method: 'post'
+    },
     
 
 }

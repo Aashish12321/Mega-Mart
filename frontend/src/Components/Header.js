@@ -25,9 +25,9 @@ const Header = () => {
 
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
+  const token = localStorage.getItem("token");
 
   const handleLogout = async () => {
-    const token = localStorage.getItem("token");
     if (token) {
       navigate("/");
       localStorage.removeItem("token");
@@ -58,6 +58,7 @@ const Header = () => {
   }, []);
 
   return (
+    <>
     <header className="shadow-md shadow-red-500 bg-gray-900 fixed top-0 w-full">
       <div className="flex items-center min-[320px]:py-2 2xl:py-0 justify-around ">
         <div className="flex min-[320px]:w-40 md:w-44 lg:w-48 2xl:w-56 text-white cursor-pointer items-center justify-around">
@@ -79,11 +80,12 @@ const Header = () => {
 
         <div
           onMouseEnter={() => setExpandSearch(true)}
+          onMouseLeave={() => setExpandSearch(false)}
           className="flex md:hidden h-9 w-9 p-1.5 rounded-r-lg text-white text-2xl cursor-pointer"
         >
           <GoSearch />
         </div>
-        <div
+        <div 
           onMouseEnter={() => setExpandSearch(true)}
           onMouseLeave={() => setExpandSearch(false)}
           className={`flex md:hidden w-full transition-transform duration-500 ${
@@ -117,7 +119,7 @@ const Header = () => {
           </div>
 
           <div className="relative flex justify-center">
-            {!user?.email && (
+            {!token && (
               <button
                 onClick={() => navigate("/login")}
                 className="bg-red-500 w-16 h-8 text-white rounded-full shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
@@ -125,7 +127,7 @@ const Header = () => {
                 Login
               </button>
             )}
-            {user?.email && (
+            {token && (
               <div
                 className=" mx-3 text-3xl cursor-pointer text-white items-center"
                 onClick={() => {
@@ -148,7 +150,7 @@ const Header = () => {
                 <MdArrowDropUp className="text-4xl -mt-[29px] ml-11" />
 
                 {user?.role === role.admin && (
-                  <div className="border-b-2 border-black -mt-4 ">
+                  <div className="border-b-2 border-black -mt-4">
                     <Link
                       to={"/admin/all-products"}
                       onClick={() => setShowUserMenu(!showuserMenu)}
@@ -185,22 +187,24 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Categories sidemenu */}
-      <div className="fixed text-black">
-        {showCategorySidebar ? (
-          <div
-            onMouseLeave={() => setShowCategorySidebar(!showCategorySidebar)}
-            className="fixed top-0 left-0 duration-700 ease-in-out "
-          >
-            <CategoriesList categories={categories} />
-          </div>
-        ) : (
-          <div className="fixed top-0 -left-[250px] duration-500 ease-in-out">
-            <CategoriesList categories={categories} />
-          </div>
-        )}
-      </div>
+      
     </header>
+    {/* Categories sidemenu */}
+    <div className="fixed top-0 left-0 z-10 text-black">
+    {showCategorySidebar ? (
+      <div
+        onMouseLeave={() => setShowCategorySidebar(!showCategorySidebar)}
+        className="fixed top-0 left-0 duration-700 ease-in-out "
+      >
+        <CategoriesList categories={categories} />
+      </div>
+    ) : (
+      <div className="fixed top-0 -left-[250px] duration-500 ease-in-out">
+        <CategoriesList categories={categories} />
+      </div>
+    )}
+  </div>
+  </>
   );
 };
 

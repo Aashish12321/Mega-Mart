@@ -15,7 +15,7 @@ const ProtectedRoute = ({ children }) => {
     const token = localStorage.getItem("token");
     const checkAdmin = async () => {
       try {
-        if (user?.role === "ADMIN") {
+        if (user?.role === "ADMIN" || user?.role === "VENDOR") {
           setLoader(false);
           return;
         } else if (user?.role === "GENERAL") {

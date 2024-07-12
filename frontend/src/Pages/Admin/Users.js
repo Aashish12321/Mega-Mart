@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
 import moment from "moment";
@@ -12,19 +12,20 @@ const Users = () => {
   const [showUpdateBox, setShowUpdateBox] = useState(false);
   const [searchKey, setSearchKey] = useState("");
   const [loader, setLoader] = useState(true);
+  const token = localStorage.getItem("token");
   const [updateEachUser, setUpdateEachUser] = useState({
     _id: "",
     name: "",
     email: "",
     role: "",
   });
-  const fetchAllUsers = async () => {
+  const fetchAllUsers = useCallback(async () => {
     const response = await fetch(SummaryApi.all_users.url, {
       method: SummaryApi.all_users.method,
       headers: {
         "content-type": "application/json",
+        'authorization': `${token}`
       },
-      credentials: "include",
     });
 
     const data = await response.json();
@@ -35,14 +36,13 @@ const Users = () => {
     } else {
       toast.error(data.message);
     }
-  };
+  },[token]);
 
   useEffect(() => {
     fetchAllUsers();
-  }, []);
+  }, [fetchAllUsers]);
 
   const handleUserSearch = async (e) => {
-    const token = localStorage.getItem("token");
     if (searchKey && e.key === "Enter") {
       let response = await fetch(SummaryApi.search_user.url + `/${searchKey}`, {
         method: SummaryApi.search_user.method,
@@ -76,20 +76,20 @@ const Users = () => {
       </div>
 
       <div className="h-[calc(100vh-100px)] overflow-auto rounded-lg">
-        <table className="w-full border-collapse">
-          <thead className="">
-            <tr className="bg-gray-900">
-              <th>S.N.</th>
-              <th>Name</th>
-              <th>Role</th>
-              <th>Email</th>
-              <th>Created Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          {loader ? (
-            <Spinner />
-          ) : (
+        {loader ? (
+          <Spinner />
+        ) : (
+          <table className="w-full border-collapse">
+            <thead className="">
+              <tr className="bg-gray-900">
+                <th>S.N.</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Email</th>
+                <th>Created Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
             <tbody>
               {allUser.map((user, index) => (
                 <tr key={user._id}>
@@ -115,8 +115,8 @@ const Users = () => {
                 </tr>
               ))}
             </tbody>
-          )}
-        </table>
+          </table>
+        )}
       </div>
 
       <div>
