@@ -36,7 +36,7 @@ const App = () => {
         localStorage.removeItem('token');
         dispatch(setUserDetails(null));
         navigate('/login');
-        toast.error('TokenExpiredError! Please Login Again');
+        toast.info('Session expired! Please login again');
       }
     }
   },[dispatch, token, navigate]);

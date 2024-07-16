@@ -2,19 +2,6 @@ const Category = require("../../models/Category");
 
 async function addCategory(req, resp) {
   try {
-    // const payload = {
-    //   category: req.body.category,
-    //   subCategory: [
-    //     {
-    //       name: req.body.subCategory,
-    //       product: [
-    //         {
-    //           name: req.body.product,
-    //         }
-    //       ]
-    //     }
-    //   ]
-    // }
     const catgName = req.body.category;
     const subCatgName = req.body.subCategory;
     const prodName = req.body.product;
