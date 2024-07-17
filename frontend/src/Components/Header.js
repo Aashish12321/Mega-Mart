@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useCallback, useEffect, useState } from "react";
 import logo from "../Assets/logo.png";
 import { GoSearch } from "react-icons/go";
 import { FaUserCircle } from "react-icons/fa";
@@ -12,12 +12,12 @@ import { useDispatch, useSelector } from "react-redux";
 import SummaryApi from "../Common";
 import { toast } from "react-toastify";
 import { setUserDetails } from "../Store/userSlice";
+import { setCategories } from "../Store/categorySlice";
 import role from "../Common/role";
 import CategoriesList from "./CategoriesList";
 import { selectUser } from "../Store/selector";
 
 const Header = () => {
-  const [categories, setCategories] = useState([]);
   const [showuserMenu, setShowUserMenu] = useState(false);
   const [showCategorySidebar, setShowCategorySidebar] = useState(false);
   const [expandSearch, setExpandSearch] = useState(false);
@@ -39,24 +39,23 @@ const Header = () => {
     }
   };
 
-  const allCategory = async () => {
+  const allCategory = useCallback(async () => {
     let fetchCategory = await fetch(SummaryApi.get_categories.url, {
       method: SummaryApi.get_categories.method,
     });
 
     fetchCategory = await fetchCategory.json();
     if (fetchCategory.success) {
-      // console.log(fetchCategory.data);
-      setCategories(fetchCategory.data);
+      dispatch(setCategories(fetchCategory.data));
     }
     if (fetchCategory.error) {
       toast.error(fetchCategory.message);
     }
-  };
+  },[dispatch]);
 
   useEffect(() => {
     allCategory();
-  }, []);
+  }, [allCategory]);
 
   return (
     <>
@@ -193,14 +192,14 @@ const Header = () => {
         {showCategorySidebar ? (
           <div className="fixed top-0 left-0 duration-700 ease-in-out ">
             <CategoriesList
-              categories={categories}
+              // categories={categories}
               setShowCategorySidebar={setShowCategorySidebar}
             />
           </div>
         ) : (
           <div className="fixed  top-0 -left-[350px] duration-300 ease-in">
             <CategoriesList
-              categories={categories}
+              // categories={categories}
               showCategorySidebar={showCategorySidebar}
             />
           </div>

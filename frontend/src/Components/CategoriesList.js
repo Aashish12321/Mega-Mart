@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { selectUser } from "../Store/selector";
+import { selectCategories, selectUser } from "../Store/selector";
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
-const CategoriesList = ({ categories, setShowCategorySidebar }) => {
+const CategoriesList = ({ setShowCategorySidebar }) => {
   const user = useSelector(selectUser);
+  const categories = useSelector(selectCategories);
   const [catg, setCatg] = useState("");
   const [subCatgs, setSubCatgs] = useState("");
-  const [prods, setProds] = useState("");
+  // const [prods, setProds] = useState("");
 
   return (
     <div>
@@ -20,11 +21,12 @@ const CategoriesList = ({ categories, setShowCategorySidebar }) => {
               className="text-md mt-1 cursor-pointer"
             />
           )}
-          <div>Hello, {user ? `${user?.name.split(" ")[0]} :)` : "User !"}</div>
+          <div>Hello, {user ? `${user.name.split(" ")[0]} :)` : "User !"}</div>
         </div>
 
         <div className="h-[100vh]">
-          {categories.map((category, cindex) => (
+          {
+            categories.map((category, cindex) => (
             <div className="flex w-full max-w-56 md:max-w-64">
               <div
                 key={cindex}
@@ -71,7 +73,7 @@ const CategoriesList = ({ categories, setShowCategorySidebar }) => {
                                 <div className="flex">
                                   <div
                                     key={pindex}
-                                    onClick={() => setProds(product.name)}
+                                    // onClick={() => setProds(product.name)}
                                     className="flex w-full bg-gray-200 text-start hover:bg-gray-300 hover:font-semibold p-3 justify-between cursor-pointer"
                                   >
                                     <div>{product.name}</div>

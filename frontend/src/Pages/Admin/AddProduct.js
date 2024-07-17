@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import ProductCategories from "../../helpers/productCategories";
@@ -7,11 +7,12 @@ import DisplayFullImage from "../../Components/DisplayFullImage";
 import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { selectUser } from "../../Store/selector";
+import { selectCategories, selectUser } from "../../Store/selector";
 import { useSelector } from "react-redux";
 
 const AddProduct = () => {
   const user = useSelector(selectUser);
+  const categories = useSelector(selectCategories);
   const token = localStorage.getItem("token");
 
   const [product, setProduct] = useState({
@@ -158,7 +159,6 @@ const AddProduct = () => {
   //     };
   //   });
   // };
-
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -341,11 +341,11 @@ const AddProduct = () => {
                       className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
                       required
                     >
-                      <option value="" selected disabled>
+                      <option value="" disabled>
                         Select a category
                       </option>
-                      {ProductCategories.map((category, index) => (
-                        <option key={category.id} value={category.name}>
+                      {categories.map((category, index) => (
+                        <option key={index} value={category.name}>
                           {category.name}
                         </option>
                       ))}
@@ -361,11 +361,18 @@ const AddProduct = () => {
                       className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
                       disabled={!product.category}
                     >
-                      {filteredSubcategories.map((sub_category, index) => (
-                        <option key={sub_category.id} value={sub_category.name}>
-                          {sub_category.name}
-                        </option>
-                      ))}
+                      <option value="" disabled>
+                        Select sub-category
+                      </option>
+                      {categories.map(
+                        (category, cindex) =>
+                          category.name === product.category &&
+                          category.subCategories.map((subCategory, sindex) => (
+                            <option key={sindex} value={subCategory.name}>
+                              {subCategory.name}
+                            </option>
+                          ))
+                      )}
                     </select>
                   </div>
                   <div className="flex flex-col w-full md:max-w-[160px]">
@@ -376,13 +383,20 @@ const AddProduct = () => {
                       value={product.productType}
                       onChange={handleProductChange}
                       className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
-                      disabled={!product.category}
+                      disabled={!product.subCategory}
                     >
-                      {filteredSubcategories.map((sub_category, index) => (
-                        <option key={sub_category.id} value={sub_category.name}>
-                          {sub_category.name}
-                        </option>
-                      ))}
+                      <option value="">Select product</option>
+                      {categories.map((category, _) =>
+                        category.subCategories.map(
+                          (subCategory, _) =>
+                            subCategory.name === product.subCategory &&
+                            subCategory.products.map((product, pindex) => (
+                              <option key={pindex} value={product.name}>
+                                {product.name}
+                              </option>
+                            ))
+                        )
+                      )}
                     </select>
                   </div>
                 </div>
