@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectCategories, selectUser } from "../Store/selector";
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
 
-const CategoriesList = ({ setShowCategorySidebar }) => {
+const CategoriesList = ({ showCategorySidebar, setShowCategorySidebar }) => {
   const user = useSelector(selectUser);
   const categories = useSelector(selectCategories);
   const [catg, setCatg] = useState("");
   const [subCatgs, setSubCatgs] = useState("");
   // const [prods, setProds] = useState("");
+
+  useEffect(() => {
+    !showCategorySidebar && 
+    setCatg("");
+    setSubCatgs("");
+  }, [showCategorySidebar]);
 
   return (
     <div>
@@ -25,8 +31,7 @@ const CategoriesList = ({ setShowCategorySidebar }) => {
         </div>
 
         <div className="h-[100vh]">
-          {
-            categories.map((category, cindex) => (
+          {categories.map((category, cindex) => (
             <div className="flex w-full max-w-56 md:max-w-64">
               <div
                 key={cindex}
@@ -37,7 +42,7 @@ const CategoriesList = ({ setShowCategorySidebar }) => {
                 <MdKeyboardArrowRight className="mt-1.5" />
               </div>
               {category.name === catg ? (
-                <div className="w-full max-w-56 md:max-w-64 h-[100vh] fixed top-[64px] left-0 bg-gray-200 duration-500 ease-in-out">
+                <div className="w-full max-w-56 md:max-w-64 h-[100vh] fixed top-[64px] left-0 bg-gray-200 duration-700 ease-in-out">
                   <div className="flex bg-customCard text-white text-center text-md gap-4 p-3">
                     <FaRegArrowAltCircleLeft
                       onClick={() => setCatg("")}

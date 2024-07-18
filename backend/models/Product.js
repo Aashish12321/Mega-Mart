@@ -24,7 +24,7 @@ const ProductSchema = new mongoose.Schema({
   discount: { type: Number },
   category: { type: String, required: true },
   subCategory: { type: String, required: true },
-  productType: { type: String, required: true },
+  products: { type: String, required: true },
 
   variants: [variantSchema],
   ratings: {

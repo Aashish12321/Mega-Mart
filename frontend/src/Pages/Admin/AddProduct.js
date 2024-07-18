@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import ProductCategories from "../../helpers/productCategories";
 import uploadImage from "../../helpers/uploadImage";
 import DisplayFullImage from "../../Components/DisplayFullImage";
 import SummaryApi from "../../Common";
@@ -24,7 +23,7 @@ const AddProduct = () => {
     discount: "",
     category: "",
     subCategory: "",
-    productType: "",
+    products: "",
     variants: [
       {
         color: "",
@@ -46,9 +45,6 @@ const AddProduct = () => {
   const [fullImage, setFullImage] = useState("");
   const [openFullImage, setOpenFullImage] = useState(false);
   const navigate = useNavigate();
-  const filteredSubcategories =
-    ProductCategories.find((category) => category.name === product.category)
-      ?.subcategories || [];
 
   // const handleProductChange = (e) => {
   //   const { name, value } = e.target;
@@ -72,13 +68,8 @@ const AddProduct = () => {
 
   const handlePriceChange = (e) => {
     const { name, value } = e.target;
-    const { discount } = product;
-    const { mrp } = product.price;
-    const sellPrice = mrp - parseInt((mrp * discount) / 100);
-    setProduct({
-      ...product,
-      price: { ...setProduct.price, [name]: value, sell: sellPrice },
-    });
+    const price = { ...product.price, [name]: value };
+    setProduct({ ...product, price });
   };
 
   const handleVariantsChange = (variantIndex, e) => {
@@ -88,11 +79,11 @@ const AddProduct = () => {
     setProduct({ ...product, variants });
   };
 
-  const handleSpecsChange = (variantIndex, specsIndex, e) => {
+  const handleSpecsChange = (variantIndex, specIndex, e) => {
     const { name, value } = e.target;
     const variants = [...product.variants];
-    variants[variantIndex].specs[specsIndex] = {
-      ...variants[variantIndex].specs[specsIndex],
+    variants[variantIndex].specs[specIndex] = {
+      ...variants[variantIndex].specs[specIndex],
       [name]: value,
     };
     setProduct({ ...product, variants });
@@ -107,8 +98,8 @@ const AddProduct = () => {
         ...variants[variantIndex].images,
         uploadImageCloudinary.url,
       ];
-      setProduct({ ...product, variants });
     }
+    setProduct({ ...product, variants });
   };
 
   const handleImageDelete = async (variantIndex, imageIndex) => {
@@ -131,7 +122,7 @@ const AddProduct = () => {
 
   const addSpec = (variantIndex) => {
     const variants = [...product.variants];
-    variants[variantIndex].specs.push({ size: "", weight: "", stock: "" });
+    variants[variantIndex].specs.push({ size: "", stock: "" });
     setProduct({ ...product, variants });
   };
 
@@ -297,8 +288,11 @@ const AddProduct = () => {
                       Selling Price:
                     </label>
                     <input
-                      value={product.price.sell}
-                      onChange={handleProductChange}
+                      value={
+                        product.price.mrp -
+                        parseInt((product.price.mrp * product.discount) / 100)
+                      }
+                      onChange={handlePriceChange}
                       type="number"
                       id="sell"
                       name="sell"
@@ -376,16 +370,16 @@ const AddProduct = () => {
                     </select>
                   </div>
                   <div className="flex flex-col w-full md:max-w-[160px]">
-                    <label htmlFor="productType">Choose Product type</label>
+                    <label htmlFor="products">Choose Products</label>
                     <select
-                      name="productType"
-                      id="productType"
-                      value={product.productType}
+                      name="products"
+                      id="products"
+                      value={product.products}
                       onChange={handleProductChange}
                       className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
                       disabled={!product.subCategory}
                     >
-                      <option value="">Select product</option>
+                      <option value="">Select products</option>
                       {categories.map((category, _) =>
                         category.subCategories.map(
                           (subCategory, _) =>
@@ -403,95 +397,115 @@ const AddProduct = () => {
               </div>
             </div>
 
-            <div className="flex flex-wrap lg:flex-nowrap justify-around gap-4 my-4 ">
-              <div className="w-full max-w-2xl flex flex-col p-4 bg-custom rounded-lg">
-                <label htmlFor="Specifications" className="text-lg ">
-                  Specifications
-                </label>
-                <div className="flex flex-wrap justify-around items-center gap-2">
+            {product.variants.map((variant, variantIndex) => (
+              <div className="flex flex-wrap lg:flex-nowrap justify-around gap-4 my-4 ">
+                <div className="w-full max-w-2xl flex flex-col p-4 bg-custom rounded-lg">
+                  <label
+                    htmlFor="Specifications of Variants"
+                    className="text-lg font-bold"
+                  >
+                    Specifications of Variant
+                  </label>
+                  {variant.specs.map((spec, specIndex) => (
+                    <div
+                      key={specIndex}
+                      className="flex flex-wrap justify-around items-center gap-2"
+                    >
+                      <div className="flex flex-col w-full md:max-w-36 ">
+                        <label htmlFor="size" className="mt-2">
+                          Size :
+                        </label>
+                        <input
+                          value={spec.size}
+                          onChange={(e) =>
+                            handleSpecsChange(variantIndex, specIndex, e)
+                          }
+                          type="text"
+                          id="size"
+                          name="size"
+                          placeholder="Eg: XL"
+                          className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                        />
+                      </div>
+                      <div className="flex flex-col w-full md:max-w-36">
+                        <label htmlFor="stock" className="mt-2">
+                          Stock :
+                        </label>
+                        <input
+                          value={spec.stock}
+                          onChange={(e) =>
+                            handleSpecsChange(variantIndex, specIndex, e)
+                          }
+                          type="number"
+                          id="stock"
+                          name="stock"
+                          min={0}
+                          placeholder="Eg: 12"
+                          className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                          required
+                        />
+                      </div>
+                    </div>
+                  ))}
+
+                  <button
+                    onClick={() => addSpec(variantIndex)}
+                    className="bg-green-500 mx-auto mt-8 w-36 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+                  >
+                    Add more specs
+                  </button>
+                  <div className="mt-16 text-red-200">
+                    Note:- You can add multiple specs in 1 variant.
+                  </div>
+                </div>
+
+                <div
+                  key={variantIndex}
+                  className="w-full max-w-2xl flex flex-col p-4 bg-custom rounded-lg"
+                >
+                  <label htmlFor="ProductImages" className="text-lg">
+                    Upload Variant images
+                  </label>
                   <div className="flex flex-col w-full md:max-w-36 ">
                     <label htmlFor="color" className="mt-2">
                       Color :
                     </label>
                     <input
-                      value={product.costPrice}
-                      onChange={handleProductChange}
+                      value={variant.color}
+                      onChange={(e) => handleVariantsChange(variantIndex, e)}
                       type="text"
                       id="color"
                       name="color"
-                      min={0}
                       placeholder="Eg: Glacial blue"
                       className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
-                      required
                     />
                   </div>
-                  <div className="flex flex-col w-full md:max-w-36 ">
-                    <label htmlFor="size" className="mt-2">
-                      Size :
+                  <div className="w-full flex flex-col my-2">
+                    <label
+                      htmlFor={`image-upload-${variantIndex}`}
+                      className="w-full max-w-2xl h-28 cursor-pointer text-center bg-zinc-800 rounded-md"
+                    >
+                      <FaCloudUploadAlt className="text-2xl mx-auto mt-6" />
+                      <label htmlFor="UploadImage">Upload images</label>
+                      <input
+                        type="file"
+                        name="images"
+                        multiple="image/*"
+                        id={`image-upload-${variantIndex}`}
+                        className="hidden"
+                        onChange={(e) => handleImageUpload(variantIndex, e)}
+                      />
                     </label>
-                    <input
-                      value={product.markedPrice}
-                      onChange={handleProductChange}
-                      type="text"
-                      id="size"
-                      name="size"
-                      min={0}
-                      placeholder="Eg: XL"
-                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
-                      required
-                    />
-                  </div>
-                  <div className="flex flex-col w-full md:max-w-36">
-                    <label htmlFor="stock" className="mt-2">
-                      Stock :
-                    </label>
-                    <input
-                      value={product.stock}
-                      onChange={handleProductChange}
-                      type="number"
-                      id="stock"
-                      name="stock"
-                      min={0}
-                      placeholder="Eg: 12"
-                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="w-full max-w-2xl flex flex-col p-4 bg-custom rounded-lg">
-                <label htmlFor="ProductImages" className="text-lg">
-                  Upload product images
-                </label>
-
-                <div className="w-full flex flex-col my-2">
-                  <label
-                    htmlFor="uploadProductImage"
-                    className="w-full max-w-2xl h-28 cursor-pointer text-center bg-zinc-800 rounded-md"
-                  >
-                    <FaCloudUploadAlt className="text-2xl mx-auto mt-6" />
-                    <label htmlFor="UploadImage">Upload image</label>
-                    <input
-                      type="file"
-                      name="image"
-                      multiple="image/*"
-                      id="uploadProductImage"
-                      className="hidden"
-                      onChange={handleImageUpload}
-                    />
-                  </label>
-
-                  <div className="mt-5 flex gap-4">
-                    {product.variants.map((variant, variantIndex) =>
-                      variant.images.map((image, index) => (
+                    {variant.images.map((image, imageIndex) => (
+                      <div key={imageIndex} className="mt-5 flex gap-4">
                         <label
                           htmlFor="images"
-                          className="relative group w-16 h-16 bg-zinc-800 rounded-md cursor-pointer"
+                          className="flex relative group w-16 h-16 bg-zinc-800 rounded-md cursor-pointer"
                         >
                           <img
+                            // key={imageIndex}
                             src={image}
-                            alt="photos"
+                            alt={`var-${variantIndex}-img-${imageIndex}`}
                             id="images"
                             name="images"
                             className="w-full h-full object-contain rounded-md cursor-pointer"
@@ -502,18 +516,27 @@ const AddProduct = () => {
                           />
 
                           <div
-                            onClick={() => handleImageDelete(index)}
+                            onClick={() =>
+                              handleImageDelete(variantIndex, imageIndex)
+                            }
                             className="hidden group-hover:block absolute -mt-3 -right-1 bg-red-500 rounded-full "
                           >
                             <MdDelete className="text-md p-0.5" />
                           </div>
                         </label>
-                      ))
-                    )}
+                      </div>
+                    ))}
                   </div>
+
+                  <button
+                    onClick={addVariant}
+                    className="bg-green-500 mx-auto mt-2 w-28 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+                  >
+                    Add Variant
+                  </button>
                 </div>
               </div>
-            </div>
+            ))}
 
             <div className="text-center my-4">
               <button

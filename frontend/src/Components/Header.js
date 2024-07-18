@@ -192,15 +192,15 @@ const Header = () => {
         {showCategorySidebar ? (
           <div className="fixed top-0 left-0 duration-700 ease-in-out ">
             <CategoriesList
-              // categories={categories}
+              showCategorySidebar={showCategorySidebar}
               setShowCategorySidebar={setShowCategorySidebar}
             />
           </div>
         ) : (
-          <div className="fixed  top-0 -left-[350px] duration-300 ease-in">
+          <div className="fixed  top-0 -left-[350px] duration-300 ease-in-out">
             <CategoriesList
-              // categories={categories}
               showCategorySidebar={showCategorySidebar}
+              setShowCategorySidebar={setShowCategorySidebar}
             />
           </div>
         )}
