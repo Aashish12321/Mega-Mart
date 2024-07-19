@@ -29,7 +29,7 @@ const AllProducts = () => {
         <span className="text-xl pl-2 font-bold">All Products</span>
       </div>
       {
-        <div className='justify-center flex flex-wrap gap-4 min-[375px]:gap-6 py-2 h-[calc(100vh-100px)] overflow-auto no-scrollbar'>
+        <div className='justify-center flex flex-wrap h-[calc(100vh-100px)] overflow-auto no-scrollbar'>
         {
         loader? <ProductLoader />:
           products.map((product,index)=> (

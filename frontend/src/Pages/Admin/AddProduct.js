@@ -46,21 +46,6 @@ const AddProduct = () => {
   const [openFullImage, setOpenFullImage] = useState(false);
   const navigate = useNavigate();
 
-  // const handleProductChange = (e) => {
-  //   const { name, value } = e.target;
-
-  //   setProduct((previousData) => {
-  //     const { markedPrice, discount } = previousData;
-  //     const sellPrice = markedPrice - parseInt((markedPrice * discount) / 100);
-
-  //     return {
-  //       ...previousData,
-  //       [name]: value,
-  //       sellingPrice: sellPrice,
-  //     };
-  //   });
-  // };
-
   const handleProductChange = (e) => {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
@@ -68,7 +53,10 @@ const AddProduct = () => {
 
   const handlePriceChange = (e) => {
     const { name, value } = e.target;
-    const price = { ...product.price, [name]: value };
+    const sell =
+      product.price.mrp -
+      parseInt((product.price.mrp * product.discount) / 100);
+    const price = { ...product.price, [name]: value, sell: sell };
     setProduct({ ...product, price });
   };
 
@@ -125,31 +113,6 @@ const AddProduct = () => {
     variants[variantIndex].specs.push({ size: "", stock: "" });
     setProduct({ ...product, variants });
   };
-
-  // const handleImageUpload = async (e) => {
-  //   const images = e.target.files;
-  //   for (let i = 0; i < images.length; i++) {
-  //     let uploadImageCloudinary = await uploadImage(images[i]);
-  //     setProduct((previousData) => {
-  //       return {
-  //         ...previousData,
-  //         images: [...previousData.images, uploadImageCloudinary.url],
-  //       };
-  //     });
-  //   }
-  // };
-
-  // const handleImageDelete = async (index) => {
-  //   const productNewImages = [...product.images];
-  //   productNewImages.splice(index, 1); // Remove the item from index position.
-
-  //   setProduct((previousData) => {
-  //     return {
-  //       ...previousData,
-  //       images: [...productNewImages],
-  //     };
-  //   });
-  // };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -496,8 +459,8 @@ const AddProduct = () => {
                         onChange={(e) => handleImageUpload(variantIndex, e)}
                       />
                     </label>
-                    {variant.images.map((image, imageIndex) => (
-                      <div key={imageIndex} className="mt-5 flex gap-4">
+                    <div className="mt-5 flex gap-4">
+                      {variant.images.map((image, imageIndex) => (
                         <label
                           htmlFor="images"
                           className="flex relative group w-16 h-16 bg-zinc-800 rounded-md cursor-pointer"
@@ -524,8 +487,8 @@ const AddProduct = () => {
                             <MdDelete className="text-md p-0.5" />
                           </div>
                         </label>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
 
                   <button
