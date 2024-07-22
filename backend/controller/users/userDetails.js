@@ -3,7 +3,7 @@ const User = require("../../models/User");
 async function userDetailsController(req, resp){
     try {
         const userId = req.userId
-        const user = await User.findById(userId);
+        const user = await User.findById(userId).select('-password -createdAt -updatedAt -__v');
         if(user){
             resp.status(200).json({
                 message: "Login successful",

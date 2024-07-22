@@ -1,11 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import logo from "../Assets/loginIcon.gif";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
 import SummaryApi from "../Common";
 import { toast } from "react-toastify";
-import Context from "../Context";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,7 +15,6 @@ const Login = () => {
   });
 
   const navigate = useNavigate();
-  const { fetchUserDetails } = useContext(Context);
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
@@ -45,7 +43,7 @@ const Login = () => {
     localStorage.setItem("token", token);
 
     if (response.success) {
-      fetchUserDetails();
+      // fetchUserDetails();
       navigate("/");
       toast.success(response.message);
     } else {

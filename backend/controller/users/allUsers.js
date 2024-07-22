@@ -2,8 +2,7 @@ const User = require("../../models/User");
 
 async function allUsersController(req, resp){
     try {
-        const userId =  req.userId;
-        const user = await User.find();
+        const user = await User.find().select('_id name email role createdAt');
 
         resp.status(200).json({
             message: "All users fetched successful",

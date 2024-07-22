@@ -59,7 +59,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="shadow-md shadow-red-500 bg-gray-900 fixed top-0 w-full">
+      <header className="shadow-md shadow-gray-100 bg-gray-900 fixed top-0 w-full z-10">
         <div className="flex items-center min-[320px]:py-2 2xl:py-0 justify-around ">
           <div className="flex min-[320px]:w-40 md:w-44 lg:w-48 2xl:w-56 text-white cursor-pointer items-center justify-around">
             <Link to={"/"}>

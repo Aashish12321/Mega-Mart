@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import SummaryApi from '../../Common';
-import AdminProductCard from '../../Components/AdminProductCard';
-import ProductLoader from '../../Components/Loaders/ProductLoader';
+import React, { useEffect, useState } from "react";
+import SummaryApi from "../../Common";
+import AdminProductCard from "../../Components/AdminProductCard";
+import ProductLoader from "../../Components/Loaders/ProductLoader";
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
@@ -10,36 +10,45 @@ const AllProducts = () => {
   const handleAllProducts = async () => {
     let productResponse = await fetch(SummaryApi.all_products.url, {
       method: SummaryApi.all_products.method,
-    })
+    });
 
     productResponse = await productResponse.json();
-    if (productResponse.success){
+    if (productResponse.success) {
       setLoader(false);
       setProducts(productResponse.data);
     }
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     handleAllProducts();
-  },[])
+  }, []);
 
   return (
-    <div className='px-1 py-2 md:py-4'>
+    <div className="px-1 py-2 md:py-4">
       <div className="mb-1 md:mb-4">
         <span className="text-xl pl-2 font-bold">All Products</span>
       </div>
       {
-        <div className='justify-center flex flex-wrap h-[calc(100vh-100px)] overflow-auto no-scrollbar'>
-        {
-        loader? <ProductLoader />:
-          products.map((product,index)=> (
-            <AdminProductCard product={product} fetchAllProducts={handleAllProducts} key={product._id}/>
-          ))
-        }
+        <div className="flex flex-wrap justify-center gap-4 min-[375px]:gap-6 h-[calc(100vh-100px)] overflow-auto no-scrollbar">
+          {loader ? (
+            <ProductLoader />
+          ) : (
+            products.map((product, index) =>
+              product.variants.map((variant, variantIndex) => (
+                <AdminProductCard
+                  product={product}
+                  variant={variant}
+                  variantIndex={variantIndex}
+                  fetchAllProducts={handleAllProducts}
+                  key={product._id}
+                />
+              ))
+            )
+          )}
         </div>
       }
     </div>
-  )
-}
+  );
+};
 
 export default AllProducts;

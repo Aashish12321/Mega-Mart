@@ -518,9 +518,9 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
               <div className="text-center my-4">
                 <button
                   type="submit"
-                  className="bg-red-500 w-32 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+                  className="bg-red-500 w-36 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
                 >
-                  Add Product
+                  Update
                 </button>
               </div>
             </div>

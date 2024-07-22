@@ -2,11 +2,6 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
   {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      auto: true,
-    },
     profilePic: String,
     name: String,
     email: {

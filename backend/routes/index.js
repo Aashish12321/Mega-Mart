@@ -14,12 +14,14 @@ const getProduct = require('../controller/products/getProduct');
 const updateProduct = require('../controller/products/updateProduct');
 const getCategories = require('../controller/products/getCategories');
 const addCategory = require('../controller/products/addCategory');
+const getCatgwiseProducts = require('../controller/products/getCatgwiseProducts')
 
 router.post('/signup', userSignUpController);
 router.post('/login', userLoginController);
 router.get("/user-details", authToken, userDetailsController);
 router.get('/get-products', getProduct);
 router.get('/get-categories', getCategories);
+router.post('/get-catgwiseproducts', getCatgwiseProducts);
 
 // admin 
 router.get('/all-users', allUsersController);
