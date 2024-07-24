@@ -56,12 +56,12 @@ const AdminProductCard = ({
           </div>
         </div>
         <div
-          className="w-fit p-1 text-white bg-green-400 ml-auto hover:bg-green-900 cursor-pointer rounded-br-lg rounded-tl-lg"
+          className="w-fit p-1 text-white bg-green-400 ml-auto cursor-pointer hover:bg-green-900 rounded-br-lg rounded-tl-lg"
           onClick={() => setEditProduct(!editProduct)}
         >
           <MdEdit />
         </div>
-      </div>
+      </div>  
 
       <div>
         {editProduct && (

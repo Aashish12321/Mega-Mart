@@ -29,9 +29,9 @@ const AllProducts = () => {
         <span className="text-xl pl-2 font-bold">All Products</span>
       </div>
       {
-        <div className="flex flex-wrap justify-center gap-4 min-[375px]:gap-6 h-[calc(100vh-100px)] overflow-auto no-scrollbar">
+        <div className="flex flex-wrap p-2 justify-center gap-4 min-[375px]:gap-6 h-[calc(100vh-100px)] overflow-auto no-scrollbar">
           {loader ? (
-            <ProductLoader />
+            <ProductLoader wrap={'flex-wrap'}/>
           ) : (
             products.map((product, index) =>
               product.variants.map((variant, variantIndex) => (

@@ -142,7 +142,7 @@ const AddProduct = () => {
             <span className="text-xl font-bold">Add new product</span>
           </div>
 
-          <div className="h-[calc(100vh-100px)] overflow-auto no-scrollbar">
+          <div className="h-[calc(100vh-80px)] overflow-auto no-scrollbar">
             <div className="flex flex-wrap lg:flex-nowrap justify-around gap-4">
               <div className="w-full flex flex-col p-4 bg-custom rounded-lg">
                 <label className="text-lg">General information</label>

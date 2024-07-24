@@ -27,7 +27,7 @@ const CategoriesList = ({ showCategorySidebar, setShowCategorySidebar }) => {
               className="text-md mt-1 cursor-pointer"
             />
           )}
-          <div>Hello, {user ? `${user.name.split(" ")[0]} :)` : "User !"}</div>
+          <div>Hello, {user ? `${user?.name.split(" ")[0]} :)` : "User !"}</div>
         </div>
 
         <div className="h-[100vh]">

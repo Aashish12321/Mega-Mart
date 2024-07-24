@@ -11,6 +11,7 @@ const Banner = () => {
   const banners = [img2, img3, img4];
   const mobilebanners = [img2_mobile, img3_mobile, img4_mobile];
   const [currentBanner, setCurrentBanner] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -45,7 +46,7 @@ const Banner = () => {
             (prevBanner) => (prevBanner - 1 + banners.length) % banners.length
           )
         }
-        className="absolute text-white text-4xl top-24 md:top-28 bg-zinc-800"
+        className="absolute text-white text-4xl top-24 md:top-28 rounded-full bg-zinc-800"
       >
         <MdKeyboardArrowLeft />
       </button>
@@ -55,7 +56,7 @@ const Banner = () => {
             (prevBanner) => (prevBanner + 1 + banners.length) % banners.length
           )
         }
-        className="absolute text-white text-4xl right-0.5 top-24 md:top-28 bg-zinc-800"
+        className="absolute text-white text-4xl right-0.5 top-24 md:top-28 rounded-full bg-zinc-800"
       >
         <MdKeyboardArrowRight />
       </button>

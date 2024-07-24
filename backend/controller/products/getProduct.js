@@ -2,7 +2,7 @@ const Product = require("../../models/Product");
 
 async function getProduct(req, resp){
     try {
-        const product = await Product.find().sort({createdAt: -1})
+        const product = await Product.find().sort({updatedAt: -1})
 
         resp.status(201).json({
             message: 'All products fetched successfully',

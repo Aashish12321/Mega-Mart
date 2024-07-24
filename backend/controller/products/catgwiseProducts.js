@@ -1,16 +1,16 @@
 const Product = require("../../models/Product");
 
-async function getCatgwiseProducts(req, resp) {
+async function catgwiseProducts(req, resp) {
   try {
-    const category = req.body;
-    const Products = await Product.find({ category: category });
+    const category = req.body.category;
+    const products = await Product.find({products: category}).sort({updatedAt: -1});
 
     resp.status(201).json({
       message: "Products fetched successfully",
-      data: Products,
+      data: products,
       success: true,
       error: false,
-    });
+    }); 
   } catch (err) {
     resp.status(400).json({
       message: err.message || err,
@@ -20,4 +20,4 @@ async function getCatgwiseProducts(req, resp) {
   }
 }
 
-module.exports = getCatgwiseProducts;
+module.exports = catgwiseProducts;

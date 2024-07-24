@@ -45,8 +45,12 @@ const SummaryApi = {
         url: `/api/add-category`,
         method: 'post'
     },
-    get_catgwiseproducts : {
-        url: `/api/get-catgwiseproducts`,
+    catgwiseproducts : {
+        url: `/api/catgwiseproducts`,
+        method: 'post'
+    },
+    productdetails : {
+        url: `/api/productdetails`,
         method: 'post'
     },
     

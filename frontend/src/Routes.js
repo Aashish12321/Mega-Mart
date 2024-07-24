@@ -15,6 +15,7 @@ import PermissionDenied from "./Pages/PermissionDenied";
 import PageNotFound from "./PageNotFound";
 import AdminEditProduct from "./Components/AdminEditProduct";
 import Addcategory from "./Pages/Admin/Addcategory";
+import ProductDetails from "./Pages/ProductDetails";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "products",
         element: <AllProducts />,
+      },
+      {
+        path: "product/:pid/:vid",
+        element: <ProductDetails />,
       },
       {
         path: "categories/:categoryName",

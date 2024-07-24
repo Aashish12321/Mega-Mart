@@ -51,11 +51,11 @@ const Login = () => {
     }
   };
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 mt-32 mx-4">
+    <div className="h-[80vh] mt-32 mx-4 ">
       <div className="items-center bg-customCard text-white shadow-custom p-2 max-w-md mx-auto rounded-lg">
         <img src={logo} alt="logo" className="w-16 mx-auto mt-2" />
         <form onSubmit={handleLogin} className="mt-4">
-          Email:
+          Email:  
           <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md ">
             <input
               type="email"
