@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectCategories, selectUser } from "../Store/selector";
-import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { IoChevronBackCircleOutline } from "react-icons/io5";
 
 const CategoriesList = ({ showCategorySidebar, setShowCategorySidebar }) => {
   const user = useSelector(selectUser);
@@ -20,13 +20,13 @@ const CategoriesList = ({ showCategorySidebar, setShowCategorySidebar }) => {
   return (
     <div>
       <div className="w-56 md:w-64 bg-gray-200 text-start ">
-        <div className="flex p-[18px] bg-red-500 text-white justify-start gap-8 text-xl">
-          {catg ? null : (
-            <FaRegArrowAltCircleLeft
+        <div className="flex items-center p-[18px] bg-red-500 text-white justify-start gap-2 text-xl">
+          {!catg &&
+            <IoChevronBackCircleOutline
               onClick={() => setShowCategorySidebar(false)}
-              className="text-md mt-1 cursor-pointer"
+              className="text-2xl mt-0.5 cursor-pointer"
             />
-          )}
+          }
           <div>Hello, {user ? `${user?.name.split(" ")[0]} :)` : "User !"}</div>
         </div>
 
@@ -43,12 +43,12 @@ const CategoriesList = ({ showCategorySidebar, setShowCategorySidebar }) => {
               </div>
               {category.name === catg ? (
                 <div className="w-full max-w-56 md:max-w-64 h-[100vh] fixed top-[64px] left-0 bg-gray-200 duration-700 ease-in-out">
-                  <div className="flex bg-customCard text-white text-center text-md gap-4 p-3">
-                    <FaRegArrowAltCircleLeft
+                  <div className="flex bg-customCard text-white text-md gap-2 p-3">
+                    <IoChevronBackCircleOutline
                       onClick={() => setCatg("")}
-                      className="text-red-500 hover:text-red-700 text-lg mt-1 cursor-pointer"
+                      className="w-6 text-xl mt-0.5 cursor-pointer"
                     />
-                    <div className="flex-wrap">More in {catg}</div>
+                    <div className="line-clamp-1">More in {catg}</div>
                   </div>
                   {catg &&
                     category.subCategories.map((subCategory, sindex) => (
@@ -64,12 +64,12 @@ const CategoriesList = ({ showCategorySidebar, setShowCategorySidebar }) => {
 
                         {subCategory.name === subCatgs ? (
                           <div className="w-full max-w-56 md:max-w-64 h-[100vh] fixed top-[64px] left-0 bg-gray-200 duration-500 ease-in-out">
-                            <div className="flex bg-customCard text-white text-center text-md p-3">
-                              <FaRegArrowAltCircleLeft
+                            <div className="flex bg-customCard text-white text-md gap-2 p-3">
+                              <IoChevronBackCircleOutline
                                 onClick={() => setSubCatgs("")}
-                                className="text-red-500 hover:text-red-700 text-xl mt-1 cursor-pointer"
+                                className="w-6 text-xl mt-0.5 cursor-pointer"
                               />
-                              <div className="flex-wrap">
+                              <div className="line-clamp-1">
                                 More in {subCatgs}
                               </div>
                             </div>

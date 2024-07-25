@@ -64,7 +64,7 @@ const App = () => {
 
         <Header />
 
-        <main className="h-[100vh] min-[320px]:mt-16 min-[1024px]:mt-16 min-[1440px]:mt-16 border-2 border-transparent">
+        <main className="h-[100vh] mt-16 border-2 border-transparent">
           <Outlet />
           <Footer />
         </main>

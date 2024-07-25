@@ -9,7 +9,7 @@ const Footer = () => {
         </div>
 
         <div className="text-center text-sm">
-          {new Date().getFullYear()} Mega Mart. All rights reserved.
+          &copy; {new Date().getFullYear()} Mega Mart. All rights reserved.
         </div>
       </div>
     </footer>

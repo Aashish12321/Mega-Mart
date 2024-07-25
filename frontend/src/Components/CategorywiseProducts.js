@@ -55,7 +55,7 @@ const CategorywiseProducts = ({ category, heading }) => {
 
       <div
         ref={scrollRef}
-        className="flex gap-6 p-4 items-center overflow-auto no-scrollbar scroll-smooth"
+        className="flex gap-5 p-4 items-center overflow-auto no-scrollbar scroll-smooth"
       >
         {loading ? (
           <ProductLoader wrap={""} />
