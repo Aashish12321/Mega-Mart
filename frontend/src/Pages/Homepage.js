@@ -1,11 +1,11 @@
 import React from 'react'
 import Banner from '../Components/Banner';
 import CategorywiseProducts from '../Components/CategorywiseProducts';
+
 const Homepage = () => {
   return (
-    <div className='w-full  text-white overflow-auto no-scrollbar'>
+    <div className='w-full text-white overflow-auto no-scrollbar'>
       <div className='w-full'>
-
         <Banner />
       </div>
 

@@ -16,6 +16,7 @@ import PageNotFound from "./PageNotFound";
 import AdminEditProduct from "./Components/AdminEditProduct";
 import Addcategory from "./Pages/Admin/Addcategory";
 import ProductDetails from "./Pages/ProductDetails";
+import AddBanner from "./Pages/Admin/AddBanner";
 
 const router = createBrowserRouter([
   {
@@ -89,6 +90,10 @@ const router = createBrowserRouter([
           {
             path: "edit-product",
             element: <AdminEditProduct />,
+          },
+          {
+            path: "add-banner",
+            element: <AddBanner />,
           },
         ],
       },

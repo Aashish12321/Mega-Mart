@@ -18,57 +18,60 @@ const Banner = () => {
       setCurrentBanner(
         (previousBanner) => (previousBanner + 1) % banners.length
       );
-    }, 7000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [banners.length]);
 
   return (
     <div className="w-full">
-      {loading &&
+      {loading && (
         <div className="w-full h-56 md:h-64 bg-gray-300 animate-pulse"></div>
-      }
-        <div className="w-full relative overflow-auto no-scrollbar cursor-pointer">
-          <div
-            style={{ transform: `translateX(-${currentBanner * 100}%)` }}
-            className="flex md:hidden transition-transform duration-700"
-          >
-            {mobilebanners.map((banner, index) => (
-              <img key={index} src={banner} onLoad={()=> setLoading(false)} alt={`Banner ${index}.jpg`} />
-            ))}
-          </div>
-          <div
-            style={{ transform: `translateX(-${currentBanner * 100}%)` }}
-            className="hidden md:flex transition-transform duration-700"
-          >
-            {banners.map((banner, index) => (
-              <img key={index} src={banner} alt={`Banner ${index}.jpg`} />
-            ))}
-          </div>
-
-          <button
-            onClick={() =>
-              setCurrentBanner(
-                (prevBanner) =>
-                  (prevBanner - 1 + banners.length) % banners.length
-              )
-            }
-            className="absolute text-white text-4xl top-[45%] rounded-full bg-zinc-800"
-          >
-            <MdKeyboardArrowLeft />
-          </button>
-          <button
-            onClick={() =>
-              setCurrentBanner(
-                (prevBanner) =>
-                  (prevBanner + 1 + banners.length) % banners.length
-              )
-            }
-            className="absolute text-white text-4xl right-0.5 top-[45%] rounded-full bg-zinc-800"
-          >
-            <MdKeyboardArrowRight />
-          </button>
+      )}
+      <div className="w-full relative overflow-auto no-scrollbar cursor-pointer">
+        <div
+          style={{ transform: `translateX(-${currentBanner * 100}%)` }}
+          className="flex md:hidden transition-transform duration-700"
+        >
+          {mobilebanners.map((banner, index) => (
+            <img
+              key={index}
+              src={banner}
+              onLoad={() => setLoading(false)}
+              alt={`Banner ${index}.jpg`}
+            />
+          ))}
         </div>
+        <div
+          style={{ transform: `translateX(-${currentBanner * 100}%)` }}
+          className="hidden md:flex transition-transform duration-700"
+        >
+          {banners.map((banner, index) => (
+            <img key={index} src={banner} alt={`Banner ${index}.jpg`} />
+          ))}
+        </div>
+
+        <button
+          onClick={() =>
+            setCurrentBanner(
+              (prevBanner) => (prevBanner - 1 + banners.length) % banners.length
+            )
+          }
+          className="absolute text-white text-4xl top-[45%] rounded-full bg-zinc-800"
+        >
+          <MdKeyboardArrowLeft />
+        </button>
+        <button
+          onClick={() =>
+            setCurrentBanner(
+              (prevBanner) => (prevBanner + 1 + banners.length) % banners.length
+            )
+          }
+          className="absolute text-white text-4xl right-0.5 top-[45%] rounded-full bg-zinc-800"
+        >
+          <MdKeyboardArrowRight />
+        </button>
+      </div>
     </div>
   );
 };

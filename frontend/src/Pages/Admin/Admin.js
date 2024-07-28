@@ -60,13 +60,16 @@ const Admin = () => {
           {expandProduct && (
             <div className="ml-20 flex flex-col gap-2">
               <Link to={"all-products"} className="hover:text-red-500">
-                All products
+                All Products
               </Link>
               <Link to={"add-product"} className="hover:text-red-500">
-                Add product
+                Add Product
               </Link>
               <Link to={"add-category"} className="hover:text-red-500">
-                Add category
+                Add Category
+              </Link>
+              <Link to={"add-banner"} className="hover:text-red-500">
+                Add Banners
               </Link>
             </div>
           )}
@@ -79,6 +82,7 @@ const Admin = () => {
         <Link className="mx-2 hover:text-red-500" to={'all-products'}>Products</Link>
         <Link className="ml-2 hover:text-red-500" to={'add-product'}>Add Product</Link>
         <Link className="ml-2 hover:text-red-500" to={'add-category'}>Add Category</Link>
+        <Link className="ml-2 hover:text-red-500" to={'add-banner'}>Add Banners</Link>
       </div>
 
       <div className="w-full bg-customCard md:m-3 shadow-lg rounded-lg">

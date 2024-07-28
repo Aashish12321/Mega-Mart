@@ -7,7 +7,7 @@ import SummaryApi from "./Common";
 
 import Context from "./Context";
 
-import { Bounce,toast, ToastContainer } from "react-toastify";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // react-redux
@@ -30,22 +30,21 @@ const App = () => {
     currentUserData = await currentUserData.json();
     if (currentUserData.success) {
       dispatch(setUserDetails(currentUserData.data));
-    }
-    else{
-      if(currentUserData.message === 'TokenExpiredError'){
-        localStorage.removeItem('token');
+    } else {
+      if (currentUserData.message === "TokenExpiredError") {
+        localStorage.removeItem("token");
         dispatch(setUserDetails(null));
-        navigate('/login');
-        toast.info('Session expired! Please login again');
+        navigate("/login");
+        toast.info("Session expired! Please login again");
       }
     }
-  },[dispatch, token, navigate]);
+  }, [dispatch, token, navigate]);
 
   useEffect(() => {
     if (token) {
       fetchUserDetails();
     }
-  },[fetchUserDetails, token]);
+  }, [fetchUserDetails, token]);
 
   return (
     <>
@@ -62,13 +61,13 @@ const App = () => {
           // style={{transition: 'ease-in-out'}}
         />
 
-        <Header />
-
-        <main className="h-[100vh] mt-16 border-2 border-transparent">
-          <Outlet />
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <main className="flex-grow mt-16 border-2 border-transparent">
+            <Outlet />
+          </main>
           <Footer />
-        </main>
-        
+        </div>
 
       </Context.Provider>
     </>

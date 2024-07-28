@@ -9,15 +9,15 @@ import { Link } from "react-router-dom";
 const ProductCard = ({ product, variant, variantIndex}) => {
   return (
     <Link to={`product/${product?._id}/${variant?._id}`}>
-      <div className="min-[320px]:w-40 lg:w-40 xl:w-44 shadow-custom bg-customCard duration-300 ease-in-out hover:scale-105 rounded-lg cursor-pointer">
-        <div className="relative min-[320px]:h-40 lg:h-40 xl:h-44 bg-zinc-800 rounded-t-lg">
+      <div className="w-44 md:w-48 lg:w-52 xl:w-56 shadow-custom bg-customCard duration-300 ease-in-out rounded-lg cursor-pointer">
+        <div className="relative h-44 md:h-48 lg:h-52 xl:h-56 bg-zinc-800 rounded-t-lg">
           <img
             key={variantIndex}
             src={variant.images[0]}
-            className="w-full h-full object-contain mx-auto rounded-t-lg"
+            className="w-full h-full object-contain mx-auto rounded-t-lg md:scale-95 md:hover:scale-100 duration-200 ease-in-out"
             alt="product.jpg"
           />
-          <button className="absolute left-1 top-1 text-xs text-red-500 bg-gray-200 rounded-full p-1">
+          <button className="absolute left-1 top-1 text-xs text-red-500 bg-gray-200 rounded-full p-1 md:hover:scale-110">
             <FaHeart />
           </button>
         </div>
@@ -54,7 +54,7 @@ const ProductCard = ({ product, variant, variantIndex}) => {
               )}
             </div>
           </div>
-          <button onClick={(e)=> addToCart(e, product?._id)} className="flex absolute right-0 bottom-0 bg-green-500 rounded-tl-lg rounded-br-lg p-1.5">
+          <button onClick={(e)=> addToCart(e, product?._id, variant?._id)} className="flex absolute right-0 bottom-0 items-center bg-green-500 rounded-tl-lg rounded-br-lg p-2">
             <FaCartShopping />
           </button>
         </div>
