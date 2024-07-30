@@ -2,11 +2,11 @@ const express = require("express");
 
 const router = express.Router();
 
-const userSignUpController = require("../controller/users/userSignup");
-const userLoginController = require("../controller/users/userLogin");
-const userDetailsController = require("../controller/users/userDetails");
+const userSignUp = require("../controller/users/userSignup");
+const userLogin = require("../controller/users/userLogin");
+const userDetails = require("../controller/users/userDetails");
 const authToken = require("../middleware/authToken");
-const allUsersController = require("../controller/users/allUsers");
+const allUsers = require("../controller/users/allUsers");
 const updateUser = require("../controller/users/updateUser");
 const searchUser = require("../controller/users/searchUser");
 const uploadProduct = require("../controller/products/uploadProduct");
@@ -16,17 +16,29 @@ const getCategories = require("../controller/products/getCategories");
 const addCategory = require("../controller/products/addCategory");
 const catgwiseProducts = require("../controller/products/catgwiseProducts");
 const productDetails = require("../controller/products/productDetails");
+const addToCart = require("../controller/users/addToCart");
+const viewCart = require("../controller/users/viewCart");
+const countCartProduct = require("../controller/users/countCartProducts");
+const addToFavourite = require("../controller/users/addToFavourite");
+const viewFavourite = require("../controller/users/viewFavourite");
 
-router.post("/signup", userSignUpController);
-router.post("/login", userLoginController);
-router.get("/user-details", authToken, userDetailsController);
+router.post("/signup", userSignUp);
+router.post("/login", userLogin);
+router.get("/user-details", authToken, userDetails);
 router.get("/get-products", getProduct);
 router.post("/productdetails", productDetails);
 router.get("/get-categories", getCategories);
 router.post("/catgwiseproducts", catgwiseProducts);
+router.post("/add-to-cart", authToken, addToCart);
+router.get("/view-cart", authToken, viewCart);
+router.get("/count-cart-products", authToken, countCartProduct);
+
+router.post("/add-to-favourite", authToken, addToFavourite);
+router.get("/view-favourite", authToken, viewFavourite);
+
 
 // admin
-router.get("/all-users", allUsersController);
+router.get("/all-users", allUsers);
 router.post("/update-user", authToken, updateUser);
 router.get("/search-user/:key", authToken, searchUser);
 router.post("/upload-product", authToken, uploadProduct);

@@ -1,6 +1,6 @@
 const User = require("../../models/User");
 
-async function userDetailsController(req, resp){
+async function userDetails(req, resp){
     try {
         const userId = req.userId
         const user = await User.findById(userId).select('-password -createdAt -updatedAt -__v');
@@ -25,4 +25,4 @@ async function userDetailsController(req, resp){
     }
 }
 
-module.exports = userDetailsController;
+module.exports = userDetails;

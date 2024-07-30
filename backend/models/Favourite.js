@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const AddToCartSchema = new mongoose.Schema(
+const FavouriteSchema = new mongoose.Schema(
   {
     productId: {
       type: String,
@@ -8,7 +8,6 @@ const AddToCartSchema = new mongoose.Schema(
       required: true,
     },
     variantId: { type: String, required: true },
-    quantity: { type: String, default: 1 },
     userId: { type: String, ref: "User", required: true },
   },
   {
@@ -16,6 +15,6 @@ const AddToCartSchema = new mongoose.Schema(
   }
 );
 
-const AddToCartModel = mongoose.model("Cart", AddToCartSchema);
+const FavouriteModel = mongoose.model("Favourite", FavouriteSchema);
 
-module.exports = AddToCartModel;
+module.exports = FavouriteModel;

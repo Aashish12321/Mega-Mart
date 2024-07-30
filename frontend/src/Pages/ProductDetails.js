@@ -1,13 +1,21 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Link, useParams } from "react-router-dom";
 import SummaryApi from "../Common";
 import Spinner from "../Components/Loaders/Spinner";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { FaRegStar } from "react-icons/fa";
 import displayNepCurrency from "../helpers/displayNepCurrency";
-import { FaCartShopping } from "react-icons/fa6";
+import { FaCartShopping, FaHeart } from "react-icons/fa6";
 import { GiElectric } from "react-icons/gi";
 import addToCart from "../helpers/addToCart";
+import addToFavourite from "../helpers/addToFavourite";
+import Context from "../Context";
 
 const ProductDetails = () => {
   const [product, setProduct] = useState({
@@ -25,6 +33,18 @@ const ProductDetails = () => {
 
   const params = useParams();
   const { pid, vid } = params;
+
+  const context = useContext(Context);
+  const { fetchCartProducts } = context;
+
+  const handleProductToCart = (e) => {
+    addToCart(e, pid, vid);
+    fetchCartProducts();
+  };
+
+  const handleProductToFavourite = (e) => {
+    addToFavourite(e, pid, vid);
+  };
 
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
@@ -59,16 +79,16 @@ const ProductDetails = () => {
   };
 
   const handleNext = () => {
-    if (currentImgIndex < (variantImagesCount - 1)) {
+    if (currentImgIndex < variantImagesCount - 1) {
       setCurrentImgIndex(currentImgIndex + 1);
     }
-  }
+  };
 
   const handlePrevious = () => {
     if (currentImgIndex > 0) {
       setCurrentImgIndex(currentImgIndex - 1);
     }
-  }
+  };
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -115,8 +135,8 @@ const ProductDetails = () => {
                         {variant.images.map((image, imgindex) => (
                           <div
                             key={imgindex}
-                            onLoad={()=> setLargeImage(variant.images[0])}
-                            onClick={()=> setLargeImage(image)} 
+                            onLoad={() => setLargeImage(variant.images[0])}
+                            onClick={() => setLargeImage(image)}
                             className="hidden lg:flex w-full max-w-32 justify-center object-contain cursor-pointer bg-zinc-800 border-2 border-transparent hover:border-green-500"
                           >
                             <img
@@ -129,7 +149,13 @@ const ProductDetails = () => {
                       </div>
 
                       <div className="flex flex-col w-full">
-                        <div className="hidden lg:flex w-full h-[400px] items-center my-1 py-1 justify-center object-contain bg-zinc-800">
+                        <div className="hidden lg:flex relative w-full h-[400px] items-center my-1 py-1 justify-center object-contain bg-zinc-800">
+                          <button
+                            onClick={handleProductToFavourite}
+                            className="absolute right-1 top-1 text-xs text-red-500 bg-gray-200 rounded-full p-1 md:hover:scale-110"
+                          >
+                            <FaHeart />
+                          </button>
                           <img
                             src={largeImage}
                             alt={"images 0.webp"}
@@ -140,12 +166,15 @@ const ProductDetails = () => {
                         </div>
 
                         <div className="flex w-full justify-between text-xl gap-1">
-                          <button onClick={(e)=> addToCart(e, product?._id, variant?._id)} className="flex w-full p-2 gap-2 justify-center items-center bg-green-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
+                          <button
+                            onClick={handleProductToCart()}
+                            className="flex w-full p-2 gap-2 justify-center items-center bg-green-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+                          >
                             Add to Cart <FaCartShopping />
                           </button>
                           <button className="flex w-full p-2 gap-2 justify-center items-center bg-yellow-600 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
                             Buy Now <GiElectric />
-                          </button> 
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -261,7 +290,7 @@ const ProductDetails = () => {
             </div>
 
             {imageZoom && (
-              <div className="hidden lg:flex absolute left-0 top-0 w-full h-full bg-zinc-800 border-2 border-transparent border-green-500">
+              <div className="hidden lg:flex absolute left-0 top-0 z-10 w-full h-full bg-zinc-800 border-2 border-transparent border-green-500">
                 <div
                   className="w-full h-full scale-125"
                   style={{

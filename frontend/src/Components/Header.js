@@ -1,4 +1,4 @@
-import React, {  useCallback, useEffect, useState } from "react";
+import React, {  useCallback, useContext, useEffect, useState } from "react";
 import logo from "../Assets/logo.png";
 import { GoSearch } from "react-icons/go";
 import { FaUserCircle } from "react-icons/fa";
@@ -16,6 +16,7 @@ import { setCategories } from "../Store/categorySlice";
 import role from "../Common/role";
 import CategoriesList from "./CategoriesList";
 import { selectUser } from "../Store/selector";
+import Context from "../Context";
 
 const Header = () => {
   const [showuserMenu, setShowUserMenu] = useState(false);
@@ -26,6 +27,7 @@ const Header = () => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
+  const context = useContext(Context);
 
   const handleLogout = async () => {
     if (token) {
@@ -107,14 +109,17 @@ const Header = () => {
               </>
             )}
           </div>
-
+          
           <div className="flex items-center h-12 gap-4 lg:gap-8 justify-end">
             <div className="relative text-3xl flex cursor-pointer text-white">
               <span>
                 <FaCartShopping />
               </span>
               <div className="absolute bg-red-500 w-5 flex justify-center rounded-2xl -top-2 -right-1.5">
-                <p className="text-sm text-white">88</p>
+              {
+                user?._id &&
+                <span className="text-sm font-semibold text-white">{context?.cartProductsCount}</span>
+              }
               </div>
             </div>
 

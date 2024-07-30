@@ -1,13 +1,13 @@
 import { toast } from "react-toastify";
 import SummaryApi from "../Common";
 
-const addToCart = async (e, pid, vid) => {
+const addToFavourite = async (e, pid, vid) => {
   e.stopPropagation();
   e.preventDefault();
 
   const token = localStorage.getItem("token");
-  let response = await fetch(SummaryApi.add_to_cart.url, {
-    method: SummaryApi.add_to_cart.method,
+  let response = await fetch(SummaryApi.add_to_favourite.url, {
+    method: SummaryApi.add_to_favourite.method,
     headers: {
       "content-type": "application/json",
       authorization: `${token}`,
@@ -20,7 +20,7 @@ const addToCart = async (e, pid, vid) => {
     console.log(response.data);
   } else {
     toast.error(response.message);
-  }  
+  }
 };
 
-export default addToCart;
+export default addToFavourite;

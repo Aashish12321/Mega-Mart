@@ -48,7 +48,7 @@ const Users = () => {
         method: SummaryApi.search_user.method,
         headers: {
           "content-type": "application/json",
-          authorization: `${token}`,
+          Authorization: `${token}`,
         },
       });
 

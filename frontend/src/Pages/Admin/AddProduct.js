@@ -122,7 +122,7 @@ const AddProduct = () => {
       body: JSON.stringify(product),
       headers: {
         "content-type": "application/json",
-        authorization: `${token}`,
+        Authorization: `${token}`,
       },
     });
 

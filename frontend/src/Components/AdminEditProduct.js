@@ -127,7 +127,7 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
       body: JSON.stringify(product),
       headers: {
         "content-type": "application/json",
-        authorization: `${token}`,
+        Authorization: `${token}`,
       },
     });
 

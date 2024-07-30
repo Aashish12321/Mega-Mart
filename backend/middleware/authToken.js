@@ -3,10 +3,11 @@ const jwt = require("jsonwebtoken");
 async function authToken(req, resp, next) {
   try {
     const token = req.headers["authorization"];
+    // console.log(token);
 
-    if (!token) {
-      console.log("Permission denied ! Please provide the token");
-      throw new Error("Permission denied ! Please provide the token");
+    if (token === "null") {
+      // console.log("Permission denied ! Please provide the token");
+      throw new Error("Please login to continue");
     }
 
     jwt.verify(token, process.env.TOKEN_SECRET_KEY, function (err, decoded) {
@@ -14,7 +15,6 @@ async function authToken(req, resp, next) {
       if (err) {
         throw new Error(err.name);
       }
-
       req.userId = decoded._id;
       next();
     });

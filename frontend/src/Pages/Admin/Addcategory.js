@@ -26,7 +26,7 @@ const Addcategory = () => {
       body: JSON.stringify(newCategory),
       headers: {
         "content-type": "application/json",
-        "authorization": `${token}`,
+        Authorization: `${token}`,
       },
     });
     response = await response.json(response);

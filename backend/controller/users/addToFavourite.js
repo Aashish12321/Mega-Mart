@@ -1,23 +1,23 @@
-const AddToCartModel = require("../../models/AddToCart");
+const FavouriteModel = require("../../models/Favourite");
 
-async function addToCart(req, resp) {
+async function addToFavourite(req, resp) {
   try {
     const userId = req.userId;
-    const { productId, variantId, quantity } = req.body;
+    const { productId, variantId } = req.body;
 
-    const productAlreadyAdded = await AddToCartModel.findOne({
+    const productAlreadyAdded = await FavouriteModel.findOne({
       productId: productId,
       variantId: variantId,
-      userId: userId,
+      userId: userId
     });
 
     if (productAlreadyAdded) {
-      const removeProduct = await AddToCartModel.deleteOne({
+      const removeProduct = await FavouriteModel.deleteOne({
         variantId: variantId,
-        userId: userId,
+        userId: userId
       });
       resp.status(200).json({
-        message: "Removed from Cart",
+        message: "Removed from favourite",
         data: removeProduct,
         success: true,
         error: false,
@@ -26,13 +26,12 @@ async function addToCart(req, resp) {
       const payload = {
         productId: productId,
         variantId: variantId,
-        quantity: quantity,
         userId: userId,
       };
-      const addProductToCart = new AddToCartModel(payload);
-      const saveProduct = await addProductToCart.save();
+      const addProductToFavourite = new FavouriteModel(payload);
+      const saveProduct = await addProductToFavourite.save();
       resp.status(200).json({
-        message: "Added to Cart",
+        message: "Added to Favourite",
         data: saveProduct,
         success: true,
         error: false,
@@ -47,4 +46,4 @@ async function addToCart(req, resp) {
   }
 }
 
-module.exports = addToCart;
+module.exports = addToFavourite;

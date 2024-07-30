@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import { useNavigate, Outlet } from "react-router-dom";
 import Header from "./Components/Header";
@@ -17,16 +17,19 @@ import { setUserDetails } from "./Store/userSlice";
 const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [cartProductsCount, setCartProductsCount] = useState(0);
+  const [cartProducts, setCartProducts] = useState([]);
+  const [favouriteProducts, setFavouriteProducts] = useState([]);
   const token = localStorage.getItem("token");
 
   const fetchUserDetails = useCallback(async () => {
     let currentUserData = await fetch(SummaryApi.current_user.url, {
       method: SummaryApi.current_user.method,
       headers: {
+        "content-type": "application/json",
         authorization: `${token}`,
       },
     });
-
     currentUserData = await currentUserData.json();
     if (currentUserData.success) {
       dispatch(setUserDetails(currentUserData.data));
@@ -40,15 +43,58 @@ const App = () => {
     }
   }, [dispatch, token, navigate]);
 
+  const fetchCartProducts = useCallback(async () => {
+    let response = await fetch(SummaryApi.view_cart.url, {
+      method: SummaryApi.view_cart.method,
+      headers: {
+        authorization: `${token}`,
+      },
+    });
+    response = await response.json();
+    setCartProducts(response?.data?.cartProducts);
+    setCartProductsCount(response?.data?.count);
+  }, [token]);
+
+  const fetchFavouriteProducts = useCallback(async () => {
+    let response = await fetch(SummaryApi.view_favourite.url, {
+      method: SummaryApi.view_favourite.method,
+      headers: {
+        authorization: `${token}`,
+      },
+    });
+    response = await response.json();
+    setFavouriteProducts(response?.data?.favouriteProducts);
+  }, [token]);
+
   useEffect(() => {
     if (token) {
       fetchUserDetails();
+      fetchCartProducts();
+      fetchFavouriteProducts();
+    }else {
+      setCartProducts([]);
+      setCartProductsCount(0);
+      setFavouriteProducts([]);
     }
-  }, [fetchUserDetails, token]);
+  }, [
+    fetchUserDetails,
+    fetchCartProducts,
+    fetchFavouriteProducts,
+    token,
+  ]);
 
   return (
     <>
-      <Context.Provider value={{ fetchUserDetails }}>
+      <Context.Provider
+        value={{
+          fetchUserDetails,
+          fetchCartProducts,
+          fetchFavouriteProducts,
+          cartProducts,
+          favouriteProducts,
+          cartProductsCount,
+        }}
+      >
         <ToastContainer
           hideProgressBar
           draggable
@@ -68,7 +114,6 @@ const App = () => {
           </main>
           <Footer />
         </div>
-
       </Context.Provider>
     </>
   );

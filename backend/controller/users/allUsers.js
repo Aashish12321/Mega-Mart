@@ -1,6 +1,6 @@
 const User = require("../../models/User");
 
-async function allUsersController(req, resp){
+async function allUsers(req, resp){
     try {
         const user = await User.find().select('_id name email role createdAt');
 
@@ -8,7 +8,7 @@ async function allUsersController(req, resp){
             message: "All users fetched successful",
             data: user,
             error: false,
-            success: true
+            success: true   
         })
     } catch (err) {
         resp.status(400).json({
@@ -19,4 +19,4 @@ async function allUsersController(req, resp){
     }
 }
 
-module.exports = allUsersController;
+module.exports = allUsers;
