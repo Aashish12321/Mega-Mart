@@ -111,7 +111,7 @@ const Header = () => {
           </div>
           
           <div className="flex items-center h-12 gap-4 lg:gap-8 justify-end">
-            <div className="relative text-3xl flex cursor-pointer text-white">
+            <Link to={'mycart'} className="relative text-3xl flex cursor-pointer text-white">
               <span>
                 <FaCartShopping />
               </span>
@@ -121,7 +121,7 @@ const Header = () => {
                 <span className="text-sm font-semibold text-white">{context?.cartProductsCount}</span>
               }
               </div>
-            </div>
+            </Link>
 
             <div className="relative flex justify-center">
               {!token && (

@@ -17,6 +17,7 @@ import AdminEditProduct from "./Components/AdminEditProduct";
 import Addcategory from "./Pages/Admin/Addcategory";
 import ProductDetails from "./Pages/ProductDetails";
 import AddBanner from "./Pages/Admin/AddBanner";
+import Cart from "./Pages/Cart";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
       {
         path: "categories/:categoryName",
         element: <Categories />,
+      },
+      {
+        path: "mycart",
+        element: <Cart />,
       },
       {
         path: "permission-denied",

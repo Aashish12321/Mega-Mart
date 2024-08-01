@@ -31,21 +31,15 @@ const ProductCard = ({ product, variant, variantIndex }) => {
   };
 
   useEffect(() => {
-    cartProducts?.map((product, _) => {
-      if (product?.variantId === variant?._id) {
-        setIsAddedToCart(true);
-      } else {
-        setIsAddedToCart(false);
-      }
-    });
+    const isProductInCart = cartProducts?.some(
+      (product) => product?.variantId === variant?._id
+    );
+    setIsAddedToCart(isProductInCart);
 
-    favouriteProducts.map((product, _) => {
-      if (product.variantId === variant?._id) {
-        setIsFavourite(true);
-      } else {
-        setIsFavourite(false);
-      }
-    });
+    const isProductInFavourite = favouriteProducts?.some(
+      (product) => product?.variantId === variant?._id
+    );
+    setIsFavourite(isProductInFavourite);
   }, [favouriteProducts, cartProducts, variant]);
 
   return (

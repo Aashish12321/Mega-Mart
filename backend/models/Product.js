@@ -5,7 +5,7 @@ const variantSchema = new mongoose.Schema({
   specs: [
     {
       size: { type: String },
-      stock: { type: Number, required: true },
+      stock: { type: Number, min:0, required: true },
     },
   ],
   images: [{ type: String, required: true }],

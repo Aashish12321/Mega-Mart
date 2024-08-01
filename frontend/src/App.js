@@ -31,8 +31,8 @@ const App = () => {
       },
     });
     currentUserData = await currentUserData.json();
-    if (currentUserData.success) {
-      dispatch(setUserDetails(currentUserData.data));
+    if (currentUserData?.success) {
+      dispatch(setUserDetails(currentUserData?.data));
     } else {
       if (currentUserData.message === "TokenExpiredError") {
         localStorage.removeItem("token");
@@ -52,6 +52,8 @@ const App = () => {
     });
     response = await response.json();
     setCartProducts(response?.data?.cartProducts);
+    // console.log(response?.data?.cartProducts);
+
     setCartProductsCount(response?.data?.count);
   }, [token]);
 
@@ -64,6 +66,8 @@ const App = () => {
     });
     response = await response.json();
     setFavouriteProducts(response?.data?.favouriteProducts);
+    // console.log(response?.data);
+
   }, [token]);
 
   useEffect(() => {

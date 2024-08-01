@@ -30,7 +30,7 @@ const AddProduct = () => {
         specs: [{ size: "", stock: "" }],
         images: [],
       },
-    ],
+    ],  
     ratings: {
       average: 0,
       total: 0,

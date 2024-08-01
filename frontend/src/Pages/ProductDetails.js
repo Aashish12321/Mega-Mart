@@ -22,6 +22,8 @@ const ProductDetails = () => {
     variants: [],
   });
   const [loading, setLoading] = useState(true);
+  const [isFavourite, setIsFavourite] = useState(false);
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
   const [variantImagesCount, setVariantImagesCount] = useState(0);
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
   const [expandDesc, setExpandDesc] = useState(false);
@@ -35,15 +37,21 @@ const ProductDetails = () => {
   const { pid, vid } = params;
 
   const context = useContext(Context);
-  const { fetchCartProducts } = context;
+  const {
+    fetchCartProducts,
+    fetchFavouriteProducts,
+    cartProducts,
+    favouriteProducts,
+  } = context;
 
-  const handleProductToCart = (e) => {
-    addToCart(e, pid, vid);
+  const handleProductToCart = async (e) => {
+    await addToCart(e, pid, vid);
     fetchCartProducts();
   };
 
-  const handleProductToFavourite = (e) => {
-    addToFavourite(e, pid, vid);
+  const handleProductToFavourite = async (e) => {
+    await addToFavourite(e, pid, vid);
+    fetchFavouriteProducts();
   };
 
   const touchStartX = useRef(0);
@@ -90,34 +98,49 @@ const ProductDetails = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchDetails = async () => {
-      let response = await fetch(SummaryApi.productdetails.url, {
-        method: SummaryApi.productdetails.method,
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({ id: pid }),
-      });
+  const fetchDetails = useCallback(async () => {
+    let response = await fetch(SummaryApi.productdetails.url, {
+      method: SummaryApi.productdetails.method,
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ id: pid }),
+    });
+    response = await response.json();
+    if (response.success) {
+      setProduct(response.data);
+      setLoading(false);
+    }
+  }, [pid]);
 
-      response = await response.json();
-      if (response.success) {
-        setProduct(response.data);
-        product.variants.map((variant, vindex) => {
-          if (variant?._id === vid) {
-            setVariantImagesCount(variant.images.length);
-          }
-        });
-        setLoading(false);
-      }
-    };
+  useEffect(() => {
     fetchDetails();
 
     if (descRef.current) {
       const { clientHeight, scrollHeight } = descRef.current;
       setDescOverflow(scrollHeight > clientHeight);
     }
-  }, [pid, vid]);
+  }, [fetchDetails]);
+
+  useEffect(() => {
+    if (product?.variants?.length > 0) {
+      product?.variants?.forEach((variant, _) => {
+        if (variant?._id === vid) {
+          setVariantImagesCount(variant?.images?.length);
+        }
+      });
+    }
+
+    const isProductInCart = cartProducts?.some(
+      (product) => product?.variantId === vid
+    );
+    setIsAddedToCart(isProductInCart);
+
+    const isProductInFavourite = favouriteProducts?.some(
+      (product) => product?.variantId === vid
+    );
+    setIsFavourite(isProductInFavourite);
+  }, [product, vid, favouriteProducts, cartProducts]);
 
   return (
     <div className="w-full pt-1 lg:p-2 xl:p-4 text-white">
@@ -126,10 +149,13 @@ const ProductDetails = () => {
       ) : (
         <div className="gap-2 lg:flex lg:h-[400px]">
           <div className="w-full">
-            {product.variants.map(
+            {product?.variants?.map(
               (variant, vindex) =>
                 variant._id === vid && (
-                  <div className="w-full flex lg:justify-center lg:h-[400px] lg:gap-1 ">
+                  <div
+                    key={vindex}
+                    className="w-full flex lg:justify-center lg:h-[400px] lg:gap-1 "
+                  >
                     <div className="hidden w-full lg:flex gap-2">
                       <div className="flex flex-col gap-2 overflow-auto lg:h-[400px] no-scrollbar my-1 ">
                         {variant.images.map((image, imgindex) => (
@@ -152,7 +178,9 @@ const ProductDetails = () => {
                         <div className="hidden lg:flex relative w-full h-[400px] items-center my-1 py-1 justify-center object-contain bg-zinc-800">
                           <button
                             onClick={handleProductToFavourite}
-                            className="absolute right-1 top-1 text-xs text-red-500 bg-gray-200 rounded-full p-1 md:hover:scale-110"
+                            className={`absolute right-1 top-1 text-xs ${
+                              isFavourite ? "text-red-500" : "text-gray-400"
+                            } bg-gray-200 rounded-full p-1 md:hover:scale-110`}
                           >
                             <FaHeart />
                           </button>
@@ -167,10 +195,11 @@ const ProductDetails = () => {
 
                         <div className="flex w-full justify-between text-xl gap-1">
                           <button
-                            onClick={handleProductToCart()}
+                            onClick={handleProductToCart}
                             className="flex w-full p-2 gap-2 justify-center items-center bg-green-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
                           >
-                            Add to Cart <FaCartShopping />
+                            {isAddedToCart ? "Added" : "Add to Cart"}{" "}
+                            <FaCartShopping />
                           </button>
                           <button className="flex w-full p-2 gap-2 justify-center items-center bg-yellow-600 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
                             Buy Now <GiElectric />
@@ -256,6 +285,10 @@ const ProductDetails = () => {
                           src={variant.images[0]}
                           alt={`images ${vindex + 1}`}
                           className="w-full max-w-20 md:max-w-24"
+                          onClick={() => {
+                            fetchCartProducts();
+                            fetchFavouriteProducts();
+                          }}
                         />
                       </Link>
                     ))}
