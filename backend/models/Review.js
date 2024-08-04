@@ -1,17 +1,41 @@
 const mongoose = require("mongoose");
 
-const ReviewSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-  productId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
-    required: true,
+const replySchema = new mongoose.Schema(
+  {
+    sellerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    reply: { type: String, required: true },
   },
-  rating: { type: Number, required: true, min: 1, max: 5 },
-  comment: { type: String },
-  images: [{ type: String }], // Array of photo URLs
-  timestamps: { type: Date, default: Date.now },
-});
+  {
+    timestamps: true,
+  }
+);
+
+const ReviewSchema = new mongoose.Schema(
+  {
+    productId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+      required: true,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    verified: { type: Boolean, default: false },
+    rating: { type: Number, required: true, min: 1, max: 5 },
+    comment: { type: String, required: true },
+    images: [{ type: String }],
+    replies: [replySchema],
+  },
+  {
+    timestamps: true,
+  }
+);
 
 const Review = mongoose.model("Review", ReviewSchema);
 

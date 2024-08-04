@@ -15,6 +15,6 @@ const FavouriteSchema = new mongoose.Schema(
   }
 );
 
-const FavouriteModel = mongoose.model("Favourite", FavouriteSchema);
+const Favourite = mongoose.model("Favourite", FavouriteSchema);
 
-module.exports = FavouriteModel;
+module.exports = Favourite;

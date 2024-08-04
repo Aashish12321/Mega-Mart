@@ -1,21 +1,29 @@
+const Cart = require("../../models/Cart");
 const Product = require("../../models/Product");
 
 async function getCartProducts(req, resp) {
   try {
-    const cartProducts = req.body;
+    const userId = req.userId;
+    const cartProducts = await Cart.find({userId: userId});
     let allProductsInCart = [];
     if (cartProducts.length > 0) {
       allProductsInCart = await Promise.all(
-        cartProducts.map(async (product, _) => {
-          let productDetail = await Product.findById(product?.productId);
-          return productDetail;
+        cartProducts.map(async (cartProduct) => {
+          let product = await Product.findById(cartProduct?.productId).select("-timestamps -updatedAt -customerReviews -__v");          
+          let variant = product?.variants?.find((variant)=> variant?._id.equals(cartProduct?.variantId));
+          let spec = variant?.specs?.find((spec)=> spec?._id.equals(cartProduct?.specId));
+          variant["specs"] = spec;
+          product["variants"] = variant;
+          // console.log("v", variant);
+          // console.log("s", spec);
+          return product;
         })
       );
     }
     // console.log("all products in cart", allProductsInCart);
     if (allProductsInCart.length > 0) {
       resp.status(200).json({
-        message: "All Cart products details fetched success",
+        message: "Cart products fetched successfully",
         data: allProductsInCart,
         success: true,
         error: false,

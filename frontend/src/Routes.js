@@ -18,6 +18,7 @@ import Addcategory from "./Pages/Admin/Addcategory";
 import ProductDetails from "./Pages/ProductDetails";
 import AddBanner from "./Pages/Admin/AddBanner";
 import Cart from "./Pages/Cart";
+import Favourite from "./Pages/Favourite";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "mycart",
         element: <Cart />,
+      },
+      {
+        path: "myfavourite",
+        element: <Favourite/>,
       },
       {
         path: "permission-denied",

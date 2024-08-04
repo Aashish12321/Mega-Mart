@@ -20,6 +20,7 @@ import Context from "../Context";
 const ProductDetails = () => {
   const [product, setProduct] = useState({
     variants: [],
+    size: [],
   });
   const [loading, setLoading] = useState(true);
   const [isFavourite, setIsFavourite] = useState(false);
@@ -30,6 +31,8 @@ const ProductDetails = () => {
   const [descOverflow, setDescOverflow] = useState(false);
   const [imageZoom, setImageZoom] = useState(false);
   const [largeImage, setLargeImage] = useState("");
+  const [specId, setSpecId] = useState("");
+  const [showSize, setShowSize] = useState(false);
 
   const descRef = useRef(null);
 
@@ -44,8 +47,13 @@ const ProductDetails = () => {
     favouriteProducts,
   } = context;
 
+  const handleSpecIdChange = (e) => {
+    setSpecId(e.target.value);
+    console.log(specId);
+  };
+
   const handleProductToCart = async (e) => {
-    await addToCart(e, pid, vid);
+    await addToCart(e, pid, vid, specId);
     fetchCartProducts();
   };
 
@@ -127,12 +135,18 @@ const ProductDetails = () => {
       product?.variants?.forEach((variant, _) => {
         if (variant?._id === vid) {
           setVariantImagesCount(variant?.images?.length);
+          if (variant?.specs?.length > 1) {
+            setShowSize(true);
+          }
+          if (!specId) {
+            setSpecId(variant?.specs[0]?._id);
+          }
         }
       });
     }
 
     const isProductInCart = cartProducts?.some(
-      (product) => product?.variantId === vid
+      (product) => product?.variantId === vid && product?.specId === specId
     );
     setIsAddedToCart(isProductInCart);
 
@@ -140,7 +154,7 @@ const ProductDetails = () => {
       (product) => product?.variantId === vid
     );
     setIsFavourite(isProductInFavourite);
-  }, [product, vid, favouriteProducts, cartProducts]);
+  }, [product, vid, specId, favouriteProducts, cartProducts]);
 
   return (
     <div className="w-full pt-1 lg:p-2 xl:p-4 text-white">
@@ -296,6 +310,33 @@ const ProductDetails = () => {
                 </div>
               )}
             </div>
+            {showSize && (
+              <div className="flex w-full gap-4 items-center">
+                <label htmlFor="size" className="w-20 font-semibold">
+                  Choose Size
+                </label>
+                <span> : </span>
+                <select
+                  name="size"
+                  id="size"
+                  value={specId}
+                  onChange={handleSpecIdChange}
+                  className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                  required
+                >
+                  {product?.variants?.map(
+                    (variant, index) =>
+                      variant?._id === vid &&
+                      variant.specs.map((spec, sindex) => (
+                        <option key={sindex} value={spec?._id}>
+                          {spec?.size}
+                        </option>
+                      ))
+                  )}
+                </select>
+              </div>
+            )}
+
             <div className="flex gap-4">
               <span className="w-20 font-semibold">Seller</span>
               <span> : </span>
@@ -325,7 +366,7 @@ const ProductDetails = () => {
             {imageZoom && (
               <div className="hidden lg:flex absolute left-0 top-0 z-10 w-full h-full bg-zinc-800 border-2 border-transparent border-green-500">
                 <div
-                  className="w-full h-full scale-125"
+                  className="w-full h-full scale-110"
                   style={{
                     background: `url(${largeImage})`,
                     backgroundRepeat: "no-repeat",

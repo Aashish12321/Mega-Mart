@@ -19,7 +19,7 @@ const Banner = () => {
         (previousBanner) => (previousBanner + 1) % banners.length
       );
     }, 5000);
-
+    
     return () => clearInterval(interval);
   }, [banners.length]);
 

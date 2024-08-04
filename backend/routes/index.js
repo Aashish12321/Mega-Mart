@@ -18,11 +18,11 @@ const catgwiseProducts = require("../controller/products/catgwiseProducts");
 const productDetails = require("../controller/products/productDetails");
 const addToCart = require("../controller/users/addToCart");
 const viewCart = require("../controller/users/viewCart");
-const countCartProduct = require("../controller/users/countCartProducts");
 const addToFavourite = require("../controller/users/addToFavourite");
 const viewFavourite = require("../controller/users/viewFavourite");
 const getCartProducts = require("../controller/users/getCartProducts");
 const updateCart = require("../controller/users/updateCart");
+const getFavouriteProducts = require("../controller/users/getFavouriteProducts");
 
 router.post("/signup", userSignUp);
 router.post("/login", userLogin);
@@ -34,12 +34,11 @@ router.post("/catgwiseproducts", catgwiseProducts);
 router.post("/add-to-cart", authToken, addToCart);
 router.get("/view-cart", authToken, viewCart);
 router.post("/update-cart", authToken, updateCart);
-
-router.get("/count-cart-products", authToken, countCartProduct);
+router.get("/cart-products-details", authToken, getCartProducts);
 
 router.post("/add-to-favourite", authToken, addToFavourite);
 router.get("/view-favourite", authToken, viewFavourite);
-router.post("/cart-products-details", authToken, getCartProducts);
+router.get("/favourite-products-details", authToken, getFavouriteProducts);
 
 
 // admin

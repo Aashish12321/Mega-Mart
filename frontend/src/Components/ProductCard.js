@@ -8,7 +8,7 @@ import addToCart from "../helpers/addToCart";
 import addToFavourite from "../helpers/addToFavourite";
 import Context from "../Context";
 
-const ProductCard = ({ product, variant, variantIndex }) => {
+const ProductCard = ({ product, variant }) => {
   const context = useContext(Context);
   const {
     fetchCartProducts,
@@ -21,7 +21,7 @@ const ProductCard = ({ product, variant, variantIndex }) => {
   const [isAddedToCart, setIsAddedToCart] = useState(false);
 
   const handleProductToCart = async (e) => {
-    await addToCart(e, product?._id, variant?._id);
+    await addToCart(e, product?._id, variant?._id, variant?.specs[0]?._id);
     fetchCartProducts();
   };
 
@@ -43,11 +43,11 @@ const ProductCard = ({ product, variant, variantIndex }) => {
   }, [favouriteProducts, cartProducts, variant]);
 
   return (
-    <Link to={`product/${product?._id}/${variant?._id}`}>
+    <Link to={`/product/${product?._id}/${variant?._id}`}>
       <div className="w-44 md:w-48 lg:w-52 xl:w-56 shadow-custom bg-customCard duration-300 ease-in-out rounded-lg cursor-pointer">
         <div className="relative h-44 md:h-48 lg:h-52 xl:h-56 bg-zinc-800 rounded-t-lg">
           <img
-            key={variantIndex}
+            key={variant?._id}
             src={variant.images[0]}
             className="w-full h-full object-contain mx-auto rounded-t-lg md:scale-95 md:hover:scale-100 duration-200 ease-in-out"
             alt="product.jpg"

@@ -39,13 +39,13 @@ const CategorywiseProducts = ({ category, heading }) => {
         <div className="text-white text-xl font-semibold">{heading}</div>
         <div>
           <button
-            onClick={() => HorizontalScroll(-200)}
+            onClick={() => HorizontalScroll(-250)}
             className="text-gray-200 text-2xl top-24 md:top-28 bg-zinc-800"
           >
             <MdKeyboardArrowLeft />
           </button>
           <button
-            onClick={() => HorizontalScroll(200)}
+            onClick={() => HorizontalScroll(250)}
             className="text-gray-200 text-2xl ml-2 top-24 md:top-28 bg-zinc-800"
           >
             <MdKeyboardArrowRight />
@@ -63,10 +63,9 @@ const CategorywiseProducts = ({ category, heading }) => {
           products.map((product, index) =>
             product.variants.map((variant, variantIndex) => (
               <ProductCard
-                key={variant._id}
+                key={variantIndex}
                 product={product}
                 variant={variant}
-                variantIndex={variantIndex}
               />
             ))
           )

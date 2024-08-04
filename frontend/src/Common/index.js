@@ -67,7 +67,7 @@ const SummaryApi = {
     },
     cart_products_details : {
         url: `/api/cart-products-details`,
-        method: 'post'
+        method: 'get'
     },
     add_to_favourite : {
         url: `/api/add-to-favourite`,
@@ -75,6 +75,10 @@ const SummaryApi = {
     },
     view_favourite : {
         url: `/api/view-favourite`,
+        method: 'get'
+    },
+    favourite_products_details : {
+        url: `/api/favourite-products-details`,
         method: 'get'
     },
     

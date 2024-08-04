@@ -1,19 +1,21 @@
-const AddToCartModel = require("../../models/AddToCart");
+const Cart = require("../../models/Cart");
 
 async function addToCart(req, resp) {
   try {
     const userId = req.userId;
-    const { productId, variantId, quantity } = req.body;
+    const { productId, variantId, specId, quantity } = req.body;
 
-    const productAlreadyAdded = await AddToCartModel.findOne({
+    const productAlreadyAdded = await Cart.findOne({
       productId: productId,
       variantId: variantId,
+      specId: specId,
       userId: userId,
     });
 
     if (productAlreadyAdded) {
-      const removeProduct = await AddToCartModel.deleteOne({
+      const removeProduct = await Cart.deleteOne({
         variantId: variantId,
+        specId: specId,
         userId: userId,
       });
       resp.status(200).json({
@@ -26,10 +28,11 @@ async function addToCart(req, resp) {
       const payload = {
         productId: productId,
         variantId: variantId,
+        specId: specId,
         quantity: quantity,
         userId: userId,
       };
-      const addProductToCart = new AddToCartModel(payload);
+      const addProductToCart = new Cart(payload);
       const saveProduct = await addProductToCart.save();
       resp.status(200).json({
         message: "Added to Cart",

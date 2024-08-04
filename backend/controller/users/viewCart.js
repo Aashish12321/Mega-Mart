@@ -1,9 +1,9 @@
-const AddToCartModel = require("../../models/AddToCart");
+const Cart = require("../../models/Cart");
 
 async function viewCart(req, resp) {
   try {
     const userId = req.userId;
-    const cartProducts = await AddToCartModel.find({ userId: userId });
+    const cartProducts = await Cart.find({ userId: userId });
 
     if (cartProducts) {
       resp.status(200).json({

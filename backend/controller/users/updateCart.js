@@ -1,22 +1,18 @@
-const AddToCartModel = require("../../models/AddToCart");
-// const Product = require("../../models/Product");
+const Cart = require("../../models/Cart");
 
 async function updateCart(req, resp) {
   try {
     const userId = req.userId;
-    const { variantId, quantity } = req.body;
+    const { variantId, specId, quantity } = req.body;
 
-    // console.log(variantId, quantity);
-
-    const newQuantity = quantity < 1 ? 1 : quantity;
-    const changeQuantity = await AddToCartModel.updateOne(
-      { userId: userId, variantId: variantId },
-      { $set: { quantity: newQuantity } }
+    const changeQuantity = await Cart.findOneAndUpdate(
+      { userId: userId, variantId: variantId, specId: specId },
+      { $set: { quantity: quantity } },
     );
 
     if (changeQuantity) {
       resp.status(200).json({
-        message: "Quantity updated in cart",
+        message: "Quantity updated",
         data: changeQuantity,
         success: true,
         error: false,

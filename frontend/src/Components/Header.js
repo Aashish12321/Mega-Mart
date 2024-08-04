@@ -1,4 +1,4 @@
-import React, {  useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import logo from "../Assets/logo.png";
 import { GoSearch } from "react-icons/go";
 import { FaUserCircle } from "react-icons/fa";
@@ -53,7 +53,7 @@ const Header = () => {
     if (fetchCategory.error) {
       toast.error(fetchCategory.message);
     }
-  },[dispatch]);
+  }, [dispatch]);
 
   useEffect(() => {
     allCategory();
@@ -109,17 +109,21 @@ const Header = () => {
               </>
             )}
           </div>
-          
+
           <div className="flex items-center h-12 gap-4 lg:gap-8 justify-end">
-            <Link to={'mycart'} className="relative text-3xl flex cursor-pointer text-white">
+            <Link
+              to={"mycart"}
+              className="relative text-3xl flex cursor-pointer text-white"
+            >
               <span>
                 <FaCartShopping />
               </span>
               <div className="absolute bg-red-500 w-5 flex justify-center rounded-2xl -top-2 -right-1.5">
-              {
-                user?._id &&
-                <span className="text-sm font-semibold text-white">{context?.cartProductsCount}</span>
-              }
+                {user?._id && (
+                  <span className="text-sm font-semibold text-white">
+                    {context?.cartProductsCount}
+                  </span>
+                )}
               </div>
             </Link>
 
@@ -151,33 +155,47 @@ const Header = () => {
                 </div>
               )}
               {showuserMenu && (
-                <div className="absolute rounded-b-lg border-l-2 border-b-2 border-r-2 border-gray-900 top-[52px]  py-2 bg-white text-white">
+                <div className="absolute rounded-b-lg border-l-2 border-b-2 border-r-2 border-gray-500 top-[51px] py-2 bg-customCard text-white">
                   <MdArrowDropUp className="text-4xl -mt-[29px] ml-11" />
 
                   {user?.role === role.admin && (
-                    <div className="border-b-2 border-black -mt-4">
-                      <Link
+                    <div className="border-b-2 border-gray-500 -mt-4">
+                      <Link 
                         to={"/admin/all-products"}
                         onClick={() => setShowUserMenu(!showuserMenu)}
-                        className="min-[320px]:flex mx-6 font-semibold whitespace-nowrap p-1 hover:text-red-500 text-black"
+                        className="min-[320px]:flex mx-6 font-semibold whitespace-nowrap p-1 hover:text-red-500"
                       >
                         Admin
                       </Link>
                     </div>
                   )}
-
                   {user?.email && (
-                    <Link
-                      to={"/login"}
-                      className="flex items-center mx-6 font-semibold text-black hover:text-red-500"
-                      onClick={() => {
-                        setShowUserMenu(!showuserMenu);
-                        handleLogout();
-                      }}
-                    >
-                      Logout
-                      <IoLogOutOutline className="ml-1 text-xl" />
-                    </Link>
+                    <div className={`${user?.role !== "ADMIN" && "-mt-4"}`}>
+                      <div className="border-b-2 border-gray-500">
+                        <Link
+                          to={"/myfavourite"}
+                          className="flex items-center mx-6 my-1 font-semibold hover:text-red-500"
+                          onClick={() => {
+                            setShowUserMenu(!showuserMenu);
+                          }}
+                        >
+                          Favourite
+                        </Link>
+                      </div>
+                      <span className="">
+                        <Link
+                          to={"/login"}
+                          className="flex items-center mx-6 font-semibold hover:text-red-500"
+                          onClick={() => {
+                            setShowUserMenu(!showuserMenu);
+                            handleLogout();
+                          }}
+                        >
+                          Logout
+                          <IoLogOutOutline className="ml-1 text-xl" />
+                        </Link>
+                      </span>
+                    </div>
                   )}
                 </div>
               )}
@@ -192,6 +210,7 @@ const Header = () => {
           </div>
         </div>
       </header>
+
       {/* Categories sidemenu */}
       <div className="fixed top-0 left-0 z-10 text-black">
         {showCategorySidebar ? (

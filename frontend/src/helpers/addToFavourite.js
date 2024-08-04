@@ -16,7 +16,7 @@ const addToFavourite = async (e, pid, vid) => {
   });
   response = await response.json();
   if (response.success) {
-    toast.success(response.message);
+    // toast.success(response.message);
     // console.log(response.data);
     return response.data;
   } else {

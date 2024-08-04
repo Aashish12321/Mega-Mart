@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import SummaryApi from "../Common";
 
-const addToCart = async (e, pid, vid) => {
+const addToCart = async (e, pid, vid, specId) => {
   e.stopPropagation();
   e.preventDefault();
 
@@ -12,11 +12,11 @@ const addToCart = async (e, pid, vid) => {
       "content-type": "application/json",
       authorization: `${token}`,
     },
-    body: JSON.stringify({ productId: pid, variantId: vid }),
+    body: JSON.stringify({ productId: pid, variantId: vid, specId: specId }),
   });
   response = await response.json();
   if (response.success) {
-    toast.success(response.message);
+    // toast.success(response.message);
     // console.log(response.data);
     return response.data;
   } else {

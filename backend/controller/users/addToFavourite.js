@@ -1,18 +1,18 @@
-const FavouriteModel = require("../../models/Favourite");
+const Favourite = require("../../models/Favourite");
 
 async function addToFavourite(req, resp) {
   try {
     const userId = req.userId;
     const { productId, variantId } = req.body;
 
-    const productAlreadyAdded = await FavouriteModel.findOne({
+    const productAlreadyAdded = await Favourite.findOne({
       productId: productId,
       variantId: variantId,
       userId: userId
     });
 
     if (productAlreadyAdded) {
-      const removeProduct = await FavouriteModel.deleteOne({
+      const removeProduct = await Favourite.deleteOne({
         variantId: variantId,
         userId: userId
       });
@@ -28,7 +28,7 @@ async function addToFavourite(req, resp) {
         variantId: variantId,
         userId: userId,
       };
-      const addProductToFavourite = new FavouriteModel(payload);
+      const addProductToFavourite = new Favourite(payload);
       const saveProduct = await addProductToFavourite.save();
       resp.status(200).json({
         message: "Added to Favourite",
