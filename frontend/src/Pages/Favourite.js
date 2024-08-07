@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 const Favourite = () => {
   const [loading, setLoading] = useState(true);
   const context = useContext(Context);
-  const { favouriteProducts, fetchFavouriteProducts } = context;
+  const { favouriteProducts } = context;
   const [products, setProducts] = useState([]);
   const token = localStorage.getItem("token");
 
@@ -37,7 +37,7 @@ const Favourite = () => {
 
   return (
     <div className="md:mx-6 px-2 py-4 text-white">
-      <div className="flex justify-between text-2xl font-semibold py-2 border-b-2 border-gray-700">
+      <div className="flex justify-between text-2xl font-semibold py-2 border-b-2 border-gray-700 select-none">
         <span>Favourites</span>
         <span>{favouriteProducts.length} Items</span>
       </div>

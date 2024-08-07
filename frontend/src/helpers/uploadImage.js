@@ -1,9 +1,9 @@
 const url = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME_CLOUDINARY}/image/upload`
 
-const uploadImage = async (image) => {
+const uploadImage = async (image, upload_preset_name) => {
     const formData = new FormData();
     formData.append("file", image);
-    formData.append("upload_preset", "mega_mart")
+    formData.append("upload_preset", upload_preset_name);
     
     const dataResponse = await fetch(url, {
         method: 'post',

@@ -74,19 +74,20 @@ const Cart = () => {
   }, [cartProducts, fetchCartProductsDetails]);
 
   return (
-    <div className="w-full text-white">
-      <div className="flex mx-12 justify-between text-2xl font-semibold py-2 border-b-2 border-gray-700">
+    <div className="w-full text-white border border-transparent">
+      <div className="flex lg:mx-12 justify-between text-xl lg:text-2xl font-semibold py-1 border-b-2 border-gray-700">
         <span>Shopping Cart</span>
         <span>{cartProducts.length} Items</span>
       </div>
 
-      <div className="mx-12">
+      <div className="lg:mx-12">
         {cartProducts?.length === 0 ? (
           <div className="w-full text-xl flex justify-center items-center h-80 my-2 bg-customCard rounded-xl">
             No items in cart !
           </div>
-        ) : loading ? <Spinner /> : 
-        (
+        ) : loading ? (
+          <Spinner />
+        ) : (
           <table className="my-2 w-full bg-customCard">
             <thead className="w-full">
               <tr className="w-full text-lg text-gray-300 border-b-2">
@@ -109,24 +110,27 @@ const Cart = () => {
                               key={spec?._id}
                               style={{
                                 animation:
-                                  remove[spec?._id] && "slideLeft 0.8s ease-in",
+                                  remove[spec?._id] &&
+                                  "slideLeft 0.8s ease-out",
                               }}
-                              className="border-b-2 border-gray-500"
+                              className="select-none border-b-2 border-gray-500"
                             >
                               <td className="bg-customCard p-2">
                                 <Link
                                   to={`/product/${product?._id}/${variant?._id}`}
-                                  className="flex object-contain"
+                                  className="flex flex-col md:flex-row object-contain"
                                 >
                                   <span className="w-full max-w-28 max-h-28">
                                     <img
                                       src={variant?.images[0]}
                                       alt={`CartProduct ${pindex}`}
-                                      className="w-full h-full object-contain bg-gray-300"
+                                      className="w-full max-h-28 object-contain bg-gray-300"
                                     />
                                   </span>
-                                  <span className="w-full max-w-sm inline-block text-wrap mx-4">
-                                    <span className=" hover:text-red-500">{product?.name}</span>
+                                  <span className="w-full max-w-sm inline-block text-wrap md:mx-4">
+                                    <span className="line-clamp-2 md:line-clamp-none hover:text-red-400">
+                                      {product?.name}
+                                    </span>
                                     {spec?.size && (
                                       <span className="flex font-bold w-full gap-4 items-center">
                                         <span>Size</span>
@@ -152,8 +156,8 @@ const Cart = () => {
                                   </span>
                                 </Link>
                               </td>
-                              <td className="text-center">
-                                <span className="px-4 py-2">
+                              <td className="text-center p-2">
+                                <span>
                                   <span
                                     onClick={() => {
                                       let check = checkQuantity(
@@ -170,11 +174,11 @@ const Cart = () => {
                                         );
                                       }
                                     }}
-                                    className="text-2xl cursor-pointer"
+                                    className="text-2xl active:text-red-500 cursor-pointer font-bold bg-zinc-800 px-2 border border-gray-500"
                                   >
                                     -
                                   </span>
-                                  <span className="text-2xl bg-zinc-800 px-4 mx-4">
+                                  <span className="text-2xl bg-zinc-800 px-2 border border-gray-500">
                                     {cartVariant?.quantity}
                                   </span>
                                   <span
@@ -193,16 +197,16 @@ const Cart = () => {
                                         );
                                       }
                                     }}
-                                    className="text-2xl cursor-pointer"
+                                    className="text-2xl active:text-green-500 cursor-pointer bg-zinc-800 px-2 border border-gray-500"
                                   >
                                     +
                                   </span>
                                 </span>
                               </td>
-                              <td className="text-center">
+                              <td className="text-center p-2">
                                 {displayNepCurrency(product?.price?.sell)}
                               </td>
-                              <td className="text-center">
+                              <td className="text-center p-2">
                                 <span>
                                   {displayNepCurrency(
                                     parseInt(cartVariant?.quantity) *

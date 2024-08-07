@@ -2,7 +2,6 @@ import { toast } from "react-toastify";
 import SummaryApi from "../Common";
 
 const addToFavourite = async (e, pid, vid) => {
-  e.stopPropagation();
   e.preventDefault();
 
   const token = localStorage.getItem("token");

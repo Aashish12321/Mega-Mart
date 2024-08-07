@@ -23,6 +23,11 @@ const viewFavourite = require("../controller/users/viewFavourite");
 const getCartProducts = require("../controller/users/getCartProducts");
 const updateCart = require("../controller/users/updateCart");
 const getFavouriteProducts = require("../controller/users/getFavouriteProducts");
+const addReview = require("../controller/users/addReview");
+const readReviews = require("../controller/users/readReviews");
+const replyToReview = require("../controller/users/replyToReview");
+const productRating = require("../controller/products/productRating");
+
 
 router.post("/signup", userSignUp);
 router.post("/login", userLogin);
@@ -39,6 +44,10 @@ router.get("/cart-products-details", authToken, getCartProducts);
 router.post("/add-to-favourite", authToken, addToFavourite);
 router.get("/view-favourite", authToken, viewFavourite);
 router.get("/favourite-products-details", authToken, getFavouriteProducts);
+router.post("/add-new-review", authToken, addReview);
+router.post("/read-reviews", readReviews);
+router.post("/reply-to-review", authToken, replyToReview);
+router.post("/product-rating",  productRating);
 
 
 // admin

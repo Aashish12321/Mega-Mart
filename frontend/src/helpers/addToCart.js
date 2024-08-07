@@ -2,7 +2,6 @@ import { toast } from "react-toastify";
 import SummaryApi from "../Common";
 
 const addToCart = async (e, pid, vid, specId) => {
-  e.stopPropagation();
   e.preventDefault();
 
   const token = localStorage.getItem("token");

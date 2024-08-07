@@ -81,7 +81,7 @@ const AddProduct = () => {
     const images = e.target.files;
     const variants = [...product.variants];
     for (let i = 0; i < images.length; i++) {
-      let uploadImageCloudinary = await uploadImage(images[i]);
+      let uploadImageCloudinary = await uploadImage(images[i], "mega_mart");
       variants[variantIndex].images = [
         ...variants[variantIndex].images,
         uploadImageCloudinary.url,
@@ -460,7 +460,7 @@ const AddProduct = () => {
                       />
                     </label>
                     <div className="mt-5 flex gap-4">
-                      {variant.images.map((image, imageIndex) => (
+                      {variant?.images?.map((image, imageIndex) => (
                         <label
                           htmlFor="images"
                           className="flex relative group w-16 h-16 bg-zinc-800 rounded-md cursor-pointer"

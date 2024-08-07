@@ -10,6 +10,7 @@ async function addReview(req, resp) {
 
     let payload = {
       ...req.body,
+      userId: userId,
       verified: !!order,
     };
 
@@ -17,7 +18,7 @@ async function addReview(req, resp) {
     newReview = await newReview.save();
 
     resp.status(200).json({
-      message: "New review added",
+      message: "Thanks for your response",
       data: newReview,
       success: true,
       error: false,

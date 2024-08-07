@@ -86,7 +86,7 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
     const images = e.target.files;
     const variants = [...product.variants];
     for (let i = 0; i < images.length; i++) {
-      let uploadImageCloudinary = await uploadImage(images[i]);
+      let uploadImageCloudinary = await uploadImage(images[i], "mega_mart");
       variants[variantIndex].images = [
         ...variants[variantIndex].images,
         uploadImageCloudinary.url,

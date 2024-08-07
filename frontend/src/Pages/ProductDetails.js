@@ -16,25 +16,25 @@ import { GiElectric } from "react-icons/gi";
 import addToCart from "../helpers/addToCart";
 import addToFavourite from "../helpers/addToFavourite";
 import Context from "../Context";
+import ProductReviews from "../Components/ProductReviews";
+import productRating from "../helpers/productRating";
 
 const ProductDetails = () => {
   const [product, setProduct] = useState({
     variants: [],
     size: [],
   });
+  const [reviewMetrics, setReviewMetrics] = useState({});
   const [loading, setLoading] = useState(true);
   const [isFavourite, setIsFavourite] = useState(false);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
   const [variantImagesCount, setVariantImagesCount] = useState(0);
   const [currentImgIndex, setCurrentImgIndex] = useState(0);
   const [expandDesc, setExpandDesc] = useState(false);
-  const [descOverflow, setDescOverflow] = useState(false);
   const [imageZoom, setImageZoom] = useState(false);
   const [largeImage, setLargeImage] = useState("");
   const [specId, setSpecId] = useState("");
   const [showSize, setShowSize] = useState(false);
-
-  const descRef = useRef(null);
 
   const params = useParams();
   const { pid, vid } = params;
@@ -106,6 +106,11 @@ const ProductDetails = () => {
     }
   };
 
+  const fetchReviewMatrices = useCallback(async () => {
+    const data = await productRating(pid);
+    setReviewMetrics(data);
+  },[pid]);
+
   const fetchDetails = useCallback(async () => {
     let response = await fetch(SummaryApi.productdetails.url, {
       method: SummaryApi.productdetails.method,
@@ -123,12 +128,8 @@ const ProductDetails = () => {
 
   useEffect(() => {
     fetchDetails();
-
-    if (descRef.current) {
-      const { clientHeight, scrollHeight } = descRef.current;
-      setDescOverflow(scrollHeight > clientHeight);
-    }
-  }, [fetchDetails]);
+    fetchReviewMatrices();
+  }, [fetchDetails, fetchReviewMatrices]);
 
   useEffect(() => {
     if (product?.variants?.length > 0) {
@@ -157,12 +158,12 @@ const ProductDetails = () => {
   }, [product, vid, specId, favouriteProducts, cartProducts]);
 
   return (
-    <div className="w-full pt-1 lg:p-2 xl:p-4 text-white">
+    <div className="w-full pt-1.5 lg:px-2 text-white bg-customCard">
       {loading ? (
         <Spinner />
       ) : (
-        <div className="gap-2 lg:flex lg:h-[400px]">
-          <div className="w-full">
+        <div className="gap-2 lg:flex ">
+          <div className="w-full lg:max-w-2xl lg:h-[400px] ">
             {product?.variants?.map(
               (variant, vindex) =>
                 variant._id === vid && (
@@ -170,7 +171,7 @@ const ProductDetails = () => {
                     key={vindex}
                     className="w-full flex lg:justify-center lg:h-[400px] lg:gap-1 "
                   >
-                    <div className="hidden w-full lg:flex gap-2">
+                    <div className="hidden lg:flex w-full max-w-2xl gap-2 select-none">
                       <div className="flex flex-col gap-2 overflow-auto lg:h-[400px] no-scrollbar my-1 ">
                         {variant.images.map((image, imgindex) => (
                           <div
@@ -212,7 +213,7 @@ const ProductDetails = () => {
                             onClick={handleProductToCart}
                             className="flex w-full p-2 gap-2 justify-center items-center bg-green-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
                           >
-                            {isAddedToCart ? "Added" : "Add to Cart"}{" "}
+                            {isAddedToCart ? "Added" : "Add to Cart "}
                             <FaCartShopping />
                           </button>
                           <button className="flex w-full p-2 gap-2 justify-center items-center bg-yellow-600 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
@@ -237,6 +238,15 @@ const ProductDetails = () => {
                       </div>
 
                       <button
+                        onClick={handleProductToFavourite}
+                        className={`absolute right-2 top-2 text-xs ${
+                          isFavourite ? "text-red-500" : "text-gray-400"
+                        } bg-gray-200 rounded-full p-1 md:hover:scale-110`}
+                      >
+                        <FaHeart />
+                      </button>
+
+                      <button
                         onClick={() => setCurrentImgIndex(currentImgIndex - 1)}
                         className="absolute left-0 top-[50%] disabled:text-gray-500 text-gray-200 text-3xl bg-customCard"
                         disabled={currentImgIndex === 0}
@@ -256,134 +266,147 @@ const ProductDetails = () => {
             )}
           </div>
 
-          <div className="w-full relative flex flex-col top-0 my-1 p-4 gap-2 lg:h-[400px] bg-customCard overflow-auto no-scrollbar">
-            <div className="font-bold text-lg">{product.brand}</div>
-            <div className="text-lg line-clamp-2">{product.name}</div>
-            <div className="flex gap-4">
-              <span className="flex items-center bg-green-500 py-0.5 px-2 gap-2 rounded-md">
-                4.8 <FaRegStar />
-              </span>
-              <span>
-                {product.ratings.total} Ratings &{" "}
-                {product.customerReviews.length} Reviews
-              </span>
-            </div>
-            <div className="text-green-400">
-              Extra {displayNepCurrency(product.price.mrp - product.price.sell)}{" "}
-              off
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="text-2xl font-semibold">
-                {displayNepCurrency(product.price.sell)}
+          <div className="w-full flex flex-col flex-grow top-0 gap-1 p-1">
+            <div className="relative flex flex-col p-4 gap-2 border-2 border-zinc-400">
+              <div className="font-bold text-lg">{product.brand}</div>
+              <div className="text-lg line-clamp-2">{product.name}</div>
+              <div className="flex gap-4">
+                <span className="flex items-center bg-green-500 py-0.5 px-2 gap-2 rounded-md">
+                  {reviewMetrics?.avgRating} <FaRegStar />
+                </span>
+                <span>
+                  {reviewMetrics?.ratingCount} Ratings &{" "}
+                  {reviewMetrics?.commentCount} Reviews
+                </span>
               </div>
-              <div className="text-red-500 line-through ">
-                {displayNepCurrency(product.price.mrp)}
+              <div className="text-green-400">
+                Extra{" "}
+                {displayNepCurrency(product.price.mrp - product.price.sell)} off
               </div>
-              <div className="text-yellow-400">{product.discount}% off</div>
-            </div>
-            <div className="w-full">
-              {product.variants.length > 1 && (
-                <div className="flex w-full gap-4 items-center">
-                  <span className="w-20 font-semibold">Colors</span>
-                  <span> : </span>
-                  <div className="flex flex-wrap bg-customCard gap-1">
-                    {product.variants.map((variant, vindex) => (
-                      <Link
-                        to={`/product/${pid}/${variant?._id}`}
-                        className={`bg-zinc-800 ${
-                          variant?._id === vid && "border-2 border-green-500"
-                        }`}
-                      >
-                        <img
-                          key={vindex}
-                          src={variant.images[0]}
-                          alt={`images ${vindex + 1}`}
-                          className="w-full max-w-20 md:max-w-24"
-                          onClick={() => {
-                            fetchCartProducts();
-                            fetchFavouriteProducts();
-                          }}
-                        />
-                      </Link>
-                    ))}
+              <div className="flex items-center gap-4">
+                <div className="text-2xl font-semibold">
+                  {displayNepCurrency(product.price.sell)}
+                </div>
+                <div className="text-red-500 line-through ">
+                  {displayNepCurrency(product.price.mrp)}
+                </div>
+                <div className="text-yellow-400">{product.discount}% off</div>
+              </div>
+              <div className="w-full">
+                {product.variants.length > 1 && (
+                  <div className="flex w-full gap-4 items-center">
+                    <span className="w-20 font-semibold">Colors</span>
+                    <span> : </span>
+                    <div className="flex flex-wrap bg-customCard gap-1">
+                      {product.variants.map((variant, vindex) => (
+                        <Link
+                          to={`/product/${pid}/${variant?._id}`}
+                          className={`bg-zinc-800 ${
+                            variant?._id === vid && "border-2 border-green-500"
+                          }`}
+                        >
+                          <img
+                            key={vindex}
+                            src={variant.images[0]}
+                            alt={`images ${vindex + 1}`}
+                            className="w-full max-w-20 md:max-w-24"
+                            onClick={() => {
+                              fetchCartProducts();
+                              fetchFavouriteProducts();
+                            }}
+                          />
+                        </Link>
+                      ))}
+                    </div>
                   </div>
+                )}
+              </div>
+              {showSize && (
+                <div className="flex w-full gap-4 items-center">
+                  <label htmlFor="size" className="w-20 font-semibold">
+                    Choose Size
+                  </label>
+                  <span> : </span>
+                  <select
+                    name="size"
+                    id="size"
+                    value={specId}
+                    onChange={handleSpecIdChange}
+                    className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                    required
+                  >
+                    {product?.variants?.map(
+                      (variant, index) =>
+                        variant?._id === vid &&
+                        variant.specs.map((spec, sindex) => (
+                          <option key={sindex} value={spec?._id}>
+                            {spec?.size}
+                          </option>
+                        ))
+                    )}
+                  </select>
+                </div>
+              )}
+
+              <div className="flex gap-4">
+                <span className="w-20 font-semibold">Seller</span>
+                <span> : </span>
+                <span>{product.seller.name}</span>
+              </div>
+              <div className="flex gap-4">
+                <span className="w-20 font-semibold">Description</span>
+                <span> : </span>
+                <span className="flex flex-col">
+                  <div
+                    onClick={() => setExpandDesc(!expandDesc)}
+                    className={`${
+                      expandDesc ? "line-clamp-none" : "line-clamp-4"
+                    } cursor-pointer`}
+                  >
+                    {product?.description}
+                  </div>
+                </span>
+              </div>
+
+              {imageZoom && (
+                <div className="hidden lg:flex overflow-hidden absolute z-10 left-0 top-0 w-full h-[80vh] bg-zinc-800 border-2 border-transparent border-green-500">
+                  <div
+                    className="w-full h-full scale-110"
+                    style={{
+                      background: `url(${largeImage})`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: `${imgCoordinate.x * 100}% ${
+                        imgCoordinate.y * 100
+                      }% `,
+                    }}
+                  ></div>
                 </div>
               )}
             </div>
-            {showSize && (
-              <div className="flex w-full gap-4 items-center">
-                <label htmlFor="size" className="w-20 font-semibold">
-                  Choose Size
-                </label>
-                <span> : </span>
-                <select
-                  name="size"
-                  id="size"
-                  value={specId}
-                  onChange={handleSpecIdChange}
-                  className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
-                  required
-                >
-                  {product?.variants?.map(
-                    (variant, index) =>
-                      variant?._id === vid &&
-                      variant.specs.map((spec, sindex) => (
-                        <option key={sindex} value={spec?._id}>
-                          {spec?.size}
-                        </option>
-                      ))
-                  )}
-                </select>
+            <div className="w-full p-4 border-2 border-zinc-400">
+              <div className="flex justify-between">
+                <span className="text-xl font-bold my-1">
+                  Reviews and Ratings
+                </span>
+                <Link to={`/product/${pid}/${vid}/add-review`} className="flex p-2 gap-2 justify-center items-center bg-custom shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
+                  Rate Product <FaRegStar />
+                </Link>
               </div>
-            )}
-
-            <div className="flex gap-4">
-              <span className="w-20 font-semibold">Seller</span>
-              <span> : </span>
-              <span>{product.seller.name}</span>
-            </div>
-            <div className="flex gap-4">
-              <span className="w-20 font-semibold">Description</span>
-              <span> : </span>
-              <span className="flex flex-col">
-                <div
-                  ref={descRef}
-                  className={`${expandDesc ? "" : "line-clamp-4"}`}
-                >
-                  {product.description}
-                </div>
-                {descOverflow && (
-                  <span
-                    onClick={() => setExpandDesc(!expandDesc)}
-                    className="cursor-pointer font-extrabold"
-                  >
-                    {expandDesc ? "show less" : "show more..."}
-                  </span>
-                )}
-              </span>
-            </div>
-
-            {imageZoom && (
-              <div className="hidden lg:flex absolute left-0 top-0 z-10 w-full h-full bg-zinc-800 border-2 border-transparent border-green-500">
-                <div
-                  className="w-full h-full scale-110"
-                  style={{
-                    background: `url(${largeImage})`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: `${imgCoordinate.x * 100}% ${
-                      imgCoordinate.y * 100
-                    }% `,
-                  }}
-                ></div>
+              <div className="mt-4">
+                <ProductReviews productId={pid} reviewMetrics={reviewMetrics}/>
               </div>
-            )}
+            </div>
           </div>
 
           <div className="fixed z-20 bottom-0 lg:hidden flex w-full justify-between text-xl">
-            <button className="flex w-full p-5 gap-2 justify-center items-center bg-green-500 active:translate-x-0.5 transition-all">
-              Add to Cart <FaCartShopping />
+            <button
+              onClick={handleProductToCart}
+              className="flex w-full p-4 gap-2 justify-center items-center bg-green-500 active:translate-x-0.5 transition-all"
+            >
+              {isAddedToCart ? "Added" : "Add to Cart "}
+              <FaCartShopping />
             </button>
-            <button className="flex w-full p-5 gap-2 justify-center items-center bg-yellow-600 active:-translate-x-0.5 transition-all">
+            <button className="flex w-full p-4 gap-2 justify-center items-center bg-yellow-600 active:-translate-x-0.5 transition-all">
               Buy Now <GiElectric />
             </button>
           </div>

@@ -68,7 +68,7 @@ const ProductCard = ({ product, variant }) => {
             <div className="flex gap-1 md:gap-2">
               {/* <StarRating rating={product.ratings.average} /> */}
               {/* <span className="mt-0.5">{product.ratings.average}/5 ({product.ratings.total})</span> */}
-              <StarRating rating={4.5} />
+              <StarRating rating={4.5} dimension={"13px"}/>
               {/* <span className="mt-0.5 font-light">
               {4.5}/5({50})
             </span> */}

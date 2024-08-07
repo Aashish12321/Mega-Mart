@@ -81,7 +81,22 @@ const SummaryApi = {
         url: `/api/favourite-products-details`,
         method: 'get'
     },
-    
+    add_new_review : {
+        url: `/api/add-new-review`,
+        method: 'post'
+    },
+    read_reviews : {
+        url: `/api/read-reviews`,
+        method: 'post'
+    },
+    reply_to_review : {
+        url: `/api/reply-to-review`,
+        method: 'post'
+    },
+    product_rating : {
+        url: `/api/product-rating`,
+        method: 'post'
+    },
 }
 
 export default SummaryApi;

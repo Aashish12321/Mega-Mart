@@ -5,7 +5,7 @@ const replySchema = new mongoose.Schema(
     sellerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: true
     },
     reply: { type: String, required: true },
   },
@@ -28,7 +28,7 @@ const ReviewSchema = new mongoose.Schema(
     },
     verified: { type: Boolean, default: false },
     rating: { type: Number, required: true, min: 1, max: 5 },
-    comment: { type: String, required: true },
+    comment: { type: String },
     images: [{ type: String }],
     replies: [replySchema],
   },
