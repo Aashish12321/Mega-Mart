@@ -27,6 +27,7 @@ const addReview = require("../controller/users/addReview");
 const readReviews = require("../controller/users/readReviews");
 const replyToReview = require("../controller/users/replyToReview");
 const productRating = require("../controller/products/productRating");
+const deleteMedia = require("../controller/cloudinary/deleteMedia");
 
 
 router.post("/signup", userSignUp);
@@ -48,6 +49,9 @@ router.post("/add-new-review", authToken, addReview);
 router.post("/read-reviews", readReviews);
 router.post("/reply-to-review", authToken, replyToReview);
 router.post("/product-rating",  productRating);
+
+// cloudinary
+router.post("/delete-media", authToken, deleteMedia);
 
 
 // admin

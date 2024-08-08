@@ -97,6 +97,10 @@ const SummaryApi = {
         url: `/api/product-rating`,
         method: 'post'
     },
+    delete_media : {
+        url: `/api/delete-media`,
+        method: 'post'
+    },
 }
 
 export default SummaryApi;

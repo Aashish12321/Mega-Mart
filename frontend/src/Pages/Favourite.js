@@ -39,7 +39,7 @@ const Favourite = () => {
     <div className="md:mx-6 px-2 py-4 text-white">
       <div className="flex justify-between text-2xl font-semibold py-2 border-b-2 border-gray-700 select-none">
         <span>Favourites</span>
-        <span>{favouriteProducts.length} Items</span>
+        <span>{favouriteProducts?.length} Items</span>
       </div>
 
       <div className="flex flex-wrap gap-4 md:gap-6 py-4 items-center overflow-auto no-scrollbar scroll-smooth">
@@ -51,7 +51,7 @@ const Favourite = () => {
           <ProductLoader wrap={"flex-wrap"} />
         ) : (
           products?.map((product, pindex) =>
-            product.variants.map((variant, vindex) => (
+            product?.variants?.map((variant, vindex) => (
               <ProductCard
                 key={vindex}
                 product={product}

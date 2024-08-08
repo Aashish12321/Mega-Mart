@@ -8,10 +8,13 @@ import DisplayFullImage from "../../Components/DisplayFullImage";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
+import UploadImgLoader from "../../Components/Loaders/UploadImgLoader";
 
 const AddReview = () => {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userImgLoader, setUserImgLoader] = useState(false);
+  const [userImgCount, setUserImgCount] = useState(0);
   const { pid, vid } = useParams();
   const [fullImage, setFullImage] = useState("");
   const [openFullImage, setOpenFullImage] = useState(false);
@@ -31,9 +34,12 @@ const AddReview = () => {
   };
 
   const handleImageUpload = async (e) => {
+    setUserImgLoader(true);
     const files = e.target.files;
+    setUserImgCount(files.length);
+
     let images = [...review?.images];
-    for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i < files?.length; i++) {
       let uploadImageCloudinary = await uploadImage(
         files[i],
         "megamart_reviews"
@@ -41,13 +47,32 @@ const AddReview = () => {
       images = [...images, uploadImageCloudinary.url];
     }
     setReview({ ...review, images });
+    setUserImgLoader(false);
   };
 
   const handleImageDelete = async (imgIndex) => {
     let images = [...review?.images];
-    images.splice(imgIndex, 1);
+    let deletedImgUrl = images.splice(imgIndex, 1);
+    deletedImgUrl = deletedImgUrl[0];
     images = [...images];
     setReview({ ...review, images });
+    
+    // deleting from cloudinary
+    let response = await fetch(SummaryApi.delete_media.url, {
+      method: SummaryApi.delete_media.method,
+      headers:{
+        'content-type':'application/json',
+        authorization: `${token}`
+      },
+      body: JSON.stringify({url: deletedImgUrl})
+    })
+    response = await response.json();
+    if (response.success){
+      toast.success(response.message);
+    }
+    else{
+      toast.error(response.message);
+    }
   };
 
   useEffect(() => {
@@ -116,9 +141,7 @@ const AddReview = () => {
                     )
                 )}
               </div>
-              <div className="flex flex-wrap text-center">
-                {product?.description}
-              </div>
+              <div className="flex flex-wrap text-center">{product?.name}</div>
               <div className="w-full flex flex-col items-center mt-8 my-1 gap-4">
                 <span className="text-lg lg:text-xl font-semibold">
                   Rate the Product
@@ -161,31 +184,35 @@ const AddReview = () => {
                   onChange={handleImageUpload}
                 />
               </label>
-              <div className="mt-1 flex gap-4">
-                {review?.images?.map((image, index) => (
-                  <label
-                    htmlFor="images"
-                    className="flex relative group w-16 h-16 bg-zinc-800 rounded-md cursor-pointer"
-                  >
-                    <img
-                      src={image}
-                      alt={`img-${index}`}
-                      id="images"
-                      name="images"
-                      className="w-full h-full object-contain rounded-md cursor-pointer"
-                      onClick={() => {
-                        setOpenFullImage(true);
-                        setFullImage(image);
-                      }}
-                    />
-                    <div
-                      onClick={() => handleImageDelete(index)}
-                      className="hidden group-hover:block absolute -mb-3 -right-1 bg-red-500 rounded-full "
+              <div className="mt-1 flex gap-2">
+                {userImgLoader ? (
+                  <UploadImgLoader length={userImgCount} />
+                ) : (
+                  review?.images?.map((image, index) => (
+                    <label
+                      htmlFor="images"
+                      className="relative group w-16 h-16 bg-zinc-800 rounded-md cursor-pointer"
                     >
-                      <MdDelete className="text-md p-0.5" />
-                    </div>
-                  </label>
-                ))}
+                      <img
+                        src={image}
+                        alt={`img-${index}`}
+                        id="images"
+                        name="images"
+                        className="w-full h-full object-contain rounded-md cursor-pointer"
+                        onClick={() => {
+                          setOpenFullImage(true);
+                          setFullImage(image);
+                        }}
+                      />
+                      <div
+                        onClick={() => handleImageDelete(index)}
+                        className="hidden group-hover:block absolute -mt-3 -right-1 bg-red-500 rounded-full "
+                      >
+                        <MdDelete className="text-md p-0.5" />
+                      </div>
+                    </label>
+                  ))
+                )}
               </div>
             </div>
           </div>

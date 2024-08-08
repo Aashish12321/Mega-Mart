@@ -60,15 +60,15 @@ const router = createBrowserRouter([
       },
       {
         path: "mycart",
-        element: <Cart />,
+        element: <ProtectedRoute><Cart /></ProtectedRoute>,
       },
       {
         path: "myfavourite",
-        element: <Favourite/>,
+        element: <ProtectedRoute><Favourite/></ProtectedRoute>,
       },
       {
         path: "/product/:pid/:vid/add-review",
-        element: <AddReview />
+        element: <ProtectedRoute><AddReview /></ProtectedRoute>,
       },
       {
         path: "permission-denied",

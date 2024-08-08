@@ -8,11 +8,15 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { selectCategories, selectUser } from "../../Store/selector";
 import { useSelector } from "react-redux";
+import UploadImgLoader from "../../Components/Loaders/UploadImgLoader";
 
 const AddProduct = () => {
   const user = useSelector(selectUser);
   const categories = useSelector(selectCategories);
   const token = localStorage.getItem("token");
+
+  const [imgLoader, setImgLoader] = useState(false);
+  const [imgCount, setImgCount] = useState(0);
 
   const [product, setProduct] = useState({
     name: "",
@@ -78,9 +82,11 @@ const AddProduct = () => {
   };
 
   const handleImageUpload = async (variantIndex, e) => {
+    setImgLoader(true);
     const images = e.target.files;
-    const variants = [...product.variants];
-    for (let i = 0; i < images.length; i++) {
+    setImgCount(images?.length);
+    const variants = [...product?.variants];
+    for (let i = 0; i < images?.length; i++) {
       let uploadImageCloudinary = await uploadImage(images[i], "mega_mart");
       variants[variantIndex].images = [
         ...variants[variantIndex].images,
@@ -88,14 +94,33 @@ const AddProduct = () => {
       ];
     }
     setProduct({ ...product, variants });
+    setImgLoader(false);
   };
 
   const handleImageDelete = async (variantIndex, imageIndex) => {
     const variants = [...product.variants];
     const newImages = [...variants[variantIndex].images];
-    newImages.splice(imageIndex, 1);
+    let deletedImgUrl = newImages.splice(imageIndex, 1);
+    deletedImgUrl = deletedImgUrl[0];
     variants[variantIndex].images = [...newImages];
     setProduct({ ...product, variants });
+
+    // deleting from cloudinary
+    let response = await fetch(SummaryApi.delete_media.url, {
+      method: SummaryApi.delete_media.method,
+      headers:{
+        'content-type':'application/json',
+        authorization: `${token}`
+      },
+      body: JSON.stringify({url: deletedImgUrl})
+    })
+    response = await response.json();
+    if (response.success){
+      toast.success(response.message);
+    }
+    else{
+      toast.error(response.message);
+    }
   };
 
   const addVariant = () => {
@@ -460,13 +485,13 @@ const AddProduct = () => {
                       />
                     </label>
                     <div className="mt-5 flex gap-4">
-                      {variant?.images?.map((image, imageIndex) => (
+                      { imgLoader ? <UploadImgLoader length={imgCount}/> :
+                        variant?.images?.map((image, imageIndex) => (
                         <label
                           htmlFor="images"
-                          className="flex relative group w-16 h-16 bg-zinc-800 rounded-md cursor-pointer"
+                          className="relative group w-16 h-16 bg-zinc-800 rounded-md cursor-pointer"
                         >
                           <img
-                            // key={imageIndex}
                             src={image}
                             alt={`var-${variantIndex}-img-${imageIndex}`}
                             id="images"

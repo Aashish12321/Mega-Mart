@@ -98,9 +98,27 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
   const handleImageDelete = async (variantIndex, imageIndex) => {
     const variants = [...product.variants];
     const newImages = [...variants[variantIndex].images];
-    newImages.splice(imageIndex, 1);
+    let deletedImgUrl = newImages.splice(imageIndex, 1);
+    deletedImgUrl = deletedImgUrl[0];
     variants[variantIndex].images = [...newImages];
     setProduct({ ...product, variants });
+
+    // deleting from cloudinary
+    let response = await fetch(SummaryApi.delete_media.url, {
+      method: SummaryApi.delete_media.method,
+      headers:{
+        'content-type':'application/json',
+        authorization: `${token}`
+      },
+      body: JSON.stringify({url: deletedImgUrl})
+    })
+    response = await response.json();
+    if (response.success){
+      toast.success(response.message);
+    }
+    else{
+      toast.error(response.message);
+    }
   };
 
   const addVariant = () => {

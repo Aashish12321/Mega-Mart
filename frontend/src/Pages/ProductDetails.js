@@ -9,9 +9,9 @@ import { Link, useParams } from "react-router-dom";
 import SummaryApi from "../Common";
 import Spinner from "../Components/Loaders/Spinner";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
-import { FaRegStar } from "react-icons/fa";
+import { IoStarSharp } from "react-icons/io5";
 import displayNepCurrency from "../helpers/displayNepCurrency";
-import { FaCartShopping, FaHeart } from "react-icons/fa6";
+import { FaCartShopping, FaHeart, FaRegStar } from "react-icons/fa6";
 import { GiElectric } from "react-icons/gi";
 import addToCart from "../helpers/addToCart";
 import addToFavourite from "../helpers/addToFavourite";
@@ -272,7 +272,7 @@ const ProductDetails = () => {
               <div className="text-lg line-clamp-2">{product.name}</div>
               <div className="flex gap-4">
                 <span className="flex items-center bg-green-500 py-0.5 px-2 gap-2 rounded-md">
-                  {reviewMetrics?.avgRating} <FaRegStar />
+                  {reviewMetrics?.avgRating} <IoStarSharp />
                 </span>
                 <span>
                   {reviewMetrics?.ratingCount} Ratings &{" "}
@@ -359,7 +359,7 @@ const ProductDetails = () => {
                 <span className="flex flex-col">
                   <div
                     onClick={() => setExpandDesc(!expandDesc)}
-                    className={`${
+                    className={`font-Roboto ${
                       expandDesc ? "line-clamp-none" : "line-clamp-4"
                     } cursor-pointer`}
                   >
@@ -369,7 +369,7 @@ const ProductDetails = () => {
               </div>
 
               {imageZoom && (
-                <div className="hidden lg:flex overflow-hidden absolute z-10 left-0 top-0 w-full h-[80vh] bg-zinc-800 border-2 border-transparent border-green-500">
+                <div className="hidden lg:flex overflow-hidden absolute z-10 left-0 top-0 w-full h-[500px] bg-zinc-800 border-2 border-transparent">
                   <div
                     className="w-full h-full scale-110"
                     style={{
@@ -383,7 +383,7 @@ const ProductDetails = () => {
                 </div>
               )}
             </div>
-            <div className="w-full p-4 border-2 border-zinc-400">
+            <div className="w-full mt-1 p-4 border-2 border-zinc-400">
               <div className="flex justify-between">
                 <span className="text-xl font-bold my-1">
                   Reviews and Ratings

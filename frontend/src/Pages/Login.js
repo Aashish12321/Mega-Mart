@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import logo from "../Assets/loginIcon.gif";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
 import SummaryApi from "../Common";
@@ -8,17 +12,16 @@ import { toast } from "react-toastify";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
 
+  const location = useLocation();
   const navigate = useNavigate();
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
-
     setUser((previousData) => {
       return {
         ...previousData,
@@ -43,9 +46,9 @@ const Login = () => {
     localStorage.setItem("token", token);
 
     if (response.success) {
-      // fetchUserDetails();
-      navigate("/");
       toast.success(response.message);
+      const redirectTo = new URLSearchParams(location?.search).get("redirect") || "/";
+      navigate(redirectTo);
     } else {
       toast.error(response.message);
     }
@@ -55,7 +58,7 @@ const Login = () => {
       <div className="items-center bg-customCard text-white shadow-custom p-2 max-w-md mx-auto rounded-lg">
         <img src={logo} alt="logo" className="w-16 mx-auto mt-2" />
         <form onSubmit={handleLogin} className="mt-4">
-          Email:  
+          Email:
           <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md ">
             <input
               type="email"

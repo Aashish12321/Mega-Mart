@@ -23,14 +23,8 @@ const ProtectedRoute = ({ children }) => {
           setLoader(false);
           return;
         }
-        // else {
-        //   throw new Error('Token expired admin, Please login again');
-        // }
       } catch (err) {
-        // localStorage.removeItem("token");
-        // navigate('/login');
-        // toast.error(err.message);
-        // return;
+        toast.error(err);
       }
     };
 
@@ -38,9 +32,9 @@ const ProtectedRoute = ({ children }) => {
       if (currentRoute === "/login" || currentRoute === "/signup") {
         setLoader(false);
       } else {
-        navigate("/login");
+        navigate(`/login?redirect=${currentRoute}`);
         setLoader(false);
-        toast.info("Login First");
+        toast.info("Please login to continue");
       }
     } else {
       if (currentRoute.startsWith("/admin")) {
@@ -50,7 +44,6 @@ const ProtectedRoute = ({ children }) => {
         setLoader(false);
         toast.info("Already logged in");
       } else {
-        // checkGeneral();
         setLoader(false);
       }
     }
