@@ -74,8 +74,8 @@ const Cart = () => {
   }, [cartProducts, fetchCartProductsDetails]);
 
   return (
-    <div className="w-full text-white border border-transparent">
-      <div className="flex lg:mx-12 justify-between text-xl lg:text-2xl font-semibold py-1 border-b-2 border-gray-700">
+    <div className="w-full text-white border border-transparent p-1">
+      <div className="flex mt-2 lg:mx-12 justify-between text-xl lg:text-2xl font-semibold py-1 border-b-2 border-gray-700">
         <span>Shopping Cart</span>
         <span>{cartProducts.length} Items</span>
       </div>
@@ -90,9 +90,9 @@ const Cart = () => {
         ) : (
           <table className="my-2 w-full bg-customCard">
             <thead className="w-full">
-              <tr className="w-full text-lg text-gray-300 border-b-2">
+              <tr className="w-full md:text-lg text-gray-300 border-b-2">
                 <th>PRODUCT</th>
-                <th>QUANTITY</th>
+                <th className="hidden md:flex">QUANTITY</th>
                 <th>PRICE</th>
                 <th>TOTAL</th>
               </tr>
@@ -132,7 +132,7 @@ const Cart = () => {
                                       {product?.name}
                                     </span>
                                     {spec?.size && (
-                                      <span className="flex font-bold w-full gap-4 items-center">
+                                      <span className="flex font-bold w-full gap-1 md:gap-4 items-center">
                                         <span>Size</span>
                                         <span> : </span>
                                         <span>{spec?.size}</span>
@@ -155,9 +155,7 @@ const Cart = () => {
                                     </span>
                                   </span>
                                 </Link>
-                              </td>
-                              <td className="text-center p-2">
-                                <span>
+                                <span className="flex md:hidden mt-4">
                                   <span
                                     onClick={() => {
                                       let check = checkQuantity(
@@ -174,7 +172,54 @@ const Cart = () => {
                                         );
                                       }
                                     }}
-                                    className="text-2xl active:text-red-500 cursor-pointer font-bold bg-zinc-800 px-2 border border-gray-500"
+                                    className="text-2xl select-none active:text-red-500 cursor-pointer font-bold bg-zinc-800 px-2 border border-gray-500"
+                                  >
+                                    -
+                                  </span>
+                                  <span className="text-2xl select-none bg-zinc-800 px-2 border border-gray-500">
+                                    {cartVariant?.quantity}
+                                  </span>
+                                  <span
+                                    onClick={() => {
+                                      let check = checkQuantity(
+                                        cartVariant?.productId,
+                                        cartVariant?.variantId,
+                                        cartVariant?.specId,
+                                        cartVariant?.quantity + 1
+                                      );
+                                      if (check) {
+                                        updateQuantityInCart(
+                                          cartVariant?.variantId,
+                                          cartVariant?.specId,
+                                          cartVariant?.quantity + 1
+                                        );
+                                      }
+                                    }}
+                                    className="text-2xl select-none active:text-green-500 cursor-pointer bg-zinc-800 px-2 border border-gray-500"
+                                  >
+                                    +
+                                  </span>
+                                </span>
+                              </td>
+                              <td className="hidden md:table-cell text-center p-2">
+                                <span className="flex">
+                                  <span
+                                    onClick={() => {
+                                      let check = checkQuantity(
+                                        cartVariant?.productId,
+                                        cartVariant?.variantId,
+                                        cartVariant?.specId,
+                                        cartVariant?.quantity - 1
+                                      );
+                                      if (check) {
+                                        updateQuantityInCart(
+                                          cartVariant?.variantId,
+                                          cartVariant?.specId,
+                                          cartVariant?.quantity - 1
+                                        );
+                                      }
+                                    }}
+                                    className="text-2xl select-none active:text-red-500 cursor-pointer font-bold bg-zinc-800 px-2 border border-gray-500"
                                   >
                                     -
                                   </span>
@@ -197,7 +242,7 @@ const Cart = () => {
                                         );
                                       }
                                     }}
-                                    className="text-2xl active:text-green-500 cursor-pointer bg-zinc-800 px-2 border border-gray-500"
+                                    className="text-2xl select-none active:text-green-500 cursor-pointer bg-zinc-800 px-2 border border-gray-500"
                                   >
                                     +
                                   </span>

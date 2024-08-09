@@ -3,12 +3,13 @@ import AddStarRating from "../../Components/AddStarRating";
 import { useNavigate, useParams } from "react-router-dom";
 import SummaryApi from "../../Common";
 import Spinner from "../../Components/Loaders/Spinner";
-import uploadImage from "../../helpers/uploadImage";
 import DisplayFullImage from "../../Components/DisplayFullImage";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import UploadImgLoader from "../../Components/Loaders/UploadImgLoader";
+import uploadMedia from "../../helpers/uploadMedia";
+import deleteMedia from "../../helpers/deleteMedia";
 
 const AddReview = () => {
   const [product, setProduct] = useState([]);
@@ -36,15 +37,15 @@ const AddReview = () => {
   const handleImageUpload = async (e) => {
     setUserImgLoader(true);
     const files = e.target.files;
-    setUserImgCount(files.length);
+    setUserImgCount(files?.length);
 
     let images = [...review?.images];
     for (let i = 0; i < files?.length; i++) {
-      let uploadImageCloudinary = await uploadImage(
+      let uploadMediaCloudinary = await uploadMedia(
         files[i],
         "megamart_reviews"
       );
-      images = [...images, uploadImageCloudinary.url];
+      images = [...images, uploadMediaCloudinary.url];
     }
     setReview({ ...review, images });
     setUserImgLoader(false);
@@ -52,27 +53,13 @@ const AddReview = () => {
 
   const handleImageDelete = async (imgIndex) => {
     let images = [...review?.images];
-    let deletedImgUrl = images.splice(imgIndex, 1);
-    deletedImgUrl = deletedImgUrl[0];
+    let deletedMediaUrl = images.splice(imgIndex, 1);
+    deletedMediaUrl = deletedMediaUrl[0];
     images = [...images];
     setReview({ ...review, images });
     
     // deleting from cloudinary
-    let response = await fetch(SummaryApi.delete_media.url, {
-      method: SummaryApi.delete_media.method,
-      headers:{
-        'content-type':'application/json',
-        authorization: `${token}`
-      },
-      body: JSON.stringify({url: deletedImgUrl})
-    })
-    response = await response.json();
-    if (response.success){
-      toast.success(response.message);
-    }
-    else{
-      toast.error(response.message);
-    }
+    await deleteMedia(token, deletedMediaUrl);
   };
 
   useEffect(() => {
@@ -122,7 +109,7 @@ const AddReview = () => {
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="w-full p-2 md:p-8 justify-around bg-customCard rounded-lg"
+          className="w-full p-2 md:p-8 justify-around bg-customCard rounded-2xl"
         >
           <div className="text-xl text-center lg:text-2xl font-bold my-1">
             Add Review
@@ -184,7 +171,7 @@ const AddReview = () => {
                   onChange={handleImageUpload}
                 />
               </label>
-              <div className="mt-1 flex gap-2">
+              <div className="mt-1 flex flex-wrap gap-4">
                 {userImgLoader ? (
                   <UploadImgLoader length={userImgCount} />
                 ) : (

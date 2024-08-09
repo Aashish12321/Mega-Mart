@@ -138,19 +138,19 @@ const Header = () => {
               )}
               {token && (
                 <div
-                  className=" mx-3 text-3xl cursor-pointer text-white items-center"
+                  className="min-[375px]:mx-3 text-3xl cursor-pointer text-white items-center"
                   onClick={() => {
                     setShowUserMenu(!showuserMenu);
                   }}
                 >
                   {user?.profilePic ? (
                     <img
-                      className="w-10 h-10 rounded-full"
+                      className="w-full max-w-10 rounded-full"
                       src={user?.profilePic}
                       alt={user?.username}
                     />
                   ) : (
-                    <FaUserCircle className="w-10 h-10" />
+                    <FaUserCircle className="w-full max-w-10 h-10" />
                   )}
                 </div>
               )}

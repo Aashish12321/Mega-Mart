@@ -18,6 +18,8 @@ import addToFavourite from "../helpers/addToFavourite";
 import Context from "../Context";
 import ProductReviews from "../Components/ProductReviews";
 import productRating from "../helpers/productRating";
+import RecommendedProducts from "../Components/RecommendedProducts";
+import RecommendedProductCard from "../Components/RecommendedProductCard";
 
 const ProductDetails = () => {
   const [product, setProduct] = useState({
@@ -109,7 +111,7 @@ const ProductDetails = () => {
   const fetchReviewMatrices = useCallback(async () => {
     const data = await productRating(pid);
     setReviewMetrics(data);
-  },[pid]);
+  }, [pid]);
 
   const fetchDetails = useCallback(async () => {
     let response = await fetch(SummaryApi.productdetails.url, {
@@ -162,239 +164,263 @@ const ProductDetails = () => {
       {loading ? (
         <Spinner />
       ) : (
-        <div className="gap-2 lg:flex ">
-          <div className="w-full lg:max-w-2xl lg:h-[400px] ">
-            {product?.variants?.map(
-              (variant, vindex) =>
-                variant._id === vid && (
-                  <div
-                    key={vindex}
-                    className="w-full flex lg:justify-center lg:h-[400px] lg:gap-1 "
-                  >
-                    <div className="hidden lg:flex w-full max-w-2xl gap-2 select-none">
-                      <div className="flex flex-col gap-2 overflow-auto lg:h-[400px] no-scrollbar my-1 ">
-                        {variant.images.map((image, imgindex) => (
-                          <div
-                            key={imgindex}
-                            onLoad={() => setLargeImage(variant.images[0])}
-                            onClick={() => setLargeImage(image)}
-                            className="hidden lg:flex w-full max-w-32 justify-center object-contain cursor-pointer bg-zinc-800 border-2 border-transparent hover:border-green-500"
-                          >
+        <div>
+          <div className="gap-2 lg:flex ">
+            <div className="w-full lg:max-w-2xl">
+              {product?.variants?.map(
+                (variant, vindex) =>
+                  variant._id === vid && (
+                    <div
+                      key={vindex}
+                      className="w-full lg:justify-center lg:gap-1 "
+                    >
+                      <div className="hidden lg:flex w-full max-w-2xl gap-2 select-none">
+                        <div className="flex flex-col gap-2 overflow-auto lg:h-[400px] no-scrollbar my-1 ">
+                          {variant.images.map((image, imgindex) => (
+                            <div
+                              key={imgindex}
+                              onLoad={() => setLargeImage(variant.images[0])}
+                              onClick={() => setLargeImage(image)}
+                              className="hidden lg:flex w-full max-w-32 justify-center object-contain cursor-pointer bg-zinc-800 border-2 border-transparent hover:border-green-500"
+                            >
+                              <img
+                                src={image}
+                                alt={`images ${imgindex + 1}.webp`}
+                                className="max-h-32"
+                              />
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="flex flex-col w-full">
+                          <div className="hidden lg:flex relative w-full h-[400px] items-center my-1 py-1 justify-center object-contain bg-zinc-800">
+                            <button
+                              onClick={handleProductToFavourite}
+                              className={`absolute right-1 top-1 text-xs ${
+                                isFavourite ? "text-red-500" : "text-gray-400"
+                              } bg-gray-200 rounded-full p-1 md:hover:scale-110`}
+                            >
+                              <FaHeart />
+                            </button>
                             <img
-                              src={image}
-                              alt={`images ${imgindex + 1}.webp`}
-                              className="max-h-32"
+                              src={largeImage}
+                              alt={"images 0.webp"}
+                              className={`h-[396px] cursor-pointer object-scale-down`}
+                              onMouseMove={handleZoomImage}
+                              onMouseLeave={() => setImageZoom(false)}
                             />
                           </div>
-                        ))}
-                      </div>
 
-                      <div className="flex flex-col w-full">
-                        <div className="hidden lg:flex relative w-full h-[400px] items-center my-1 py-1 justify-center object-contain bg-zinc-800">
-                          <button
-                            onClick={handleProductToFavourite}
-                            className={`absolute right-1 top-1 text-xs ${
-                              isFavourite ? "text-red-500" : "text-gray-400"
-                            } bg-gray-200 rounded-full p-1 md:hover:scale-110`}
-                          >
-                            <FaHeart />
-                          </button>
-                          <img
-                            src={largeImage}
-                            alt={"images 0.webp"}
-                            className={`h-[396px] cursor-pointer object-scale-down`}
-                            onMouseMove={handleZoomImage}
-                            onMouseLeave={() => setImageZoom(false)}
-                          />
-                        </div>
-
-                        <div className="flex w-full justify-between text-xl gap-1">
-                          <button
-                            onClick={handleProductToCart}
-                            className="flex w-full p-2 gap-2 justify-center items-center bg-green-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
-                          >
-                            {isAddedToCart ? "Added" : "Add to Cart "}
-                            <FaCartShopping />
-                          </button>
-                          <button className="flex w-full p-2 gap-2 justify-center items-center bg-yellow-600 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
-                            Buy Now <GiElectric />
-                          </button>
+                          <div className="flex w-full justify-between text-xl gap-1">
+                            <button
+                              onClick={handleProductToCart}
+                              className="flex w-full p-2 gap-2 justify-center items-center bg-green-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+                            >
+                              {isAddedToCart ? "Added" : "Add to Cart "}
+                              <FaCartShopping />
+                            </button>
+                            <button className="flex w-full p-2 gap-2 justify-center items-center bg-yellow-600 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
+                              Buy Now <GiElectric />
+                            </button>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="w-full relative lg:hidden h-fit">
-                      <div
-                        onTouchStart={handleTouchStart}
-                        onTouchMove={handleTouchMove}
-                        onTouchEnd={handleTouchEnd}
-                        className="flex w-full justify-center object-contain gap-1 overflow-auto no-scrollbar scroll-smooth bg-zinc-800"
-                      >
-                        <img
-                          src={variant.images[currentImgIndex]}
-                          alt={`images ${currentImgIndex + 1}.webp`}
-                          className="max-h-80"
-                        />
-                      </div>
-
-                      <button
-                        onClick={handleProductToFavourite}
-                        className={`absolute right-2 top-2 text-xs ${
-                          isFavourite ? "text-red-500" : "text-gray-400"
-                        } bg-gray-200 rounded-full p-1 md:hover:scale-110`}
-                      >
-                        <FaHeart />
-                      </button>
-
-                      <button
-                        onClick={() => setCurrentImgIndex(currentImgIndex - 1)}
-                        className="absolute left-0 top-[50%] disabled:text-gray-500 text-gray-200 text-3xl bg-customCard"
-                        disabled={currentImgIndex === 0}
-                      >
-                        <MdKeyboardArrowLeft />
-                      </button>
-                      <button
-                        onClick={() => setCurrentImgIndex(currentImgIndex + 1)}
-                        className="absolute right-0 top-[50%] disabled:text-gray-500 text-gray-200 text-3xl bg-customCard"
-                        disabled={currentImgIndex === variantImagesCount - 1}
-                      >
-                        <MdKeyboardArrowRight />
-                      </button>
-                    </div>
-                  </div>
-                )
-            )}
-          </div>
-
-          <div className="w-full flex flex-col flex-grow top-0 gap-1 p-1">
-            <div className="relative flex flex-col p-4 gap-2 border-2 border-zinc-400">
-              <div className="font-bold text-lg">{product.brand}</div>
-              <div className="text-lg line-clamp-2">{product.name}</div>
-              <div className="flex gap-4">
-                <span className="flex items-center bg-green-500 py-0.5 px-2 gap-2 rounded-md">
-                  {reviewMetrics?.avgRating} <IoStarSharp />
-                </span>
-                <span>
-                  {reviewMetrics?.ratingCount} Ratings &{" "}
-                  {reviewMetrics?.commentCount} Reviews
-                </span>
-              </div>
-              <div className="text-green-400">
-                Extra{" "}
-                {displayNepCurrency(product.price.mrp - product.price.sell)} off
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="text-2xl font-semibold">
-                  {displayNepCurrency(product.price.sell)}
-                </div>
-                <div className="text-red-500 line-through ">
-                  {displayNepCurrency(product.price.mrp)}
-                </div>
-                <div className="text-yellow-400">{product.discount}% off</div>
-              </div>
-              <div className="w-full">
-                {product.variants.length > 1 && (
-                  <div className="flex w-full gap-4 items-center">
-                    <span className="w-20 font-semibold">Colors</span>
-                    <span> : </span>
-                    <div className="flex flex-wrap bg-customCard gap-1">
-                      {product.variants.map((variant, vindex) => (
-                        <Link
-                          to={`/product/${pid}/${variant?._id}`}
-                          className={`bg-zinc-800 ${
-                            variant?._id === vid && "border-2 border-green-500"
-                          }`}
+                      <div className="w-full relative lg:hidden h-fit">
+                        <div
+                          onTouchStart={handleTouchStart}
+                          onTouchMove={handleTouchMove}
+                          onTouchEnd={handleTouchEnd}
+                          className="flex w-full justify-center object-contain gap-1 overflow-auto no-scrollbar scroll-smooth bg-zinc-800"
                         >
                           <img
-                            key={vindex}
-                            src={variant.images[0]}
-                            alt={`images ${vindex + 1}`}
-                            className="w-full max-w-20 md:max-w-24"
-                            onClick={() => {
-                              fetchCartProducts();
-                              fetchFavouriteProducts();
-                            }}
+                            src={variant.images[currentImgIndex]}
+                            alt={`images ${currentImgIndex + 1}.webp`}
+                            className="max-h-80"
                           />
-                        </Link>
-                      ))}
+                        </div>
+
+                        <button
+                          onClick={handleProductToFavourite}
+                          className={`absolute right-2 top-2 text-xs ${
+                            isFavourite ? "text-red-500" : "text-gray-400"
+                          } bg-gray-200 rounded-full p-1 md:hover:scale-110`}
+                        >
+                          <FaHeart />
+                        </button>
+
+                        <button
+                          onClick={() =>
+                            setCurrentImgIndex(currentImgIndex - 1)
+                          }
+                          className="absolute left-0 top-[50%] disabled:text-gray-500 text-gray-200 text-3xl bg-customCard"
+                          disabled={currentImgIndex === 0}
+                        >
+                          <MdKeyboardArrowLeft />
+                        </button>
+                        <button
+                          onClick={() =>
+                            setCurrentImgIndex(currentImgIndex + 1)
+                          }
+                          className="absolute right-0 top-[50%] disabled:text-gray-500 text-gray-200 text-3xl bg-customCard"
+                          disabled={currentImgIndex === variantImagesCount - 1}
+                        >
+                          <MdKeyboardArrowRight />
+                        </button>
+                      </div>
                     </div>
+                  )
+              )}
+            </div>
+
+            <div className="w-full flex flex-col flex-grow top-0 gap-1 p-1">
+              <div className="relative flex flex-col p-4 gap-2 border-2 border-zinc-400">
+                <div className="font-bold text-lg">{product.brand}</div>
+                <div className="text-lg line-clamp-2">{product.name}</div>
+                <div className="flex gap-4">
+                  <span className="flex items-center bg-green-500 py-0.5 px-2 gap-2 rounded-md">
+                    {reviewMetrics?.avgRating} <IoStarSharp />
+                  </span>
+                  <span>
+                    {reviewMetrics?.ratingCount} Ratings &{" "}
+                    {reviewMetrics?.commentCount} Reviews
+                  </span>
+                </div>
+                <div className="text-green-400">
+                  Extra{" "}
+                  {displayNepCurrency(product.price.mrp - product.price.sell)}{" "}
+                  off
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="text-2xl font-semibold">
+                    {displayNepCurrency(product.price.sell)}
+                  </div>
+                  <div className="text-red-500 line-through ">
+                    {displayNepCurrency(product.price.mrp)}
+                  </div>
+                  <div className="text-yellow-400">{product.discount}% off</div>
+                </div>
+                <div className="w-full">
+                  {product.variants.length > 1 && (
+                    <div className="flex w-full gap-4 items-center">
+                      <span className="w-20 font-semibold">Colors</span>
+                      <span> : </span>
+                      <div className="flex flex-wrap bg-customCard gap-1">
+                        {product.variants.map((variant, vindex) => (
+                          <Link
+                            to={`/product/${pid}/${variant?._id}`}
+                            className={`bg-zinc-800 ${
+                              variant?._id === vid &&
+                              "border-2 border-green-500"
+                            }`}
+                          >
+                            <img
+                              key={vindex}
+                              src={variant.images[0]}
+                              alt={`images ${vindex + 1}`}
+                              className="w-full max-w-20 md:max-w-24"
+                              onClick={() => {
+                                fetchCartProducts();
+                                fetchFavouriteProducts();
+                              }}
+                            />
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                {showSize && (
+                  <div className="flex w-full gap-4 items-center">
+                    <label htmlFor="size" className="w-20 font-semibold">
+                      Choose Size
+                    </label>
+                    <span> : </span>
+                    <select
+                      name="size"
+                      id="size"
+                      value={specId}
+                      onChange={handleSpecIdChange}
+                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                      required
+                    >
+                      {product?.variants?.map(
+                        (variant, index) =>
+                          variant?._id === vid &&
+                          variant.specs.map((spec, sindex) => (
+                            <option key={sindex} value={spec?._id}>
+                              {spec?.size}
+                            </option>
+                          ))
+                      )}
+                    </select>
+                  </div>
+                )}
+
+                <div className="flex gap-4">
+                  <span className="w-20 font-semibold">Seller</span>
+                  <span> : </span>
+                  <span>{product.seller.name}</span>
+                </div>
+                <div className="flex gap-4">
+                  <span className="w-20 font-semibold">Description</span>
+                  <span> : </span>
+                  <span className="flex flex-col">
+                    <div
+                      onClick={() => setExpandDesc(!expandDesc)}
+                      className={`font-Roboto ${
+                        expandDesc ? "line-clamp-none" : "line-clamp-4"
+                      } cursor-pointer`}
+                    >
+                      {product?.description}
+                    </div>
+                  </span>
+                </div>
+
+                {imageZoom && (
+                  <div className="hidden lg:flex overflow-hidden absolute z-10 left-0 top-0 w-full h-[500px] bg-zinc-800 border-2 border-transparent">
+                    <div
+                      className="w-full h-full scale-110"
+                      style={{
+                        background: `url(${largeImage})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: `${imgCoordinate.x * 100}% ${
+                          imgCoordinate.y * 100
+                        }% `,
+                      }}
+                    ></div>
                   </div>
                 )}
               </div>
-              {showSize && (
-                <div className="flex w-full gap-4 items-center">
-                  <label htmlFor="size" className="w-20 font-semibold">
-                    Choose Size
-                  </label>
-                  <span> : </span>
-                  <select
-                    name="size"
-                    id="size"
-                    value={specId}
-                    onChange={handleSpecIdChange}
-                    className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
-                    required
+              <div className="w-full mt-1 p-4 border-2 border-zinc-400">
+                <div className="flex justify-between">
+                  <span className="text-xl font-bold my-1">
+                    Reviews and Ratings
+                  </span>
+                  <Link
+                    to={`/product/${pid}/${vid}/add-review`}
+                    className="flex p-2 gap-2 justify-center items-center bg-custom shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
                   >
-                    {product?.variants?.map(
-                      (variant, index) =>
-                        variant?._id === vid &&
-                        variant.specs.map((spec, sindex) => (
-                          <option key={sindex} value={spec?._id}>
-                            {spec?.size}
-                          </option>
-                        ))
-                    )}
-                  </select>
+                    Rate Product <FaRegStar />
+                  </Link>
                 </div>
-              )}
-
-              <div className="flex gap-4">
-                <span className="w-20 font-semibold">Seller</span>
-                <span> : </span>
-                <span>{product.seller.name}</span>
-              </div>
-              <div className="flex gap-4">
-                <span className="w-20 font-semibold">Description</span>
-                <span> : </span>
-                <span className="flex flex-col">
-                  <div
-                    onClick={() => setExpandDesc(!expandDesc)}
-                    className={`font-Roboto ${
-                      expandDesc ? "line-clamp-none" : "line-clamp-4"
-                    } cursor-pointer`}
-                  >
-                    {product?.description}
-                  </div>
-                </span>
-              </div>
-
-              {imageZoom && (
-                <div className="hidden lg:flex overflow-hidden absolute z-10 left-0 top-0 w-full h-[500px] bg-zinc-800 border-2 border-transparent">
-                  <div
-                    className="w-full h-full scale-110"
-                    style={{
-                      background: `url(${largeImage})`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundPosition: `${imgCoordinate.x * 100}% ${
-                        imgCoordinate.y * 100
-                      }% `,
-                    }}
-                  ></div>
+                <div className="mt-4">
+                  <ProductReviews
+                    productId={pid}
+                    reviewMetrics={reviewMetrics}
+                  />
                 </div>
-              )}
+              </div>
             </div>
-            <div className="w-full mt-1 p-4 border-2 border-zinc-400">
-              <div className="flex justify-between">
-                <span className="text-xl font-bold my-1">
-                  Reviews and Ratings
-                </span>
-                <Link to={`/product/${pid}/${vid}/add-review`} className="flex p-2 gap-2 justify-center items-center bg-custom shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
-                  Rate Product <FaRegStar />
-                </Link>
-              </div>
-              <div className="mt-4">
-                <ProductReviews productId={pid} reviewMetrics={reviewMetrics}/>
-              </div>
+          </div>
+
+          <div>
+            <div className="mt-2 md:mx-6">
+              <RecommendedProducts
+                vid={vid}
+                category={`${product?.products}`}
+                heading={`Similar ${product?.products}`}
+              />
             </div>
           </div>
 

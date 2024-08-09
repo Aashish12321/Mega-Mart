@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { FaWindowClose } from "react-icons/fa";
-import uploadImage from "../helpers/uploadImage";
 import DisplayFullImage from "./DisplayFullImage";
 import SummaryApi from "../Common";
 import { toast } from "react-toastify";
 import { selectCategories } from "../Store/selector";
 import { useSelector } from "react-redux";
+import uploadMedia from "../helpers/uploadMedia";
+import deleteMedia from "../helpers/deleteMedia";
 
 const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
   const categories = useSelector(selectCategories);
@@ -83,13 +84,13 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
   };
 
   const handleImageUpload = async (variantIndex, e) => {
-    const images = e.target.files;
+    const files = e.target.files;
     const variants = [...product.variants];
-    for (let i = 0; i < images.length; i++) {
-      let uploadImageCloudinary = await uploadImage(images[i], "mega_mart");
+    for (let i = 0; i < files?.length; i++) {
+      let uploadMediaCloudinary = await uploadMedia(files[i], "mega_mart");
       variants[variantIndex].images = [
         ...variants[variantIndex].images,
-        uploadImageCloudinary.url,
+        uploadMediaCloudinary.url,
       ];
     }
     setProduct({ ...product, variants });
@@ -98,27 +99,13 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
   const handleImageDelete = async (variantIndex, imageIndex) => {
     const variants = [...product.variants];
     const newImages = [...variants[variantIndex].images];
-    let deletedImgUrl = newImages.splice(imageIndex, 1);
-    deletedImgUrl = deletedImgUrl[0];
+    let deletedMediaUrl = newImages.splice(imageIndex, 1);
+    deletedMediaUrl = deletedMediaUrl[0];
     variants[variantIndex].images = [...newImages];
     setProduct({ ...product, variants });
-
-    // deleting from cloudinary
-    let response = await fetch(SummaryApi.delete_media.url, {
-      method: SummaryApi.delete_media.method,
-      headers:{
-        'content-type':'application/json',
-        authorization: `${token}`
-      },
-      body: JSON.stringify({url: deletedImgUrl})
-    })
-    response = await response.json();
-    if (response.success){
-      toast.success(response.message);
-    }
-    else{
-      toast.error(response.message);
-    }
+    
+    // delete from cloudinary
+    await deleteMedia(token, deletedMediaUrl);
   };
 
   const addVariant = () => {

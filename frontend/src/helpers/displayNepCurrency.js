@@ -1,5 +1,5 @@
 const displayNepCurrency = (num) => {
-  const formatter = new Intl.NumberFormat("ne-NP", {
+  const formatter = new Intl.NumberFormat("en-NP", {
     style: "currency",
     currency: "NPR",
     minimumFractionDigits: 0,

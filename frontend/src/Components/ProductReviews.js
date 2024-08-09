@@ -10,6 +10,7 @@ const ProductReviews = ({ productId, reviewMetrics }) => {
   const [reviews, setReviews] = useState([]);
   const [starCounts, setStarCounts] = useState({});
   const [maxStarRatingCount, setMaxStarRatingCount] = useState({});
+  const [loading, setLoading] = useState(true);
   const barColor = {
     5: "bg-green-500",
     4: "bg-green-400",
@@ -35,6 +36,7 @@ const ProductReviews = ({ productId, reviewMetrics }) => {
       setReviews(response?.data?.reviews);
       setStarCounts(response?.data?.starCounts);
       setMaxStarRatingCount(response?.data?.maxStarRatingCount);
+      setLoading(false);
     }
   }, [productId]);
 
@@ -67,7 +69,12 @@ const ProductReviews = ({ productId, reviewMetrics }) => {
                   style={{
                     width: `${(starCounts[star] / maxStarRatingCount) * 100}%`,
                   }}
-                ></div>
+                >
+                  {
+                    loading &&
+                    <div className="h-full bg-slate-200 animate-pulse rounded-full"></div>
+                  }
+                </div>
               </div>
               <span>{starCounts[star]}</span>
             </div>

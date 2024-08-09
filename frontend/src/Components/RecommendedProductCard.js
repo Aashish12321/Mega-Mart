@@ -44,7 +44,7 @@ const ProductCard = ({ product, variant }) => {
 
   return (
     <Link to={`/product/${product?._id}/${variant?._id}`}>
-      <div className="w-44 md:w-48 lg:w-52 xl:w-56 shadow-custom bg-customCard duration-300 ease-in-out rounded-lg cursor-pointer">
+      <div className="shadow-custom bg-neutral-600 duration-300 ease-in-out rounded-lg cursor-pointer">
         <div className="relative h-44 md:h-48 lg:h-52 xl:h-56 bg-zinc-800 rounded-t-lg">
           <img
             key={variant?._id}
@@ -68,7 +68,7 @@ const ProductCard = ({ product, variant }) => {
             <div className="flex gap-1 md:gap-2">
               {/* <StarRating rating={product.ratings.average} /> */}
               {/* <span className="mt-0.5">{product.ratings.average}/5 ({product.ratings.total})</span> */}
-              <StarRating rating={4.5} dimension={"13px"}/>
+              <StarRating rating={4.5} dimension={"13px"} />
               {/* <span className="mt-0.5 font-light">
               {4.5}/5({50})
             </span> */}
@@ -80,12 +80,12 @@ const ProductCard = ({ product, variant }) => {
               </p>
             </div>
             <div className="flex">
-              {product?.discount && (
+              {product.discount && (
                 <p className=" font-light line-through text-red-400">
                   {displayNepCurrency(product?.price?.mrp)}
                 </p>
               )}
-              {product?.discount ? (
+              {product.discount ? (
                 <p className="text-yellow-300">&nbsp;-{product?.discount}%</p>
               ) : (
                 <br />

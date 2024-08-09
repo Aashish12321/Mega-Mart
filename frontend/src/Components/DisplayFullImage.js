@@ -1,16 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { FaWindowClose } from 'react-icons/fa';
 
 const DisplayFullImage = ({imgUrl, onClose}) => {
-  const [imagewidth, setImagewidth] = useState(0);
   const modalRef = useRef(null);
 
   useEffect(()=> {
-    const img = new Image();
-    img.src = imgUrl;
-    img.onload = () => {
-      setImagewidth(img.width);
-    }
-
     const handleKeyDown = (e) => {
       if(e.key === 'Escape'){
         onClose();
@@ -29,8 +23,11 @@ const DisplayFullImage = ({imgUrl, onClose}) => {
   },[onClose, imgUrl]);
 
   return (
-    <div ref={modalRef} className='fixed flex justify-center h-[100vh] items-center top-0 left-80'>
-      <img style={{width: imagewidth/1.45}}  src={imgUrl} alt="photos" className='bg-zinc-800 rounded-xl'/>
+    <div className='fixed flex justify-center w-full left-0 top-[68px] right-0 bottom-0 bg-opacity-30 bg-slate-200'>
+      <img ref={modalRef} src={imgUrl} alt="photos" className='h-auto object-contain bg-zinc-800'/>
+      <button onClick={onClose} className='mb-auto -ml-6 text-2xl'>
+        <FaWindowClose />
+      </button>
     </div>
   )
 }
