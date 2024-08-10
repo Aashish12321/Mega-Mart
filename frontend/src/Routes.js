@@ -20,6 +20,7 @@ import AddBanner from "./Pages/Admin/AddBanner";
 import Cart from "./Pages/Cart";
 import Favourite from "./Pages/Favourite";
 import AddReview from "./Pages/Reviews/AddReview"
+import Checkout from "./Pages/Checkout";
 
 const router = createBrowserRouter([
   {
@@ -64,11 +65,15 @@ const router = createBrowserRouter([
       },
       {
         path: "myfavourite",
-        element: <ProtectedRoute><Favourite/></ProtectedRoute>,
+        element: <ProtectedRoute><Favourite /></ProtectedRoute>,
       },
       {
         path: "/product/:pid/:vid/add-review",
         element: <ProtectedRoute><AddReview /></ProtectedRoute>,
+      },
+      {
+        path: "/checkout",
+        element: <ProtectedRoute><Checkout /></ProtectedRoute>,
       },
       {
         path: "permission-denied",

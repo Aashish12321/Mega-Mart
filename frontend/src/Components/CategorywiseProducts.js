@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import SummaryApi from "../Common";
 import ProductLoader from "./Loaders/ProductLoader";
-import ProductCard from "./ProductCard";
+import HorizontalProductCard from "./HorizontalProductCard";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 const CategorywiseProducts = ({ category, heading }) => {
@@ -62,7 +62,7 @@ const CategorywiseProducts = ({ category, heading }) => {
         ) : (
           products.map((product, index) =>
             product.variants.map((variant, variantIndex) => (
-              <ProductCard
+              <HorizontalProductCard
                 key={variantIndex}
                 product={product}
                 variant={variant}

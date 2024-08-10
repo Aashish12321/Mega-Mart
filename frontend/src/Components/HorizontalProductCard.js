@@ -44,12 +44,12 @@ const ProductCard = ({ product, variant }) => {
 
   return (
     <Link to={`/product/${product?._id}/${variant?._id}`}>
-      <div className="w-44 md:w-48 lg:w-52 xl:w-56 shadow-custom bg-customCard duration-300 ease-in-out rounded-lg cursor-pointer">
-        <div className="relative h-44 md:h-48 lg:h-52 xl:h-56 bg-zinc-800 rounded-t-lg">
+      <div className="w-36 min-[375px]:w-44 md:w-48 lg:w-52 xl:w-56 shadow-custom bg-customCard duration-300 ease-in-out rounded-lg cursor-pointer">
+        <div className="relative h-36 min-[375px]:h-44 md:h-48 lg:h-52 xl:h-56 bg-zinc-800 rounded-t-lg">
           <img
             key={variant?._id}
             src={variant?.images[0]}
-            className="w-full h-full object-contain mx-auto rounded-t-lg md:scale-95 md:hover:scale-100 duration-200 ease-in-out"
+            className="w-full h-full object-contain rounded-t-lg md:scale-95 md:hover:scale-100 duration-200 ease-in-out"
             alt="product.jpg"
           />
           <button
@@ -68,7 +68,7 @@ const ProductCard = ({ product, variant }) => {
             <div className="flex gap-1 md:gap-2">
               {/* <StarRating rating={product.ratings.average} /> */}
               {/* <span className="mt-0.5">{product.ratings.average}/5 ({product.ratings.total})</span> */}
-              <StarRating rating={4.5} dimension={"13px"}/>
+              <StarRating rating={4.5} dimension={"13px"} />
               {/* <span className="mt-0.5 font-light">
               {4.5}/5({50})
             </span> */}
@@ -96,7 +96,7 @@ const ProductCard = ({ product, variant }) => {
             onClick={handleProductToCart}
             className={`flex absolute right-0 bottom-0 items-center ${
               isAddedToCart ? "bg-green-500" : "bg-gray-400"
-            } rounded-tl-lg rounded-br-lg p-2`}
+            } rounded-tl-lg rounded-br-lg p-1 min-[375px]:p-2`}
           >
             <FaCartShopping />
           </button>

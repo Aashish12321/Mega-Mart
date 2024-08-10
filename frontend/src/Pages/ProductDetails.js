@@ -19,7 +19,6 @@ import Context from "../Context";
 import ProductReviews from "../Components/ProductReviews";
 import productRating from "../helpers/productRating";
 import RecommendedProducts from "../Components/RecommendedProducts";
-import RecommendedProductCard from "../Components/RecommendedProductCard";
 
 const ProductDetails = () => {
   const [product, setProduct] = useState({
@@ -172,7 +171,7 @@ const ProductDetails = () => {
                   variant._id === vid && (
                     <div
                       key={vindex}
-                      className="w-full lg:justify-center lg:gap-1 "
+                      className="w-full lg:justify-center lg:gap-1"
                     >
                       <div className="hidden lg:flex w-full max-w-2xl gap-2 select-none">
                         <div className="flex flex-col gap-2 overflow-auto lg:h-[400px] no-scrollbar my-1 ">
@@ -309,9 +308,11 @@ const ProductDetails = () => {
                         {product.variants.map((variant, vindex) => (
                           <Link
                             to={`/product/${pid}/${variant?._id}`}
-                            className={`bg-zinc-800 ${
-                              variant?._id === vid &&
-                              "border-2 border-green-500"
+                            className={`bg-zinc-800 border-2 
+                            ${
+                              variant?._id === vid
+                                ? "border-green-500"
+                                : "border-transparent"
                             }`}
                           >
                             <img
@@ -378,9 +379,9 @@ const ProductDetails = () => {
                 </div>
 
                 {imageZoom && (
-                  <div className="hidden lg:flex overflow-hidden absolute z-10 left-0 top-0 w-full h-[500px] bg-zinc-800 border-2 border-transparent">
+                  <div className="hidden lg:flex overflow-hidden absolute z-10 left-0 top-0 w-full h-[650px] bg-zinc-800 border-b-2 border-zinc-400">
                     <div
-                      className="w-full h-full scale-110"
+                      className="w-full h-full scale-110 scroll-smooth"
                       style={{
                         background: `url(${largeImage})`,
                         backgroundRepeat: "no-repeat",
@@ -414,14 +415,12 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          <div>
-            <div className="mt-2 md:mx-6">
-              <RecommendedProducts
-                vid={vid}
-                category={`${product?.products}`}
-                heading={`Similar ${product?.products}`}
-              />
-            </div>
+          <div className="mt-2 md:mx-6">
+            <RecommendedProducts
+              vid={vid}
+              category={`${product?.products}`}
+              heading={`Similar Products`}
+            />
           </div>
 
           <div className="fixed z-20 bottom-0 lg:hidden flex w-full justify-between text-xl">

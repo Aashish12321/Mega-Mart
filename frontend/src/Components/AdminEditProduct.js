@@ -452,7 +452,7 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
                         Color :
                       </label>
                       <input
-                        value={variant.color}
+                        value={variant?.color}
                         onChange={(e) => handleVariantsChange(variantIndex, e)}
                         type="text"
                         id="color"

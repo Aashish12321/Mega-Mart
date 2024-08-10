@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import Context from "../Context";
-import ProductCard from "../Components/ProductCard";
+import VerticalProductCard from "../Components/VerticalProductCard";
 import ProductLoader from "../Components/Loaders/ProductLoader";
 import SummaryApi from "../Common";
 import { toast } from "react-toastify";
@@ -36,13 +36,13 @@ const Favourite = () => {
   }, [favouriteProducts, fetchFavouriteProductsDetails]);
 
   return (
-    <div className="md:mx-6 px-2 py-4 text-white">
+    <div className="w-full p-2 md:p-4 xl:px-12 text-white">
       <div className="flex justify-between text-2xl font-semibold py-2 border-b-2 border-gray-700 select-none">
         <span>Favourites</span>
         <span>{favouriteProducts?.length} Items</span>
       </div>
 
-      <div className="flex flex-wrap gap-4 md:gap-6 py-4 items-center overflow-auto no-scrollbar scroll-smooth">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-8 xl:gap-12 py-4">
         {favouriteProducts?.length === 0 ? (
           <div className="w-full text-xl flex justify-center items-center h-80 my-2 bg-customCard rounded-xl">
             No items in Favourites !
@@ -50,9 +50,9 @@ const Favourite = () => {
         ) : loading ? (
           <ProductLoader wrap={"flex-wrap"} />
         ) : (
-          products?.map((product, pindex) =>
+          products?.map((product, _) =>
             product?.variants?.map((variant, vindex) => (
-              <ProductCard
+              <VerticalProductCard
                 key={vindex}
                 product={product}
                 variant={variant}

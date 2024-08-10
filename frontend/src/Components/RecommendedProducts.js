@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import SummaryApi from "../Common";
 import ProductLoader from "./Loaders/ProductLoader";
-import RecommendedProductCard from "./RecommendedProductCard";
+import VerticalProductCard from "./VerticalProductCard";
 
 const RecommendedProducts = ({ vid, category, heading }) => {
   const [products, setProducts] = useState([]);
@@ -31,7 +31,7 @@ const RecommendedProducts = ({ vid, category, heading }) => {
     <div className="p-1">
       <div className="text-white text-xl font-semibold">{heading}</div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-12 xl:gap-16 py-4 items-center">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-8 xl:gap-12 py-4">
         {loading ? (
           <ProductLoader wrap={"flex-wrap"} />
         ) : (
@@ -39,7 +39,7 @@ const RecommendedProducts = ({ vid, category, heading }) => {
             product.variants?.map(
               (variant, variantIndex) =>
                 variant?._id !== vid && (
-                  <RecommendedProductCard
+                  <VerticalProductCard
                     key={variantIndex}
                     product={product}
                     variant={variant}
