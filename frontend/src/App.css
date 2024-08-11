@@ -13,7 +13,7 @@ body {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   background: #f6f6f5;
   scroll-behavior: smooth;
-  @apply bg-custom no-scrollbar;
+  @apply bg-zinc-500 no-scrollbar;
 }
 
 .allUser th {
@@ -36,5 +36,27 @@ body {
   to {
     transform: translateX(-100%);
     opacity: 0;
+  }
+}
+
+
+/* Hide the increment decrement button on number input element. */
+@layer utilities {
+  /* Chrome, Safari, Edge, Opera */
+  .no-spinner::-webkit-inner-spin-button, 
+  .no-spinner::-webkit-outer-spin-button { 
+    @apply appearance-none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  .no-spinner {
+    -moz-appearance: textfield;
+  }
+
+  /* Hide spinner in Edge */
+  .no-spinner::-ms-clear, 
+  .no-spinner::-ms-reveal {
+    @apply hidden;
   }
 }

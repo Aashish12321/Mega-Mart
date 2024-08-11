@@ -128,7 +128,7 @@ const Cart = () => {
                                     />
                                   </span>
                                   <span className="w-full max-w-sm inline-block text-wrap md:mx-4">
-                                    <span className="line-clamp-2 md:line-clamp-none hover:text-red-400">
+                                    <span className="line-clamp-2 md:line-clamp-none hover:text-gray-300">
                                       {product?.name}
                                     </span>
                                     {spec?.size && (
@@ -268,7 +268,11 @@ const Cart = () => {
             </tbody>
           </table>
         )}
-        <div></div>
+        <div className="w-full p-4 flex justify-center mt-2 gap-4">
+          <Link to={`/checkout`} className="flex justify-center bg-green-500 w-32 p-2 text-sm text-white rounded-full shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
+            Checkout
+          </Link>
+        </div>
       </div>
     </div>
   );

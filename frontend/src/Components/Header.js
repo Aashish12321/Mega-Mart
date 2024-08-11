@@ -128,7 +128,7 @@ const Header = () => {
             </Link>
 
             <div className="relative flex justify-center">
-              {!token && (
+              {!user?._id && (
                 <button
                   onClick={() => navigate("/login")}
                   className="bg-red-500 w-16 h-8 text-white rounded-full shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
@@ -136,7 +136,7 @@ const Header = () => {
                   Login
                 </button>
               )}
-              {token && (
+              {user?._id && (
                 <div
                   className="min-[375px]:mx-3 text-3xl cursor-pointer text-white items-center"
                   onClick={() => {
@@ -169,7 +169,7 @@ const Header = () => {
                       </Link>
                     </div>
                   )}
-                  {user?.email && (
+                  {user?._id && (
                     <div className={`${user?.role !== "ADMIN" && "-mt-4"}`}>
                       <div className="border-b-2 border-gray-500">
                         <Link

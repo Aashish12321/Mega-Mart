@@ -9,9 +9,13 @@ async function getFavouriteProducts(req, resp) {
     if (favouriteProducts.length > 0) {
       allProductsInFavourite = await Promise.all(
         favouriteProducts.map(async (favouriteProduct) => {
-          let product = await Product.findById(favouriteProduct?.productId);
-          let variant = product?.variants?.find(
-            (variant) => variant?._id.equals(favouriteProduct?.variantId)
+          let product = await Product.findById(
+            favouriteProduct?.productId
+          ).select(
+            "-timestamps -updatedAt -customerReviews -price.cost -ratings -__v"
+          );
+          let variant = product?.variants?.find((variant) =>
+            variant?._id.equals(favouriteProduct?.variantId)
           );
           product["variants"] = variant;
           return product;

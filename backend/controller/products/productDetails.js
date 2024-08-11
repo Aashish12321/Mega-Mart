@@ -4,7 +4,9 @@ async function productDetails(req, resp) {
   try {
     const productId = req.body.id;
     // console.log(productId);
-    const productDetails = await Product.findById(productId);
+    const productDetails = await Product.findById(productId).select(
+      "-timestamps -updatedAt -customerReviews -price.cost -ratings -__v"
+    );
     resp.status(201).json({
       message: "Product details fetched successfully",
       data: productDetails,

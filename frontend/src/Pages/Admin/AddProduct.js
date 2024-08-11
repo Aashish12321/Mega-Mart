@@ -223,7 +223,7 @@ const AddProduct = () => {
                       name="cost"
                       min={0}
                       placeholder="Eg: 2000"
-                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg"
                       required
                     />
                   </div>
@@ -239,7 +239,7 @@ const AddProduct = () => {
                       name="mrp"
                       min={0}
                       placeholder="Eg: 4000"
-                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg"
                       required
                     />
                   </div>
@@ -255,7 +255,7 @@ const AddProduct = () => {
                       name="discount"
                       min={0}
                       placeholder="Eg: 10"
-                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg"
                     />
                   </div>
                   <div className="flex flex-col w-full md:max-w-36">
@@ -273,7 +273,7 @@ const AddProduct = () => {
                       name="sell"
                       min={0}
                       placeholder="Eg: 3600"
-                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg"
                       required
                     />
                   </div>
@@ -289,7 +289,7 @@ const AddProduct = () => {
                       name="weight"
                       min={0}
                       placeholder="Eg: 200"
-                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg"
                     />
                   </div>
                 </div>
