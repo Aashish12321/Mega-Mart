@@ -1,6 +1,7 @@
 import React from 'react'
 
-const ProductLoader = ({wrap}) => {
+// Horizontal Product Loader
+const HPLoader = ({wrap}) => {
   return (
     <div className={`justify-center flex ${wrap} gap-4 md:gap-8`}>
       {Array.from({ length: 12 }).map((_, index) => (
@@ -18,4 +19,4 @@ const ProductLoader = ({wrap}) => {
   )
 }
 
-export default ProductLoader;
+export default HPLoader;

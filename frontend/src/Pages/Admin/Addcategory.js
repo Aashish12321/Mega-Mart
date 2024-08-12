@@ -42,11 +42,11 @@ const Addcategory = () => {
     <div className="mt-20">
       <form
         onSubmit={handleSubmit}
-        className="mx-auto rounded-md bg-custom shadow-md p-6 w-full max-w-md"
+        className="mx-auto rounded-md bg-stone-500 shadow-md p-6 w-full max-w-lg"
       >
-        <div className="pb-4 text-xl font-medium">Add new categories</div>
+        <div className="pb-4 text-xl font-semibold">Add new categories</div>
         <div className="flex flex-col">
-          <label htmlFor="category">Category</label>
+          <label htmlFor="category" className="font-semibold">Category</label>
           <input
             onChange={handleChange}
             type="text"
@@ -54,11 +54,11 @@ const Addcategory = () => {
             name="category"
             id="category"
             placeholder="Enter category..."
-            className="w-full outline-none h-8 pl-1 rounded-lg bg-zinc-800"
+            className="w-full outline-none h-8 p-2 bg-zinc-800 border-2 border-zinc-400"
           />
         </div>
         <div className="flex flex-col mt-2">
-          <label htmlFor="subCategory">Sub-Category</label>
+          <label htmlFor="subCategory" className="font-semibold">Sub-Category</label>
           <input
             onChange={handleChange}
             type="text"
@@ -66,11 +66,11 @@ const Addcategory = () => {
             name="subCategory"
             id="subCategory"
             placeholder="Enter subcategory..."
-            className="w-full outline-none h-8 pl-1 rounded-lg bg-zinc-800"
+            className="w-full outline-none h-8 p-2 bg-zinc-800 border-2 border-zinc-400"
           />
         </div>
         <div className="flex flex-col mt-2">
-          <label htmlFor="product">Product</label>
+          <label htmlFor="product" className="font-semibold">Product</label>
           <input
             onChange={handleChange}
             type="text"
@@ -78,7 +78,7 @@ const Addcategory = () => {
             name="product"
             id="product"
             placeholder="Enter product..."
-            className="w-full outline-none h-8 pl-1 rounded-lg bg-zinc-800"
+            className="w-full outline-none h-8 p-2 bg-zinc-800 border-2 border-zinc-400"
           />
         </div>
         <button

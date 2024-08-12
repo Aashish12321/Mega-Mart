@@ -13,7 +13,6 @@ import Categories from "./Components/CategoriesList";
 import ProtectedRoute from "./ProtectedRoute";
 import PermissionDenied from "./Pages/PermissionDenied";
 import PageNotFound from "./PageNotFound";
-import AdminEditProduct from "./Components/AdminEditProduct";
 import Addcategory from "./Pages/Admin/Addcategory";
 import ProductDetails from "./Pages/ProductDetails";
 import AddBanner from "./Pages/Admin/AddBanner";
@@ -21,6 +20,8 @@ import Cart from "./Pages/Cart";
 import Favourite from "./Pages/Favourite";
 import AddReview from "./Pages/Reviews/AddReview"
 import Checkout from "./Pages/Checkout";
+import CreateCoupon from "./Pages/Admin/CreateCoupon";
+import UpdateProduct from "./Pages/Admin/UpdateProduct";
 
 const router = createBrowserRouter([
   {
@@ -108,12 +109,16 @@ const router = createBrowserRouter([
             element: <AddProduct />,
           },
           {
-            path: "edit-product",
-            element: <AdminEditProduct />,
+            path: "/admin/product/:pid/edit",
+            element: <UpdateProduct />,
           },
           {
             path: "add-banner",
             element: <AddBanner />,
+          },
+          {
+            path: "create-coupon",
+            element: <CreateCoupon />,
           },
         ],
       },

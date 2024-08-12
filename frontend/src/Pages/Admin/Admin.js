@@ -3,7 +3,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { IoPeople } from "react-icons/io5";
-import { RiDashboardFill } from "react-icons/ri";
+import { RiCoupon2Fill, RiDashboardFill } from "react-icons/ri";
 
 import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
@@ -46,6 +46,13 @@ const Admin = () => {
             <p>Users</p>
           </Link>
           <Link
+            to={"create-coupon"}
+            className="cursor-pointer flex space-x-3 my-2 mx-8 hover:text-red-500  rounded-xl px-2"
+          >
+            <RiCoupon2Fill  className="text-lg mt-1" />
+            <p>Create Coupon</p>
+          </Link>
+          <Link
             to={"all-products"}
             onClick={(e) => setExpandProduct(!expandProduct)}
             className="cursor-pointer flex space-x-1 my-2 mx-8 hover:text-red-500  rounded-xl px-1 items-center"
@@ -79,6 +86,7 @@ const Admin = () => {
       <div className="md:hidden mx-1 my-2 p-1 text-center text-sm rounded-md h-8 bg-customCard">
         <Link className="mr-2 hover:text-red-500" to={'dashboard'}>Dashboard</Link>
         <Link className="mx-2 hover:text-red-500" to={'users'}>Users</Link>
+        <Link className="ml-2 hover:text-red-500" to={'create-coupon'}>Create Coupon</Link>
         <Link className="mx-2 hover:text-red-500" to={'all-products'}>Products</Link>
         <Link className="ml-2 hover:text-red-500" to={'add-product'}>Add Product</Link>
         <Link className="ml-2 hover:text-red-500" to={'add-category'}>Add Category</Link>

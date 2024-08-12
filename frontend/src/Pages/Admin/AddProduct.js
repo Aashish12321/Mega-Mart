@@ -154,10 +154,10 @@ const AddProduct = () => {
             <span className="text-xl font-bold">Add new product</span>
           </div>
 
-          <div className="h-[calc(100vh-80px)] overflow-auto no-scrollbar">
+          <div className="">
             <div className="flex flex-wrap lg:flex-nowrap justify-around gap-4">
-              <div className="w-full flex flex-col p-4 bg-custom rounded-lg">
-                <label className="text-lg">General information</label>
+              <div className="w-full flex flex-col p-4 bg-stone-500 rounded-lg">
+                <label className="text-lg font-semibold">General information</label>
 
                 <div className="w-full md:flex justify-between gap-2 md:gap-4">
                   <div className="w-full max-w-2xl flex flex-col">
@@ -171,7 +171,7 @@ const AddProduct = () => {
                       id="name"
                       name="name"
                       placeholder="Enter product name..."
-                      className="min-w-md outline-none h-10 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="min-w-md outline-none h-10 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                       required
                     />
                   </div>
@@ -187,7 +187,7 @@ const AddProduct = () => {
                       id="brand"
                       name="brand"
                       placeholder="Enter brand name..."
-                      className="min-w-md outline-none h-10 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="min-w-md outline-none h-10 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                     />
                   </div>
                 </div>
@@ -200,19 +200,19 @@ const AddProduct = () => {
                   id="description"
                   name="description"
                   placeholder="Describe about product..."
-                  className="min-w-md h-32 outline-none pl-2 text-white bg-zinc-800 rounded-lg"
+                  className="min-w-md h-32 outline-none pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                 ></textarea>
               </div>
             </div>
 
             <div className="flex flex-wrap lg:flex-nowrap justify-around gap-4 my-4 ">
-              <div className="w-full max-w-2xl flex flex-col p-4 bg-custom rounded-lg">
-                <label htmlFor="Pricing and Stock" className="text-lg ">
+              <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg">
+                <label htmlFor="Pricing and Stock" className="text-lg font-semibold">
                   Pricing and Stock
                 </label>
-                <div className="flex flex-wrap justify-around items-center gap-2">
-                  <div className="flex flex-col w-full md:max-w-36 ">
-                    <label htmlFor="cost" className="mt-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-2">
+                  <div className="flex flex-col w-full md:max-w-36">
+                    <label htmlFor="cost">
                       Cost Price :
                     </label>
                     <input
@@ -223,12 +223,12 @@ const AddProduct = () => {
                       name="cost"
                       min={0}
                       placeholder="Eg: 2000"
-                      className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                       required
                     />
                   </div>
-                  <div className="flex flex-col w-full md:max-w-36 ">
-                    <label htmlFor="mrp" className="mt-2">
+                  <div className="flex flex-col w-full md:max-w-36">
+                    <label htmlFor="mrp">
                       MRP :
                     </label>
                     <input
@@ -239,12 +239,12 @@ const AddProduct = () => {
                       name="mrp"
                       min={0}
                       placeholder="Eg: 4000"
-                      className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                       required
                     />
                   </div>
                   <div className="flex flex-col w-full md:max-w-36">
-                    <label htmlFor="discount" className="mt-2">
+                    <label htmlFor="discount">
                       Discount (in %):
                     </label>
                     <input
@@ -255,11 +255,11 @@ const AddProduct = () => {
                       name="discount"
                       min={0}
                       placeholder="Eg: 10"
-                      className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                     />
                   </div>
                   <div className="flex flex-col w-full md:max-w-36">
-                    <label htmlFor="sell" className="mt-2">
+                    <label htmlFor="sell">
                       Selling Price:
                     </label>
                     <input
@@ -273,12 +273,12 @@ const AddProduct = () => {
                       name="sell"
                       min={0}
                       placeholder="Eg: 3600"
-                      className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                       required
                     />
                   </div>
                   <div className="flex flex-col w-full md:max-w-36">
-                    <label htmlFor="weight" className="mt-2">
+                    <label htmlFor="weight">
                       Weight (in gm):
                     </label>
                     <input
@@ -289,17 +289,17 @@ const AddProduct = () => {
                       name="weight"
                       min={0}
                       placeholder="Eg: 200"
-                      className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                     />
                   </div>
                 </div>
               </div>
 
-              <div className="w-full max-w-2xl flex flex-col p-4 bg-custom rounded-lg">
-                <label htmlFor="ProductCategory" className="text-lg">
+              <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg">
+                <label htmlFor="ProductCategory" className="text-lg font-semibold">
                   Categories
                 </label>
-                <div className="flex flex-wrap justify-around mt-2 gap-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-2">
                   <div className="flex flex-col w-full md:max-w-[160px]">
                     <label htmlFor="category">Choose Category</label>
                     <select
@@ -307,11 +307,11 @@ const AddProduct = () => {
                       id="category"
                       value={product.category}
                       onChange={handleProductChange}
-                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                       required
                     >
                       <option value="" disabled>
-                        Select a category
+                        Select 
                       </option>
                       {categories.map((category, index) => (
                         <option key={index} value={category.name}>
@@ -327,11 +327,11 @@ const AddProduct = () => {
                       id="subCategory"
                       value={product.subCategory}
                       onChange={handleProductChange}
-                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                       disabled={!product.category}
                     >
                       <option value="" disabled>
-                        Select sub-category
+                        Select 
                       </option>
                       {categories.map(
                         (category, cindex) =>
@@ -351,10 +351,10 @@ const AddProduct = () => {
                       id="products"
                       value={product.products}
                       onChange={handleProductChange}
-                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                       disabled={!product.subCategory}
                     >
-                      <option value="">Select products</option>
+                      <option value="">Select</option>
                       {categories.map((category, _) =>
                         category.subCategories.map(
                           (subCategory, _) =>
@@ -374,10 +374,10 @@ const AddProduct = () => {
 
             {product.variants.map((variant, variantIndex) => (
               <div className="flex flex-wrap lg:flex-nowrap justify-around gap-4 my-4 ">
-                <div className="w-full max-w-2xl flex flex-col p-4 bg-custom rounded-lg">
+                <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg">
                   <label
                     htmlFor="Specifications of Variants"
-                    className="text-lg font-bold"
+                    className="text-lg font-semibold"
                   >
                     Specifications of Variant
                   </label>
@@ -399,7 +399,7 @@ const AddProduct = () => {
                           id="size"
                           name="size"
                           placeholder="Eg: XL"
-                          className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                          className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                         />
                       </div>
                       <div className="flex flex-col w-full md:max-w-36">
@@ -416,7 +416,7 @@ const AddProduct = () => {
                           name="stock"
                           min={0}
                           placeholder="Eg: 12"
-                          className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                          className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                           required
                         />
                       </div>
@@ -436,9 +436,9 @@ const AddProduct = () => {
 
                 <div
                   key={variantIndex}
-                  className="w-full max-w-2xl flex flex-col p-4 bg-custom rounded-lg"
+                  className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg"
                 >
-                  <label htmlFor="ProductImages" className="text-lg">
+                  <label htmlFor="ProductImages" className="text-lg font-semibold">
                     Upload Variant images
                   </label>
                   <div className="flex flex-col w-full md:max-w-36 ">
@@ -452,7 +452,7 @@ const AddProduct = () => {
                       id="color"
                       name="color"
                       placeholder="Eg: Glacial blue"
-                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                     />
                   </div>
                   <div className="w-full flex flex-col my-2">

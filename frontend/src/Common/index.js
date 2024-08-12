@@ -33,6 +33,10 @@ const SummaryApi = {
         url: `/api/get-products`,
         method: 'get'
     },
+    admin_product_details : {
+        url: `/api/admin-product-details`,
+        method: 'post'
+    },
     update_product : {
         url: `/api/update-product`,
         method: 'post'
@@ -101,6 +105,7 @@ const SummaryApi = {
         url: `/api/delete-media`,
         method: 'post'
     },
+    
 }
 
 export default SummaryApi;

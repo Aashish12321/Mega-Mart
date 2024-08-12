@@ -1,11 +1,10 @@
 const Product = require("../../models/Product");
 
-async function productDetails(req, resp) {
+async function adminProductDetails(req, resp) {
   try {
     const { pid } = req.body;
-    // console.log(pid);
     const productDetails = await Product.findById(pid).select(
-      "-timestamps -updatedAt -customerReviews -price.cost -ratings -__v"
+      "-timestamps -updatedAt -customerReviews -ratings -__v"
     );
     resp.status(201).json({
       message: "Product details fetched successfully",
@@ -22,4 +21,4 @@ async function productDetails(req, resp) {
   }
 }
 
-module.exports = productDetails;
+module.exports = adminProductDetails;

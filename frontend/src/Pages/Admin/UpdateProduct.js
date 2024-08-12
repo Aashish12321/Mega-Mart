@@ -1,54 +1,24 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { FaWindowClose } from "react-icons/fa";
-import DisplayFullImage from "./DisplayFullImage";
-import SummaryApi from "../Common";
+import DisplayFullImage from "../../Components/DisplayFullImage";
+import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
-import { selectCategories } from "../Store/selector";
+import { selectCategories } from "../../Store/selector";
 import { useSelector } from "react-redux";
-import uploadMedia from "../helpers/uploadMedia";
-import deleteMedia from "../helpers/deleteMedia";
+import uploadMedia from "../../helpers/uploadMedia";
+import deleteMedia from "../../helpers/deleteMedia";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
+const UpdateProduct = () => {
   const categories = useSelector(selectCategories);
   const token = localStorage.getItem("token");
+  const [loading, setLoading] = useState(true);
 
-  const [product, setProduct] = useState({
-    _id: productData._id,
-    name: productData.name,
-    brand: productData.brand,
-    description: productData.description,
-    category: productData.category,
-    subCategory: productData.subCategory,
-    products: productData.products,
-    discount: productData.discount,
-    weight: productData.weight,
-    price: {
-      cost: productData.price.cost,
-      mrp: productData.price.mrp,
-      sell: productData.price.sell,
-    },
-    variants: productData.variants.map((variant, _) => ({
-      color: variant.color,
-      specs: variant.specs.map((spec, _) => ({
-        size: spec.size,
-        stock: spec.stock,
-      })),
-      images: variant.images,
-    })),
+  const { pid } = useParams();
+  const navigate = useNavigate();
 
-    ratings: {
-      average: productData.ratings.average,
-      total: productData.ratings.total,
-    },
-    seller: {
-      id: productData.seller.id,
-      name: productData.seller.name,
-      role: productData.seller.role,
-    },
-  });
-
+  const [product, setProduct] = useState([]);
   const [fullImage, setFullImage] = useState("");
   const [openFullImage, setOpenFullImage] = useState(false);
 
@@ -60,22 +30,22 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
   const handlePriceChange = (e) => {
     const { name, value } = e.target;
     const sell =
-      product.price.mrp -
-      parseInt((product.price.mrp * product.discount) / 100);
-    const price = { ...product.price, [name]: value, sell: sell };
+      product?.price?.mrp -
+      parseInt((product?.price?.mrp * product?.discount) / 100);
+    const price = { ...product?.price, [name]: value, sell: sell };
     setProduct({ ...product, price });
   };
 
   const handleVariantsChange = (variantIndex, e) => {
     const { name, value } = e.target;
-    const variants = [...product.variants];
+    const variants = [...product?.variants];
     variants[variantIndex] = { ...variants[variantIndex], [name]: value };
     setProduct({ ...product, variants });
   };
 
   const handleSpecsChange = (variantIndex, specIndex, e) => {
     const { name, value } = e.target;
-    const variants = [...product.variants];
+    const variants = [...product?.variants];
     variants[variantIndex].specs[specIndex] = {
       ...variants[variantIndex].specs[specIndex],
       [name]: value,
@@ -85,7 +55,7 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
 
   const handleImageUpload = async (variantIndex, e) => {
     const files = e.target.files;
-    const variants = [...product.variants];
+    const variants = [...product?.variants];
     for (let i = 0; i < files?.length; i++) {
       let uploadMediaCloudinary = await uploadMedia(files[i], "mega_mart");
       variants[variantIndex].images = [
@@ -97,13 +67,13 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
   };
 
   const handleImageDelete = async (variantIndex, imageIndex) => {
-    const variants = [...product.variants];
+    const variants = [...product?.variants];
     const newImages = [...variants[variantIndex].images];
     let deletedMediaUrl = newImages.splice(imageIndex, 1);
     deletedMediaUrl = deletedMediaUrl[0];
     variants[variantIndex].images = [...newImages];
     setProduct({ ...product, variants });
-    
+
     // delete from cloudinary
     await deleteMedia(token, deletedMediaUrl);
   };
@@ -112,14 +82,14 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
     setProduct({
       ...product,
       variants: [
-        ...product.variants,
+        ...product?.variants,
         { color: "", specs: [{ size: "", stock: "" }], images: [] },
       ],
     });
   };
 
   const addSpec = (variantIndex) => {
-    const variants = [...product.variants];
+    const variants = [...product?.variants];
     variants[variantIndex].specs.push({ size: "", stock: "" });
     setProduct({ ...product, variants });
   };
@@ -127,7 +97,7 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    let dataResponse = await fetch(SummaryApi.update_product.url, {
+    let dataResponse = await fetch(SummaryApi.update_product?.url, {
       method: SummaryApi.update_product.method,
       body: JSON.stringify(product),
       headers: {
@@ -139,139 +109,155 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
     dataResponse = await dataResponse.json();
     if (dataResponse.success) {
       toast.success(dataResponse.message);
-      fetchAllProducts();
-      onClose();
+      navigate("/admin/all-products");
     } else {
       toast.error(dataResponse.message);
     }
   };
+
+  const fetchProductDetails = useCallback(async () => {
+    let response = await fetch(SummaryApi.admin_product_details.url, {
+      method: SummaryApi.admin_product_details.method,
+      headers: {
+        "content-type": "application/json",
+        authorization: `${token}`
+      },
+      body: JSON.stringify({ pid: pid }),
+    });
+    response = await response.json();
+    if (response.success) {
+      setProduct(response.data);
+      setLoading(false);
+    }
+  }, [pid, token]);
+
+  useEffect(() => {
+    fetchProductDetails();
+  }, [fetchProductDetails]);
+
   return (
-    <div className="fixed top-16 left-0 bottom-0 right-0 z-10 bg-slate-300 bg-opacity-50 items-center">
+    <div className="">
       <div className="w-full bg-customCard">
         <div className="py-2 my-0.5">
-          <form onSubmit={handleFormSubmit} className="mt-2 mx-4 xl:mx-24">
-            <button
-              onClick={onClose}
-              className="-mt-4 -mr-4 xl:-mr-24 ml-auto block outline-none"
-            >
-              <FaWindowClose className="text-2xl " />
-            </button>
+          <form onSubmit={handleFormSubmit} className="mt-2 mx-4">
             <div className="p-2 rounded-full flex items-center justify-between">
               <span className="text-xl font-bold">Edit product</span>
             </div>
 
-            <div className="h-[calc(100vh-140px)] overflow-auto no-scrollbar">
+            <div className="">
               <div className="flex flex-wrap md:flex-nowrap justify-around xl:justify-center gap-4">
-                <div className="w-full flex flex-col p-4 bg-custom rounded-lg">
-                  <label className="text-lg">General information</label>
+                <div className="w-full flex flex-col p-4 bg-stone-500 rounded-lg">
+                  <label className="text-lg font-semibold">General information</label>
 
                   <div className="w-full md:flex justify-between gap-2 md:gap-4">
                     <div className="w-full max-w-2xl flex flex-col">
                       <label htmlFor="name" className="mt-2">
-                        Product Name :
+                        Product Name *
                       </label>
                       <input
-                        value={product.name}
+                        value={product?.name}
                         onChange={handleProductChange}
                         type="text"
                         id="name"
                         name="name"
                         placeholder="Enter product name..."
-                        className="min-w-md outline-none h-10 pl-2 text-white bg-zinc-800 rounded-lg"
+                        className="outline-none h-10 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                         required
                       />
                     </div>
 
                     <div className="w-full max-w-2xl mb-4 flex flex-col">
                       <label htmlFor="brand" className="mt-2">
-                        Brand Name :
+                        Brand Name *
                       </label>
                       <input
-                        value={product.brand}
+                        value={product?.brand}
                         onChange={handleProductChange}
                         type="text"
                         id="brand"
                         name="brand"
                         placeholder="Enter brand name..."
-                        className="min-w-md outline-none h-10 pl-2 text-white bg-zinc-800 rounded-lg"
+                        className="outline-none h-10 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                       />
                     </div>
                   </div>
 
-                  <label htmlFor="description">Product Description :</label>
+                  <label htmlFor="description">Product Description *</label>
                   <textarea
-                    value={product.description}
+                    value={product?.description}
                     onChange={handleProductChange}
                     type="text"
                     id="description"
                     name="description"
-                    placeholder="Describe about product..."
-                    className="h-32 outline-none pl-2 text-white bg-zinc-800 rounded-lg"
+                    placeholder="Describe about product?..."
+                    className="h-32 outline-none pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                   ></textarea>
                 </div>
               </div>
 
               <div className="flex flex-wrap md:flex-nowrap justify-around gap-4 my-4 ">
-                <div className="w-full max-w-2xl flex flex-col p-4 bg-custom rounded-lg">
-                  <label htmlFor="Pricing and Stock" className="text-lg ">
+                <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg">
+                  <label htmlFor="Pricing and Stock" className="text-lg font-semibold">
                     Pricing and Stock
                   </label>
-                  <div className="flex flex-wrap justify-around items-center gap-2">
-                    <div className="flex flex-col w-full md:max-w-36 ">
-                      <label htmlFor="cost" className="mt-2">
-                        Cost Price :
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-2">
+                    <div className="flex flex-col w-full md:max-w-36">
+                      <label htmlFor="cost">
+                        Cost Price *
                       </label>
                       <input
-                        value={product.price.cost}
+                        value={product?.price?.cost}
                         onChange={handlePriceChange}
                         type="number"
                         id="cost"
                         name="cost"
                         min={0}
                         placeholder="Eg: 2000"
-                        className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                        className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                         required
                       />
                     </div>
-                    <div className="flex flex-col w-full md:max-w-36 ">
-                      <label htmlFor="mrp" className="mt-2">
-                        MRP :
+                    <div className="flex flex-col w-full md:max-w-36">
+                      <label htmlFor="mrp">
+                        MRP *
                       </label>
                       <input
-                        value={product.price.mrp}
+                        value={product?.price?.mrp}
                         onChange={handlePriceChange}
                         type="number"
                         id="mrp"
                         name="mrp"
                         min={0}
                         placeholder="Eg: 4000"
-                        className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                        className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg  border-2 border-zinc-400"
                         required
                       />
                     </div>
                     <div className="flex flex-col w-full md:max-w-36">
-                      <label htmlFor="discount" className="mt-2">
-                        Discount (in %):
+                      <label htmlFor="discount">
+                        Discount (in %)
                       </label>
                       <input
-                        value={product.discount}
+                        value={product?.discount}
                         onChange={handleProductChange}
                         type="number"
                         id="discount"
                         name="discount"
                         min={0}
                         placeholder="Eg: 10"
-                        className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                        className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg  border-2 border-zinc-400"
                       />
                     </div>
                     <div className="flex flex-col w-full md:max-w-36">
-                      <label htmlFor="sell" className="mt-2">
-                        Selling Price:
+                      <label htmlFor="sell">
+                        Selling Price (Auto)
                       </label>
                       <input
                         value={
-                          product.price.mrp -
-                          parseInt((product.price.mrp * product.discount) / 100)
+                          product?.price?.mrp -
+                          parseInt(
+                            (product?.price?.mrp * product?.discount) / 100
+                          )
                         }
                         onChange={handlePriceChange}
                         type="number"
@@ -279,73 +265,73 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
                         name="sell"
                         min={0}
                         placeholder="Eg: 3600"
-                        className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                        className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg  border-2 border-zinc-400"
                         required
                       />
                     </div>
                     <div className="flex flex-col w-full md:max-w-36">
-                      <label htmlFor="weight" className="mt-2">
-                        Weight (in gm):
+                      <label htmlFor="weight">
+                        Weight (in gm)
                       </label>
                       <input
-                        value={product.weight}
+                        value={product?.weight}
                         onChange={handleProductChange}
                         type="number"
                         id="weight"
                         name="weight"
                         min={0}
                         placeholder="Eg: 200"
-                        className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                        className="outline-none no-spinner h-8 pl-2 text-white bg-zinc-800 rounded-lg  border-2 border-zinc-400"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="w-full max-w-2xl flex flex-col p-4 bg-custom rounded-lg">
-                  <label htmlFor="ProductCategory" className="text-lg">
+                <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg">
+                  <label htmlFor="ProductCategory" className="text-lg font-semibold">
                     Categories
                   </label>
-                  <div className="flex flex-wrap justify-around mt-2 gap-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-2">
                     <div className="flex flex-col w-full md:max-w-[160px]">
-                      <label htmlFor="category">Choose Category</label>
+                      <label htmlFor="category">Choose Category *</label>
                       <select
                         name="category"
                         id="category"
-                        value={product.category}
+                        value={product?.category}
                         onChange={handleProductChange}
-                        className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                        className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg  border-2 border-zinc-400"
                         required
                       >
                         <option value="" disabled>
-                          Select a category
+                          Select
                         </option>
                         {categories.map((category, index) => (
-                          <option key={index} value={category.name}>
-                            {category.name}
+                          <option key={index} value={category?.name}>
+                            {category?.name}
                           </option>
                         ))}
                       </select>
                     </div>
                     <div className="flex flex-col w-full md:max-w-[160px]">
-                      <label htmlFor="subCategory">Choose Sub-category</label>
+                      <label htmlFor="subCategory">Choose SubCategory *</label>
                       <select
                         name="subCategory"
                         id="subCategory"
-                        value={product.subCategory}
+                        value={product?.subCategory}
                         onChange={handleProductChange}
-                        className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
-                        disabled={!product.category}
+                        className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
+                        disabled={!product?.category}
                       >
                         <option value="" disabled>
-                          Select sub-category
+                          Select
                         </option>
                         {categories.map(
-                          (category, cindex) =>
-                            category.name === product.category &&
-                            category.subCategories.map(
+                          (category) =>
+                            category?.name === product?.category &&
+                            category?.subCategories?.map(
                               (subCategory, sindex) => (
-                                <option key={sindex} value={subCategory.name}>
-                                  {subCategory.name}
+                                <option key={sindex} value={subCategory?.name}>
+                                  {subCategory?.name}
                                 </option>
                               )
                             )
@@ -357,19 +343,19 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
                       <select
                         name="products"
                         id="products"
-                        value={product.products}
+                        value={product?.products}
                         onChange={handleProductChange}
-                        className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
-                        disabled={!product.subCategory}
+                        className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
+                        disabled={!product?.subCategory}
                       >
-                        <option value="">Select products</option>
-                        {categories.map((category, _) =>
-                          category.subCategories.map(
+                        <option value="">Select</option>
+                        {categories?.map((category, _) =>
+                          category?.subCategories?.map(
                             (subCategory, _) =>
-                              subCategory.name === product.subCategory &&
-                              subCategory.products.map((product, pindex) => (
-                                <option key={pindex} value={product.name}>
-                                  {product.name}
+                              subCategory?.name === product?.subCategory &&
+                              subCategory?.products?.map((product, pindex) => (
+                                <option key={pindex} value={product?.name}>
+                                  {product?.name}
                                 </option>
                               ))
                           )
@@ -380,26 +366,26 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
                 </div>
               </div>
 
-              {product.variants.map((variant, variantIndex) => (
+              {product?.variants?.map((variant, variantIndex) => (
                 <div className="flex flex-wrap md:flex-nowrap justify-around gap-4 my-4 ">
-                  <div className="w-full max-w-2xl flex flex-col p-4 bg-custom rounded-lg">
+                  <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg">
                     <label
                       htmlFor="Specifications of Variants"
-                      className="text-lg font-bold"
+                      className="text-lg font-semibold"
                     >
-                      Specifications of Variant {variantIndex+1}
+                      Specifications of Variant {variantIndex + 1}
                     </label>
-                    {variant.specs.map((spec, specIndex) => (
+                    {variant?.specs?.map((spec, specIndex) => (
                       <div
                         key={specIndex}
                         className="flex flex-wrap justify-around items-center gap-2"
                       >
                         <div className="flex flex-col w-full md:max-w-36 ">
                           <label htmlFor="size" className="mt-2">
-                            Size :
+                            Size
                           </label>
                           <input
-                            value={spec.size}
+                            value={spec?.size}
                             onChange={(e) =>
                               handleSpecsChange(variantIndex, specIndex, e)
                             }
@@ -407,15 +393,15 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
                             id="size"
                             name="size"
                             placeholder="Eg: XL"
-                            className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                            className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                           />
                         </div>
                         <div className="flex flex-col w-full md:max-w-36">
                           <label htmlFor="stock" className="mt-2">
-                            Stock :
+                            Stock *
                           </label>
                           <input
-                            value={spec.stock}
+                            value={spec?.stock}
                             onChange={(e) =>
                               handleSpecsChange(variantIndex, specIndex, e)
                             }
@@ -424,7 +410,7 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
                             name="stock"
                             min={0}
                             placeholder="Eg: 12"
-                            className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                            className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                             required
                           />
                         </div>
@@ -437,19 +423,21 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
                     >
                       Add more specs
                     </button>
-                    
                   </div>
 
                   <div
                     key={variantIndex}
-                    className="w-full max-w-2xl flex flex-col p-4 bg-custom rounded-lg"
+                    className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg"
                   >
-                    <label htmlFor="ProductImages" className="text-lg font-semibold">
-                      Upload images of Variant {variantIndex+1}
+                    <label
+                      htmlFor="ProductImages"
+                      className="text-lg font-semibold"
+                    >
+                      Upload images of Variant {variantIndex + 1}
                     </label>
                     <div className="flex flex-col w-full max-w-52 ">
                       <label htmlFor="color" className="mt-2">
-                        Color :
+                        Color
                       </label>
                       <input
                         value={variant?.color}
@@ -458,7 +446,7 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
                         id="color"
                         name="color"
                         placeholder="Eg: Glacial blue"
-                        className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg"
+                        className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                       />
                     </div>
                     <div className="w-full flex flex-col my-2">
@@ -479,7 +467,7 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
                       </label>
 
                       <div className="mt-5 flex gap-4">
-                        {variant.images.map((image, imageIndex) => (
+                        {variant?.images?.map((image, imageIndex) => (
                           <label
                             htmlFor="images"
                             className="relative group w-16 h-16 bg-zinc-800 rounded-md cursor-pointer"
@@ -542,4 +530,4 @@ const AdminEditProduct = ({ productData, onClose, fetchAllProducts }) => {
   );
 };
 
-export default AdminEditProduct;
+export default UpdateProduct;

@@ -149,7 +149,7 @@ const AddReview = () => {
                 value={review?.comment}
                 onChange={handleReviewChange}
                 placeholder="Your opinions here..."
-                className="w-full max-w-lg h-52 bg-zinc-800 outline-none p-1 rounded-xl resize-none"
+                className="w-full max-w-lg h-52 bg-zinc-800 outline-none p-1 rounded-xl resize-none border-2 border-zinc-500"
               ></textarea>
             </div>
             <div className="w-full flex flex-col gap-1">

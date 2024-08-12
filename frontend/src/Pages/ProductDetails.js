@@ -118,7 +118,7 @@ const ProductDetails = () => {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({ id: pid }),
+      body: JSON.stringify({ pid: pid }),
     });
     response = await response.json();
     if (response.success) {

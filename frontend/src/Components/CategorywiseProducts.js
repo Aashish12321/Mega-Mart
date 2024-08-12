@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import SummaryApi from "../Common";
-import ProductLoader from "./Loaders/ProductLoader";
 import HorizontalProductCard from "./HorizontalProductCard";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import HPLoader from "./Loaders/HPLoader";
 
 const CategorywiseProducts = ({ category, heading }) => {
   const [products, setProducts] = useState([]);
@@ -58,7 +58,7 @@ const CategorywiseProducts = ({ category, heading }) => {
         className="flex gap-4 md:gap-8 py-4 items-center overflow-auto no-scrollbar scroll-smooth"
       >
         {loading ? (
-          <ProductLoader wrap={""} />
+          <HPLoader wrap={""} />
         ) : (
           products.map((product, index) =>
             product.variants.map((variant, variantIndex) => (

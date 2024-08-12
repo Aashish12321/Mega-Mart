@@ -28,6 +28,7 @@ const readReviews = require("../controller/users/readReviews");
 const replyToReview = require("../controller/users/replyToReview");
 const productRating = require("../controller/products/productRating");
 const deleteMedia = require("../controller/cloudinary/deleteMedia");
+const adminProductDetails = require("../controller/products/adminProductDetails");
 
 
 router.post("/signup", userSignUp);
@@ -61,5 +62,6 @@ router.get("/search-user/:key", authToken, searchUser);
 router.post("/upload-product", authToken, uploadProduct);
 router.post("/update-product", authToken, updateProduct);
 router.post("/add-category", authToken, addCategory);
+router.post("/admin-product-details", authToken, adminProductDetails);
 
 module.exports = router;

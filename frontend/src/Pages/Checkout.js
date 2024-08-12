@@ -14,7 +14,7 @@ const Checkout = () => {
 
   const token = localStorage.getItem("token");
   const [products, setProducts] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [subTotal, setSubTotal] = useState(0);
 
   const fetchcartProductsDetails = useCallback(async () => {
     let response = await fetch(SummaryApi.cart_products_details.url, {
@@ -39,11 +39,20 @@ const Checkout = () => {
     }
   }, [cartProducts, fetchcartProductsDetails]);
 
-  // useEffect(()=> {
-  //   if (products?.length > 0){
-      
-  //   }
-  // })
+  useEffect(() => {
+    if (products?.length > 0) {
+      let total = 0;
+      cartProducts?.forEach((cartProduct) => {
+        products?.forEach((product) => {
+          if (cartProduct?.variantId === product?.variants[0]?._id) {
+            total += cartProduct?.quantity * parseInt(product?.price?.sell);
+          }
+        });
+      });
+      setSubTotal(total);
+    }
+  }, [cartProducts, products]);
+
   return (
     <div className="w-full p-2 md:p-4 xl:px-12 text-white">
       <div className="text-2xl font-semibold text-center">Product Checkout</div>
@@ -154,7 +163,7 @@ const Checkout = () => {
                                   />
                                 </span>
                                 <span className="flex flex-col w-full max-w-sm text-wrap md:mx-4">
-                                  <span className="line-clamp-1 text-sm hover:text-gray-300">
+                                  <span className="line-clamp-1 text-sm font-semibold hover:text-gray-300">
                                     {product?.name}
                                   </span>
                                   {spec?.size && (
@@ -191,12 +200,9 @@ const Checkout = () => {
               <div className="text-xl text-center font-semibold">Summary</div>
               <div className="w-full flex justify-between font-semibold py-1 border-b-2 border-zinc-500">
                 <span>Subtotal</span>
-                <span>5670</span>
+                <span>{displayNepCurrency(subTotal)}</span>
               </div>
-              <div className="w-full flex justify-between font-semibold py-1 border-b-2 border-zinc-500">
-                <span>Delivery charge</span>
-                <span>56</span>
-              </div>
+              
             </div>
           </div>
         </div>
