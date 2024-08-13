@@ -113,7 +113,7 @@ const App = () => {
 
         <div className="flex flex-col min-h-screen">
           <Header />
-          <main className="flex-grow mt-16 border-2 border-transparent">
+          <main className="flex-grow mt-16">
             <Outlet />
           </main>
           <Footer />

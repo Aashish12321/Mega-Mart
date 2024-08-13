@@ -148,9 +148,9 @@ const AddProduct = () => {
   };
   return (
     <div className="">
-      <div className="">
-        <form onSubmit={handleFormSubmit} className="mt-2 mx-4">
-          <div className="p-2 rounded-full flex items-center justify-between">
+      <div className="m-2 p-2 rounded-lg">
+        <form onSubmit={handleFormSubmit}>
+          <div className="py-1">
             <span className="text-xl font-bold">Add new product</span>
           </div>
 
@@ -162,7 +162,7 @@ const AddProduct = () => {
                 <div className="w-full md:flex justify-between gap-2 md:gap-4">
                   <div className="w-full max-w-2xl flex flex-col">
                     <label htmlFor="name" className="mt-2">
-                      Product Name :
+                      Product Name *
                     </label>
                     <input
                       value={product.name}
@@ -178,7 +178,7 @@ const AddProduct = () => {
 
                   <div className="w-full max-w-2xl mb-4 flex flex-col">
                     <label htmlFor="brand" className="mt-2">
-                      Brand Name :
+                      Brand Name *
                     </label>
                     <input
                       value={product.brand}
@@ -192,7 +192,7 @@ const AddProduct = () => {
                   </div>
                 </div>
 
-                <label htmlFor="description">Product Description :</label>
+                <label htmlFor="description">Product Description *</label>
                 <textarea
                   value={product.description}
                   onChange={handleProductChange}
@@ -213,7 +213,7 @@ const AddProduct = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-2">
                   <div className="flex flex-col w-full md:max-w-36">
                     <label htmlFor="cost">
-                      Cost Price :
+                      Cost Price *
                     </label>
                     <input
                       value={product.price.cost}
@@ -229,7 +229,7 @@ const AddProduct = () => {
                   </div>
                   <div className="flex flex-col w-full md:max-w-36">
                     <label htmlFor="mrp">
-                      MRP :
+                      MRP *
                     </label>
                     <input
                       value={product.price.mrp}
@@ -245,7 +245,7 @@ const AddProduct = () => {
                   </div>
                   <div className="flex flex-col w-full md:max-w-36">
                     <label htmlFor="discount">
-                      Discount (in %):
+                      Discount (in %)
                     </label>
                     <input
                       value={product.discount}
@@ -260,7 +260,7 @@ const AddProduct = () => {
                   </div>
                   <div className="flex flex-col w-full md:max-w-36">
                     <label htmlFor="sell">
-                      Selling Price:
+                      Selling Price (Auto)
                     </label>
                     <input
                       value={
@@ -279,7 +279,7 @@ const AddProduct = () => {
                   </div>
                   <div className="flex flex-col w-full md:max-w-36">
                     <label htmlFor="weight">
-                      Weight (in gm):
+                      Weight (in gm)
                     </label>
                     <input
                       value={product.weight}
@@ -301,7 +301,7 @@ const AddProduct = () => {
                 </label>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-2">
                   <div className="flex flex-col w-full md:max-w-[160px]">
-                    <label htmlFor="category">Choose Category</label>
+                    <label htmlFor="category">Category *</label>
                     <select
                       name="category"
                       id="category"
@@ -321,7 +321,7 @@ const AddProduct = () => {
                     </select>
                   </div>
                   <div className="flex flex-col w-full md:max-w-[160px]">
-                    <label htmlFor="subCategory">Choose Sub-category</label>
+                    <label htmlFor="subCategory">Sub-category *</label>
                     <select
                       name="subCategory"
                       id="subCategory"
@@ -345,7 +345,7 @@ const AddProduct = () => {
                     </select>
                   </div>
                   <div className="flex flex-col w-full md:max-w-[160px]">
-                    <label htmlFor="products">Choose Products</label>
+                    <label htmlFor="products">Products</label>
                     <select
                       name="products"
                       id="products"
@@ -388,7 +388,7 @@ const AddProduct = () => {
                     >
                       <div className="flex flex-col w-full md:max-w-36 ">
                         <label htmlFor="size" className="mt-2">
-                          Size :
+                          Size
                         </label>
                         <input
                           value={spec.size}
@@ -404,7 +404,7 @@ const AddProduct = () => {
                       </div>
                       <div className="flex flex-col w-full md:max-w-36">
                         <label htmlFor="stock" className="mt-2">
-                          Stock :
+                          Stock *
                         </label>
                         <input
                           value={spec.stock}
@@ -443,7 +443,7 @@ const AddProduct = () => {
                   </label>
                   <div className="flex flex-col w-full md:max-w-36 ">
                     <label htmlFor="color" className="mt-2">
-                      Color :
+                      Color
                     </label>
                     <input
                       value={variant.color}

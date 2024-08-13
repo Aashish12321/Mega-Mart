@@ -105,6 +105,10 @@ const SummaryApi = {
         url: `/api/delete-media`,
         method: 'post'
     },
+    create_coupon : {
+        url: `/api/create-coupon`,
+        method: 'post'
+    },
     
 }
 

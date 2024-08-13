@@ -24,23 +24,22 @@ const AllProducts = () => {
   }, []);
 
   return (
-    <div className="px-1 py-2 md:py-4">
-      <div className="mb-1 md:mb-4">
-        <span className="text-xl pl-2 font-bold">All Products</span>
+    <div className="m-2 md:p-2 rounded-lg -500">
+      <div className="py-1">
+        <span className="text-xl font-bold">All Products</span>
       </div>
 
       {loader ? (
         <VPLoader />
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 p-2 lg:p-4 gap-4 xl:gap-8 h-[calc(100vh-100px)] overflow-auto no-scrollbar">
-          {products.map((product, index) =>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-2 lg:p-4 gap-4 lg:gap-8 h-[calc(100vh-100px)] overflow-auto no-scrollbar">
+          {products.map((product) =>
             product.variants.map((variant, variantIndex) => (
               <AdminProductCard
+                key={variant?._id}
                 product={product}
                 variant={variant}
                 variantIndex={variantIndex}
-                fetchAllProducts={handleAllProducts}
-                key={product._id}
               />
             ))
           )}

@@ -29,6 +29,7 @@ const replyToReview = require("../controller/users/replyToReview");
 const productRating = require("../controller/products/productRating");
 const deleteMedia = require("../controller/cloudinary/deleteMedia");
 const adminProductDetails = require("../controller/products/adminProductDetails");
+const createCoupon = require("../controller/orders/createCoupon");
 
 
 router.post("/signup", userSignUp);
@@ -63,5 +64,6 @@ router.post("/upload-product", authToken, uploadProduct);
 router.post("/update-product", authToken, updateProduct);
 router.post("/add-category", authToken, addCategory);
 router.post("/admin-product-details", authToken, adminProductDetails);
+router.post("/create-coupon", authToken, createCoupon);
 
 module.exports = router;

@@ -15,6 +15,7 @@ const AddReview = () => {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userImgLoader, setUserImgLoader] = useState(false);
+  const maxImageCount = 6;
   const [userImgCount, setUserImgCount] = useState(0);
   const { pid, vid } = useParams();
   const [fullImage, setFullImage] = useState("");
@@ -35,11 +36,17 @@ const AddReview = () => {
   };
 
   const handleImageUpload = async (e) => {
-    setUserImgLoader(true);
     const files = e.target.files;
-    setUserImgCount(files?.length);
+    if (userImgCount + files?.length > maxImageCount) {
+      toast.error("Maximum of 6 images can be uploaded");
+      e.target.value = null;
+      return;
+    }
 
+    setUserImgCount(userImgCount + files?.length);
+    setUserImgLoader(true);
     let images = [...review?.images];
+
     for (let i = 0; i < files?.length; i++) {
       let uploadMediaCloudinary = await uploadMedia(
         files[i],
@@ -57,7 +64,7 @@ const AddReview = () => {
     deletedMediaUrl = deletedMediaUrl[0];
     images = [...images];
     setReview({ ...review, images });
-    
+
     // deleting from cloudinary
     await deleteMedia(token, deletedMediaUrl);
   };
@@ -69,7 +76,7 @@ const AddReview = () => {
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({ id: pid }),
+        body: JSON.stringify({ pid: pid }),
       });
       response = await response.json();
       if (response.success) {
@@ -103,13 +110,13 @@ const AddReview = () => {
     }
   };
   return (
-    <div className="w-full text-white lg:px-48">
+    <div className="w-full text-white">
       {loading ? (
         <Spinner />
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="w-full p-2 md:p-8 justify-around bg-customCard rounded-2xl"
+          className="w-full p-2 md:p-8 justify-around bg-stone-600"
         >
           <div className="text-xl text-center lg:text-2xl font-bold my-1">
             Add Review
@@ -121,6 +128,7 @@ const AddReview = () => {
                   (variant) =>
                     variant?._id === vid && (
                       <img
+                        key={variant?._id}
                         src={variant?.images[0]}
                         alt="images.webp"
                         className="w-full h-64 object-contain"
@@ -138,8 +146,8 @@ const AddReview = () => {
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row w-full justify-center mt-8 gap-4">
-            <div className="w-full flex flex-col gap-1">
+          <div className="flex flex-col md:flex-row w-full justify-center mt-8 gap-8">
+            <div className="w-full p-4 flex flex-col gap-1 bg-stone-500 rounded-xl">
               <span className="text-lg lg:text-xl font-semibold">
                 Please share your opinion
               </span>
@@ -147,12 +155,14 @@ const AddReview = () => {
                 name="comment"
                 id="comment"
                 value={review?.comment}
+                maxLength={200}
                 onChange={handleReviewChange}
                 placeholder="Your opinions here..."
-                className="w-full max-w-lg h-52 bg-zinc-800 outline-none p-1 rounded-xl resize-none border-2 border-zinc-500"
+                className="w-full h-52 bg-zinc-800 outline-none p-1 rounded-xl resize-none border-2 border-zinc-500"
               ></textarea>
+              <div className="text-right">{200 - review?.comment?.length} characters remaining</div>
             </div>
-            <div className="w-full flex flex-col gap-1">
+            <div className="w-full p-2 flex flex-col gap-1 bg-stone-500 rounded-xl">
               <span className="text-lg lg:text-xl font-semibold">
                 Upload photos or videos
               </span>
@@ -171,12 +181,16 @@ const AddReview = () => {
                   onChange={handleImageUpload}
                 />
               </label>
+              <div>
+                Note: Maximum of 6 images are allowed.
+              </div>
               <div className="mt-1 flex flex-wrap gap-4">
                 {userImgLoader ? (
                   <UploadImgLoader length={userImgCount} />
                 ) : (
                   review?.images?.map((image, index) => (
                     <label
+                      key={index}
                       htmlFor="images"
                       className="relative group w-16 h-16 bg-zinc-800 rounded-md cursor-pointer"
                     >

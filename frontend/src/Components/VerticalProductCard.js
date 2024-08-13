@@ -46,7 +46,7 @@ const VerticalProductCard = ({ product, variant }) => {
     <Link to={`/product/${product?._id}/${variant?._id}`}>
       <div
         onClick={()=> window.scrollTo({top:0})}
-        className="shadow-custom bg-neutral-600 duration-300 ease-in-out rounded-lg cursor-pointer"
+        className="shadow-custom bg-stone-700 duration-300 ease-in-out rounded-lg cursor-pointer"
       >
         <div className="relative h-36 min-[375px]:h-44 md:h-48 lg:h-52 xl:h-56 bg-zinc-800 rounded-t-lg">
           <img

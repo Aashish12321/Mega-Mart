@@ -44,7 +44,7 @@ const ProductCard = ({ product, variant }) => {
 
   return (
     <Link to={`/product/${product?._id}/${variant?._id}`}>
-      <div className="w-36 min-[375px]:w-44 md:w-48 lg:w-52 xl:w-56 shadow-custom bg-customCard duration-300 ease-in-out rounded-lg cursor-pointer">
+      <div className="w-36 min-[375px]:w-44 md:w-48 lg:w-52 xl:w-56 shadow-custom bg-stone-700 duration-300 ease-in-out rounded-lg cursor-pointer">
         <div className="relative h-36 min-[375px]:h-44 md:h-48 lg:h-52 xl:h-56 bg-zinc-800 rounded-t-lg">
           <img
             key={variant?._id}

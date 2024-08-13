@@ -9,10 +9,10 @@ const AdminProductCard = ({ product, variant, variantIndex }) => {
 
   return (
     <div className="">
-      <div className="shadow-custom bg-stone-600 duration-300 ease-in-out rounded-lg cursor-pointer">
+      <div className="shadow-custom bg-stone-700 duration-300 ease-in-out rounded-lg cursor-pointer">
         <div
           onClick={() => navigate(`/product/${product?._id}/${variant?._id}`)}
-          className="h-36 min-[375px]:h-44 md:h-48 lg:h-52 xl:h-56 bg-zinc-800 rounded-t-lg"
+          className="h-36 min-[375px]:h-44 lg:h-52 xl:h-56 bg-zinc-800 rounded-t-lg"
         >
           <img
             key={variantIndex}
@@ -23,8 +23,11 @@ const AdminProductCard = ({ product, variant, variantIndex }) => {
         </div>
 
         <div className="relative h-36">
-          <div className="mx-2">
-            <h1 className="text-ellipsis line-clamp-2">{product.name}</h1>
+          <div
+            onClick={() => navigate(`/product/${product?._id}/${variant?._id}`)}
+            className="mx-2 cursor-pointer"
+          >
+            <h1 className="text-ellipsis line-clamp-1 min-[375px]:line-clamp-2">{product.name}</h1>
             <div className="flex gap-1 md:gap-2">
               {/* <StarRating rating={product.ratings.average} /> */}
               {/* <span className="mt-0.5">{product.ratings.average}/5 ({product.ratings.total})</span> */}
