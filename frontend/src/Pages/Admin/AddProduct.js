@@ -372,7 +372,7 @@ const AddProduct = () => {
               </div>
             </div>
 
-            {product.variants.map((variant, variantIndex) => (
+            {product?.variants?.map((variant, variantIndex) => (
               <div className="flex flex-wrap lg:flex-nowrap justify-around gap-4 my-4 ">
                 <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg">
                   <label
@@ -381,7 +381,7 @@ const AddProduct = () => {
                   >
                     Specifications of Variant
                   </label>
-                  {variant.specs.map((spec, specIndex) => (
+                  {variant?.specs?.map((spec, specIndex) => (
                     <div
                       key={specIndex}
                       className="flex flex-wrap justify-around items-center gap-2"

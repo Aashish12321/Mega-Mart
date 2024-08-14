@@ -2,8 +2,8 @@ const Product = require("../../models/Product");
 
 async function catgwiseProducts(req, resp) {
   try {
-    const category = req.body.category;
-    const products = await Product.find({ products: category })
+    const { products } = req.body;
+    const catwiseProducts = await Product.find({ products: products })
       .select(
         "-timestamps -updatedAt -customerReviews -price.cost -ratings -__v"
       )
@@ -11,7 +11,7 @@ async function catgwiseProducts(req, resp) {
 
     resp.status(201).json({
       message: "Products fetched successfully",
-      data: products,
+      data: catwiseProducts,
       success: true,
       error: false,
     });

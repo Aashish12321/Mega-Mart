@@ -1,6 +1,6 @@
 const Product = require("../../models/Product");
 
-async function getProduct(req, resp){
+async function getAllProducts(req, resp){
     try {
         const product = await Product.find().sort({updatedAt: -1})
 
@@ -20,4 +20,4 @@ async function getProduct(req, resp){
     }
 }
 
-module.exports = getProduct;
+module.exports = getAllProducts;

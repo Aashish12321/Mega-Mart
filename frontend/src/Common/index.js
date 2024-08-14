@@ -109,6 +109,14 @@ const SummaryApi = {
         url: `/api/create-coupon`,
         method: 'post'
     },
+    check_coupon : {
+        url: `/api/check-coupon`,
+        method: 'post'
+    },
+    get_products_properties : {
+        url: `/api/get-products-properties`,
+        method: 'get'
+    },
     
 }
 

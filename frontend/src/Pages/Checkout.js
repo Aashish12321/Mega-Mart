@@ -10,11 +10,44 @@ import displayNepCurrency from "../helpers/displayNepCurrency";
 const Checkout = () => {
   const context = useContext(Context);
   const [loading, setLoading] = useState(true);
+  const [couponCode, setCouponCode] = useState("");
+  const [isCouponValid, setIsCouponValid] = useState(false);
+  const [coupon, setCoupon] = useState({});
   const { cartProducts } = context;
 
   const token = localStorage.getItem("token");
   const [products, setProducts] = useState([]);
   const [subTotal, setSubTotal] = useState(0);
+
+  const calculateDiscount = () => {
+    if (coupon?.discountType === 'fixed'){
+      return coupon?.discount;
+    }
+    else{
+      
+    }
+  }
+
+  const handleCouponCode = async () => {
+    let response = await fetch(SummaryApi.check_coupon.url,{
+      method: SummaryApi.check_coupon.method,
+      headers: {
+        'content-type': 'application/json',
+        authorization: `${token}`
+      },
+      body: JSON.stringify({couponCode: couponCode, products: products})
+    });
+    response = await response.json();
+    if (response.success){
+      setCoupon(response.data);
+      calculateDiscount();
+      setIsCouponValid(true);
+      toast.success(response.message);
+    }
+    else{
+      toast.error(response.message);
+    }
+  }
 
   const fetchcartProductsDetails = useCallback(async () => {
     let response = await fetch(SummaryApi.cart_products_details.url, {
@@ -61,7 +94,7 @@ const Checkout = () => {
       ) : (
         <div className="flex justify-around w-full gap-4 border p-2">
           <div className="flex flex-col w-full p-2 max-w-2xl gap-4 border">
-            <div className="flex flex-col p-2 w-full border bg-customCard">
+            <div className="flex flex-col p-2 w-full border bg-stone-700">
               <div className="p-1">
                 <div className="flex justify-between">
                   <span className="text-xl font-semibold">
@@ -91,7 +124,7 @@ const Checkout = () => {
               </div>
             </div>
 
-            <div className="flex flex-col p-2 w-full border bg-customCard">
+            <div className="flex flex-col p-2 w-full border bg-stone-700">
               <span className="flex p-2 gap-4 items-center text-xl font-semibold">
                 <FaCreditCard /> Debit/Credit Card
               </span>
@@ -136,7 +169,7 @@ const Checkout = () => {
             </div>
           </div>
 
-          <div className="flex flex-col w-full p-2 max-w-2xl gap-4 border bg-customCard">
+          <div className="flex flex-col w-full p-2 max-w-2xl gap-4 border bg-stone-700">
             <div className="flex w-full justify-between p-2 border-b-2 border-zinc-500">
               <span className="text-xl font-semibold">Order Details</span>
               <span className="text-xl font-semibold">{`${cartProducts?.length} Items`}</span>
@@ -196,13 +229,29 @@ const Checkout = () => {
                 )
               )}
             </div>
+            <div className="flex justify-end">
+              <input
+                type="text"
+                value={couponCode}
+                onChange={(e)=> setCouponCode(e.target.value)}
+                className="px-3 py-1 outline-none rounded-l-full border-2 border-zinc-500 bg-zinc-800 "
+                placeholder="Have Coupon code?"
+              />
+              <button onClick={handleCouponCode} className="flex px-3 py-1 justify-center rounded-r-full items-center bg-green-500">
+                Check
+              </button>
+            </div>
             <div className="w-full flex flex-col px-12 gap-2">
               <div className="text-xl text-center font-semibold">Summary</div>
               <div className="w-full flex justify-between font-semibold py-1 border-b-2 border-zinc-500">
                 <span>Subtotal</span>
                 <span>{displayNepCurrency(subTotal)}</span>
               </div>
-              
+              <div className="w-full flex justify-between font-semibold py-1 border-b-2 border-zinc-500">
+                <span>Coupon Code</span>
+                
+                <span>{displayNepCurrency(subTotal)}</span>
+              </div>
             </div>
           </div>
         </div>

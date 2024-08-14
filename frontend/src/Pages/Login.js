@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import logo from "../Assets/loginIcon.gif";
-import {
-  Link,
-  useNavigate,
-  useLocation,
-} from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaEye } from "react-icons/fa";
 import { IoEyeOff } from "react-icons/io5";
 import SummaryApi from "../Common";
@@ -47,66 +43,65 @@ const Login = () => {
 
     if (response.success) {
       toast.success(response.message);
-      const redirectTo = new URLSearchParams(location?.search).get("redirect") || "/";
+      const redirectTo =
+        new URLSearchParams(location?.search).get("redirect") || "/";
       navigate(redirectTo);
     } else {
       toast.error(response.message);
     }
   };
   return (
-    <div className="h-[80vh] mt-32 mx-4 ">
-      <div className="items-center bg-customCard text-white shadow-custom p-2 max-w-md mx-auto rounded-lg">
-        <img src={logo} alt="logo" className="w-16 mx-auto mt-2" />
-        <form onSubmit={handleLogin} className="mt-4">
-          Email:
-          <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md ">
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email..."
-              className="w-full h-8 pl-1 outline-none bg-transparent text-black"
-              value={user.email}
-              onChange={handleOnchange}
-              required
-            />
+    <div className="mt-20 items-center bg-stone-700 text-white shadow-custom p-2 max-w-md mx-auto rounded-lg">
+      <img src={logo} alt="logo" className="w-16 mx-auto mt-2" />
+      <form onSubmit={handleLogin} className="mt-4">
+        Email:
+        <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md ">
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email..."
+            className="w-full h-8 pl-1 outline-none bg-transparent text-black"
+            value={user.email}
+            onChange={handleOnchange}
+            required
+          />
+        </div>
+        Password:
+        <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md items-center">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Enter password..."
+            className="w-full h-8 pl-1 outline-none bg-transparent text-black"
+            value={user.password}
+            onChange={handleOnchange}
+            required
+          />
+          <div
+            className="text-black mr-1 cursor-pointer"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            <span>{showPassword ? <FaEye /> : <IoEyeOff />}</span>
           </div>
-          Password:
-          <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md items-center">
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Enter password..."
-              className="w-full h-8 pl-1 outline-none bg-transparent text-black"
-              value={user.password}
-              onChange={handleOnchange}
-              required
-            />
-            <div
-              className="text-black mr-1 cursor-pointer"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              <span>{showPassword ? <FaEye /> : <IoEyeOff />}</span>
-            </div>
-          </div>
-          <div className="text-right text-sm text-red-500 hover:underline">
-            <Link to={"/forgot-password"}>Forgot password?</Link>
-          </div>
-          <div className="text-center mt-4">
-            <button
-              type="submit"
-              className="bg-red-500 w-28 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
-            >
-              Login
-            </button>
-          </div>
-          <div className="text-sm mt-5">
-            Don't have an account?
-            <Link to={"/signup"} className="text-red-500">
-              &nbsp;&nbsp;SignUp
-            </Link>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div className="text-right text-sm text-red-500 hover:underline">
+          <Link to={"/forgot-password"}>Forgot password?</Link>
+        </div>
+        <div className="text-center mt-4">
+          <button
+            type="submit"
+            className="bg-red-500 w-28 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+          >
+            Login
+          </button>
+        </div>
+        <div className="text-sm mt-5">
+          Don't have an account?
+          <Link to={"/signup"} className="text-red-500">
+            &nbsp;&nbsp;SignUp
+          </Link>
+        </div>
+      </form>
     </div>
   );
 };

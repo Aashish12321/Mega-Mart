@@ -1,36 +1,26 @@
 const mongoose = require("mongoose");
 
-const applicableProductSchema = new mongoose.Schema({
-    category: { type: String },
-    subCategory: { type: String },
-    products: { type: String },
-});
-
 const couponSchema = new mongoose.Schema(
   {
     code: { type: String, required: true, unique: true, trim: true },
     discount: { type: Number, required: true },
-    discountType: {
-      type: String,
-      enum: ["percentage", "fixed"],
-      required: true,
-    },
+    discountType: { type: String, required: true },
     validUntil: { type: Date, required: true },
     minimumOrderValue: { type: Number, default: 0 },
-    applicableProducts: [applicableProductSchema],
-    createdBy: { type: String, enum: ["platform", "vendor"], required: true },
-    vendorId: {
+    applicableBy: { type: String, required: true },
+    applicableProducts: { type: String, required: true },
+    applicableUsers: { type: String, required: true },
+    isActive: { type: Boolean, default: true },
+    createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: function () {
-        return this.createdBy === "vendor";
-      },
+      required: true,
     },
-    isActive: { type: Boolean, default: true },
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model("Coupon", couponSchema);
+const Coupon = mongoose.model("Coupon", couponSchema);
+module.exports = Coupon;

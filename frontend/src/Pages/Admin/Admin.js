@@ -14,8 +14,8 @@ const Admin = () => {
 
 
   return (
-    <div className="md:flex h-full justify-between text-white">
-      <aside className="hidden md:flex w-full md:max-w-52 lg:max-w-60 bg-zinc-800 border-r-2 border-stone-500 shadow-lg text-white flex-col ">
+    <div className="md:flex justify-between text-white">
+      <aside className="hidden md:flex min-h-screen w-full md:max-w-52 lg:max-w-60 bg-zinc-800 border-r-2 border-stone-500 shadow-lg text-white flex-col ">
         <div className="w-full pt-6 pb-2 rounded-lg text-white">
           {user?.profilePic ? (
             <img
@@ -52,6 +52,13 @@ const Admin = () => {
             <p>Create Coupon</p>
           </Link>
           <Link
+            to={"orders"}
+            className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
+          >
+            <RiCoupon2Fill  className="text-lg mt-1" />
+            <p>Orders</p>
+          </Link>
+          <Link
             to={"all-products"}
             onClick={(e) => setExpandProduct(!expandProduct)}
             className="cursor-pointer flex space-x-2 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full items-center"
@@ -86,6 +93,7 @@ const Admin = () => {
         <Link className="mr-2 hover:text-red-500" to={'dashboard'}>Dashboard</Link>
         <Link className="mx-2 hover:text-red-500" to={'users'}>Users</Link>
         <Link className="ml-2 hover:text-red-500" to={'create-coupon'}>Create Coupon</Link>
+        <Link className="ml-2 hover:text-red-500" to={'Orders'}>Orders</Link>
         <Link className="mx-2 hover:text-red-500" to={'all-products'}>Products</Link>
         <Link className="ml-2 hover:text-red-500" to={'add-product'}>Add Product</Link>
         <Link className="ml-2 hover:text-red-500" to={'add-category'}>Add Category</Link>

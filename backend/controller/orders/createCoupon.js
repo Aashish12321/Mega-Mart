@@ -2,15 +2,16 @@ const Coupon = require("../../models/Coupon");
 
 async function createCoupon(req, resp) {
   try {
+    const userId = req.userId;
     const {
       code,
       discount,
       discountType,
       validUntil,
       minimumOrderValue,
+      applicableBy,
       applicableProducts,
-      createdBy,
-      vendorId,
+      applicableUsers,
     } = req.body;
 
     let newCoupon = new Coupon({
@@ -19,9 +20,10 @@ async function createCoupon(req, resp) {
       discountType,
       validUntil,
       minimumOrderValue,
+      applicableBy,
       applicableProducts,
-      createdBy,
-      vendorId,
+      applicableUsers,
+      createdBy: userId,
     });
 
     newCoupon = await newCoupon.save();

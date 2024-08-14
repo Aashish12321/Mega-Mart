@@ -19,7 +19,7 @@ const CategorywiseProducts = ({ category, heading }) => {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({ category: category }),
+      body: JSON.stringify({ products: category }),
     });
 
     response = await response.json();

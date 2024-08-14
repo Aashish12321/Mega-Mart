@@ -40,21 +40,18 @@ body {
 }
 
 
-/* Hide the increment decrement button on number input element. */
+/* Hiding the increment decrement button on number input. */
 @layer utilities {
-  /* Chrome, Safari, Edge, Opera */
   .no-spinner::-webkit-inner-spin-button, 
   .no-spinner::-webkit-outer-spin-button { 
     @apply appearance-none;
     margin: 0;
   }
 
-  /* Firefox */
   .no-spinner {
     -moz-appearance: textfield;
   }
 
-  /* Hide spinner in Edge */
   .no-spinner::-ms-clear, 
   .no-spinner::-ms-reveal {
     @apply hidden;

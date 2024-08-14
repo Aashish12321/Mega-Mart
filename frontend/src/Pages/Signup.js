@@ -73,103 +73,101 @@ const Signup = () => {
   };
 
   return (
-    <div className="h-[80vh] mt-32 mx-4">
-      <form
-        onSubmit={handleSignup}
-        className="bg-customCard text-white shadow-custom p-2 max-w-md mx-auto rounded-md "
-      >
-        <div className="w-20 mx-auto mt-2 overflow-hidden rounded-full cursor-pointer">
-          <img src={user.profilePic || logo} alt="logo" />
-          <div className="text-xs bg-slate-500 text-white pb-4 pt-2 text-center -mt-10">
-            <input
-              type="file"
-              name="profilePic"
-              id="fileInput"
-              className="hidden overflow-auto"
-              onChange={handlePicUpload}
-            />
-            <label htmlFor="fileInput">Upload</label>
-          </div>
+    <form
+      onSubmit={handleSignup}
+      className="bg-stone-700 mt-20 text-white shadow-custom p-2 max-w-md mx-auto rounded-md "
+    >
+      <div className="w-20 mx-auto mt-2 overflow-hidden rounded-full cursor-pointer">
+        <img src={user.profilePic || logo} alt="logo" />
+        <div className="text-xs bg-slate-500 text-white pb-4 pt-2 text-center -mt-10">
+          <input
+            type="file"
+            name="profilePic"
+            id="fileInput"
+            className="hidden overflow-auto"
+            onChange={handlePicUpload}
+          />
+          <label htmlFor="fileInput">Upload</label>
         </div>
+      </div>
 
-        <div className="mt-4">
-          Name:
-          <div className="mb-2 bg-slate-100 rounded-md ">
-            <input
-              type="text"
-              name="name"
-              placeholder="Enter full name..."
-              className="w-full h-8 pl-1 rounded-md outline-none bg-transparent text-black"
-              value={user.name}
-              onChange={handleOnchange}
-              required
-            />
-          </div>
-          Email:
-          <div className="mb-2 bg-slate-100 w-full rounded-md ">
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email..."
-              className="w-full h-8 pl-1 outline-none bg-transparent text-black"
-              value={user.email}
-              onChange={handleOnchange}
-              required
-            />
-          </div>
-          Password:
-          <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md items-center">
-            <input
-              type={showPassword ? "text" : "password"}
-              name="password"
-              placeholder="Enter password..."
-              className="w-full h-8 pl-1 outline-none bg-transparent text-black"
-              value={user.password}
-              onChange={handleOnchange}
-              required
-            />
-            <div
-              className="text-black mr-1 cursor-pointer"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              <span>{showPassword ? <FaEye /> : <IoEyeOff />}</span>
-            </div>
-          </div>
-          Confirm Password:
-          <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md items-center">
-            <input
-              type={showPassword ? "text" : "password"}
-              name="confirmPassword"
-              placeholder="Enter confirm password..."
-              className="w-full h-8 pl-1 outline-none bg-transparent text-black"
-              value={user.confirmPassword}
-              onChange={handleOnchange}
-              required
-            />
-            <div
-              className="text-black mr-1 cursor-pointer"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              <span>{showPassword ? <FaEye /> : <IoEyeOff />}</span>
-            </div>
-          </div>
-          <div className="text-center mt-4">
-            <button
-              type="submit"
-              className="bg-red-500 w-28 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
-            >
-              SignUp
-            </button>
-          </div>
-          <div className="text-sm mt-5">
-            Already have account?
-            <Link to={"/login"} className="text-red-500">
-              &nbsp;&nbsp;Login
-            </Link>
+      <div className="mt-4">
+        Name:
+        <div className="mb-2 bg-slate-100 rounded-md ">
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter full name..."
+            className="w-full h-8 pl-1 rounded-md outline-none bg-transparent text-black"
+            value={user.name}
+            onChange={handleOnchange}
+            required
+          />
+        </div>
+        Email:
+        <div className="mb-2 bg-slate-100 w-full rounded-md ">
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email..."
+            className="w-full h-8 pl-1 outline-none bg-transparent text-black"
+            value={user.email}
+            onChange={handleOnchange}
+            required
+          />
+        </div>
+        Password:
+        <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md items-center">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Enter password..."
+            className="w-full h-8 pl-1 outline-none bg-transparent text-black"
+            value={user.password}
+            onChange={handleOnchange}
+            required
+          />
+          <div
+            className="text-black mr-1 cursor-pointer"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            <span>{showPassword ? <FaEye /> : <IoEyeOff />}</span>
           </div>
         </div>
-      </form>
-    </div>
+        Confirm Password:
+        <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md items-center">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="confirmPassword"
+            placeholder="Enter confirm password..."
+            className="w-full h-8 pl-1 outline-none bg-transparent text-black"
+            value={user.confirmPassword}
+            onChange={handleOnchange}
+            required
+          />
+          <div
+            className="text-black mr-1 cursor-pointer"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            <span>{showPassword ? <FaEye /> : <IoEyeOff />}</span>
+          </div>
+        </div>
+        <div className="text-center mt-4">
+          <button
+            type="submit"
+            className="bg-red-500 w-28 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+          >
+            SignUp
+          </button>
+        </div>
+        <div className="text-sm mt-5">
+          Already have account?
+          <Link to={"/login"} className="text-red-500">
+            &nbsp;&nbsp;Login
+          </Link>
+        </div>
+      </div>
+    </form>
   );
 };
 

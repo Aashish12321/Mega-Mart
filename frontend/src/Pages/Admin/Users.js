@@ -75,7 +75,7 @@ const Users = () => {
         />
       </div>
 
-      <div className="h-[calc(100vh-100px)] overflow-auto rounded-lg">
+      <div className="rounded-lg">
         {loader ? (
           <Spinner />
         ) : (

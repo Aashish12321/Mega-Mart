@@ -61,11 +61,11 @@ const Header = () => {
 
   return (
     <>
-      <header className="select-none bg-gray-900 fixed top-0 w-full z-10">
-        <div className="flex items-center min-[320px]:py-2 2xl:py-0 justify-around ">
-          <div className="flex min-[320px]:w-40 md:w-44 lg:w-48 2xl:w-56 text-white cursor-pointer items-center justify-around">
+      <header className="w-full sticky top-0 z-10 select-none bg-gray-900">
+        <div className="flex items-center min-[320px]:py-2 2xl:py-0 justify-around">
+          <div className="flex w-full min-[320px]:w-40 md:w-44 lg:w-48 2xl:w-56 text-white cursor-pointer items-center justify-around">
             <Link to={"/"}>
-              <img src={logo} alt="logo" />
+              <img src={logo} alt="logo" className="w-full h-full" />
             </Link>
           </div>
 
