@@ -2,19 +2,16 @@ const Product = require("../../models/Product");
 
 async function getProductsProperties(_, resp){
     try {
-        const category = await Product.distinct("category");
-        const subCategory = await Product.distinct("subCategory");
         const products = await Product.distinct("products");
-        const brand = await Product.distinct("brand");
+
+        let productsWithItsBrands = await Promise.all(products?.map(async(productType)=> {
+            let brands = await Product.distinct("brand", {products: productType});
+            return {products:productType, brands: brands};
+        }))
 
         resp.status(201).json({
-            message: 'All Properties fetched successfully',
-            data: {
-                category: category,
-                subCategory: subCategory,
-                products: products,
-                brand: brand
-            },
+            message: 'All Products and its brands fetched successfully',
+            data: productsWithItsBrands,
             success: true,
             error: false
         })

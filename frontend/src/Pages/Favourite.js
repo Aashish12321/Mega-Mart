@@ -36,8 +36,8 @@ const Favourite = () => {
   }, [favouriteProducts, fetchFavouriteProductsDetails]);
 
   return (
-    <div className="w-full p-2 md:p-4 xl:px-12 text-white">
-      <div className="flex justify-between text-2xl font-semibold py-2 border-b-2 border-gray-700 select-none">
+    <div className="w-full p-1 md:p-4 xl:px-12 text-white">
+      <div className="w-full flex justify-between text-xl md:mb-4 p-1 font-semibold text-center border-2 border-stone-400 bg-zinc-700 select-none">
         <span>Favourites</span>
         <span>{favouriteProducts?.length} Items</span>
       </div>

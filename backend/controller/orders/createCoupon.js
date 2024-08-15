@@ -6,22 +6,24 @@ async function createCoupon(req, resp) {
     const {
       code,
       discount,
-      discountType,
+      discountUpto,
       validUntil,
       minimumOrderValue,
-      applicableBy,
+      applicableBrand,
       applicableProducts,
+      applicableProductId,
       applicableUsers,
     } = req.body;
 
     let newCoupon = new Coupon({
       code,
       discount,
-      discountType,
+      discountUpto,
       validUntil,
       minimumOrderValue,
-      applicableBy,
+      applicableBrand,
       applicableProducts,
+      applicableProductId,
       applicableUsers,
       createdBy: userId,
     });

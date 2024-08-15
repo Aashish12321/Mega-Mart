@@ -1,21 +1,22 @@
 import React, { useCallback, useEffect, useState } from "react";
 import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 const CreateCoupon = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-  const [applicableNames, setApplicableNames] = useState({});
+  const [applicable, setApplicable] = useState([]);
 
   const [newCoupon, setNewCoupon] = useState({
     code: "",
     discount: 0,
-    discountType: "percentage",
+    discountUpto: 0,
     validUntil: "",
     minimumOrderValue: 0,
-    applicableBy: "",
     applicableProducts: "",
+    applicableBrand: "",
+    applicableProductId: "",
     applicableUsers: "",
   });
 
@@ -59,7 +60,7 @@ const CreateCoupon = () => {
     });
     response = await response.json();
     if (response.success) {
-      setApplicableNames(response.data);
+      setApplicable(response.data);
     } else {
       toast.error(response.message);
     }
@@ -97,37 +98,33 @@ const CreateCoupon = () => {
         <div className="w-full flex gap-8 justify-between">
           <div className="w-full flex flex-col">
             <label htmlFor="discount" className="font-semibold">
-              Discount *
+              Discount (in %) *
             </label>
             <input
               onChange={handleChange}
-              type="text"
+              type="number"
               value={newCoupon?.discount}
               name="discount"
               id="discount"
               placeholder="Eg: 5"
-              className="w-full outline-none h-8 p-2 bg-zinc-800 border-2 border-zinc-400"
+              className="w-full outline-none no-spinner h-8 p-2 bg-zinc-800 border-2 border-zinc-400"
               required
             />
           </div>
           <div className="w-full flex flex-col">
-            <label htmlFor="discountType" className="font-semibold">
-              Discount type *
+            <label htmlFor="discountUpto" className="font-semibold">
+              Discount Upto (in NPR) *
             </label>
-            <select
-              name="discountType"
-              id="discountType"
-              value={newCoupon.discountType}
+            <input
               onChange={handleChange}
-              className="outline-none w-full h-8 text-white bg-zinc-800 border-2 border-zinc-400"
+              type="number"
+              value={newCoupon?.discountUpto}
+              name="discountUpto"
+              id="discountUpto"
+              placeholder="Eg: 500"
+              className="w-full outline-none no-spinner h-8 p-2 bg-zinc-800 border-2 border-zinc-400"
               required
-            >
-              {["percentage", "fixed"].map((type, index) => (
-                <option key={index} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
+            />
           </div>
         </div>
         <div className="w-full flex flex-col md:flex-row gap-8 justify-between">
@@ -162,35 +159,10 @@ const CreateCoupon = () => {
             />
           </div>
         </div>
-
         <div className="w-full flex gap-8 justify-between">
           <div className="w-full flex flex-col">
-            <label htmlFor="applicableBy" className="font-semibold">
-              Applicable By *
-            </label>
-            <select
-              name="applicableBy"
-              id="applicableBy"
-              value={newCoupon?.applicableBy}
-              onChange={handleChange}
-              className="outline-none w-full h-8 text-white bg-zinc-800 border-2 border-zinc-400"
-              required
-            >
-              <option value="" disabled>
-                Select by
-              </option>
-              {["category", "subCategory", "products", "brand"].map(
-                (type, index) => (
-                  <option key={index} value={type}>
-                    {type}
-                  </option>
-                )
-              )}
-            </select>
-          </div>
-          <div className="w-full flex flex-col">
             <label htmlFor="applicableProducts" className="font-semibold">
-              {`Select ${newCoupon?.applicableBy}` || "Applicable for"} *
+              Applicable Products *
             </label>
             <select
               name="applicableProducts"
@@ -200,38 +172,78 @@ const CreateCoupon = () => {
               className="outline-none w-full h-8 text-white bg-zinc-800 border-2 border-zinc-400"
               required
             >
-              {applicableNames[`${newCoupon?.applicableBy}`]?.map(
-                (type, index) => (
-                  <option key={index} value={type}>
-                    {type}
-                  </option>
-                )
+              {applicable?.map((productsWithBrands, index) => (
+                <option key={index} value={productsWithBrands["products"]}>
+                  {productsWithBrands["products"]}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="w-full flex flex-col">
+            <label htmlFor="applicableBrand" className="font-semibold">
+              Applicable Brand *
+            </label>
+            <select
+              name="applicableBrand"
+              id="applicableBrand"
+              value={newCoupon?.applicableBrand}
+              onChange={handleChange}
+              className="outline-none w-full h-8 text-white bg-zinc-800 border-2 border-zinc-400"
+              required
+            >
+              <option value="" disabled>
+                Select
+              </option>
+              {applicable?.map(
+                (productsWithBrands, index) =>
+                  productsWithBrands["products"] ===
+                    newCoupon?.applicableProducts &&
+                  productsWithBrands["brands"]?.map((brand) => (
+                    <option key={index} value={brand}>
+                      {brand}
+                    </option>
+                  ))
               )}
             </select>
           </div>
         </div>
-
-        <div className="w-full flex flex-col">
-          <label htmlFor="applicableUsers" className="font-semibold">
-            Applicable Users *
-          </label>
-          <select
-            name="applicableUsers"
-            id="applicableUsers"
-            value={newCoupon?.applicableUsers}
-            onChange={handleChange}
-            className="outline-none w-full h-8 text-white bg-zinc-800 border-2 border-zinc-400"
-            required
-          >
-            <option value="" disabled>
-              Select Users
-            </option>
-            {["new", "active", "inactive", "all"].map((type, index) => (
-              <option key={index} value={type}>
-                {type}
+        <div className="w-full flex gap-8 justify-between">
+          <div className="w-full flex flex-col">
+            <label htmlFor="applicableProductId" className="font-semibold">
+              Applicable Product Id
+            </label>
+            <input
+              onChange={handleChange}
+              type="text"
+              value={newCoupon?.applicableProductId}
+              name="applicableProductId"
+              id="applicableProductId"
+              placeholder="Eg: kjyrhr23rwhewrkjfkshf83"
+              className="w-full outline-none h-8 p-2 bg-zinc-800 border-2 border-zinc-400"
+            />
+          </div>
+          <div className="w-full flex flex-col">
+            <label htmlFor="applicableUsers" className="font-semibold">
+              Applicable Users *
+            </label>
+            <select
+              name="applicableUsers"
+              id="applicableUsers"
+              value={newCoupon?.applicableUsers}
+              onChange={handleChange}
+              className="outline-none w-full h-8 text-white bg-zinc-800 border-2 border-zinc-400"
+              required
+            >
+              <option value="" disabled>
+                Select Users
               </option>
-            ))}
-          </select>
+              {["new", "active", "inactive", "all"].map((type, index) => (
+                <option key={index} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <button

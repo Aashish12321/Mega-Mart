@@ -159,7 +159,7 @@ const ProductDetails = () => {
   }, [product, vid, specId, favouriteProducts, cartProducts]);
 
   return (
-    <div className="w-full pt-1.5 lg:px-2 text-white bg-customCard">
+    <div className="w-full pt-1.5 lg:px-2 text-white">
       {loading ? (
         <Spinner />
       ) : (
@@ -273,7 +273,7 @@ const ProductDetails = () => {
             </div>
 
             <div className="w-full flex flex-col flex-grow top-0 gap-1 p-1">
-              <div className="relative flex flex-col p-4 gap-2 border-2 border-zinc-400">
+              <div className="relative flex flex-col p-4 gap-2 border-2 border-zinc-400 bg-stone-700">
                 <div className="font-bold text-lg">{product.brand}</div>
                 <div className="text-lg line-clamp-2">{product.name}</div>
                 <div className="flex gap-4">
@@ -393,7 +393,7 @@ const ProductDetails = () => {
                   </div>
                 )}
               </div>
-              <div className="w-full mt-1 p-4 border-2 border-zinc-400">
+              <div className="w-full mt-1 p-4 border-2 border-zinc-400 bg-stone-700">
                 <div className="flex justify-between">
                   <span className="text-xl font-bold my-1">
                     Reviews and Ratings

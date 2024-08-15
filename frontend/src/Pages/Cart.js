@@ -77,18 +77,25 @@ const Cart = () => {
     <div className="w-full text-white border border-transparent p-1">
       <div className="flex mt-2 lg:mx-12 justify-between text-xl lg:text-2xl font-semibold py-1 border-b-2 border-gray-700">
         <span>Shopping Cart</span>
-        <span>{cartProducts.length} Items</span>
+        <span>
+          {cartProducts?.reduce(
+            (acc, cartProduct) => acc + cartProduct?.quantity,
+            0
+          )}{" "}
+          Items
+        </span>
       </div>
 
-      <div className="lg:mx-12">
-        {cartProducts?.length === 0 ? (
-          <div className="w-full text-xl flex justify-center items-center h-80 my-2 bg-customCard rounded-xl">
-            No items in cart !
-          </div>
-        ) : loading ? (
-          <Spinner />
-        ) : (
-          <table className="my-2 w-full bg-customCard">
+      {cartProducts?.length === 0 ? (
+        <div className="w-full text-xl flex justify-center items-center h-80 my-2 bg-customCard rounded-xl">
+          No treasures here yet! Browse our collections and add something
+          delightful to your cart
+        </div>
+      ) : loading ? (
+        <Spinner />
+      ) : (
+        <div className="lg:mx-12">
+          <table className="my-2 w-full bg-stone-700 border-2 border-zinc-500">
             <thead className="w-full">
               <tr className="w-full md:text-lg text-gray-300 border-b-2">
                 <th>PRODUCT</th>
@@ -115,7 +122,7 @@ const Cart = () => {
                               }}
                               className="select-none border-b-2 border-gray-500"
                             >
-                              <td className="bg-customCard p-2">
+                              <td className="p-2">
                                 <Link
                                   to={`/product/${product?._id}/${variant?._id}`}
                                   className="flex flex-col md:flex-row object-contain"
@@ -267,13 +274,17 @@ const Cart = () => {
               )}
             </tbody>
           </table>
-        )}
-        <div className="w-full p-4 flex justify-center mt-2 gap-4">
-          <Link to={`/checkout`} className="flex justify-center bg-green-500 w-32 p-2 text-sm text-white rounded-full shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
-            Checkout
-          </Link>
+          
+          <div className="w-full p-4 flex justify-center mt-2 gap-4">
+            <Link
+              to={`/checkout`}
+              className="flex justify-center bg-green-500 w-32 p-2 text-sm text-white rounded-full shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+            >
+              Checkout
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

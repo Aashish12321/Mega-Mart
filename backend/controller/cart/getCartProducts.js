@@ -20,9 +20,12 @@ async function getCartProducts(req, resp) {
           );
           variant["specs"] = spec;
           product["variants"] = variant;
-          // console.log("v", variant);
-          // console.log("s", spec);
-          return product;
+
+          let updatedProduct = {
+            ...product._doc,
+            cartQuantity: cartProduct?.quantity
+          }
+          return updatedProduct;
         })
       );
     }
