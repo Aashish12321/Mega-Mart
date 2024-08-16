@@ -67,7 +67,6 @@ const App = () => {
     response = await response.json();
     setFavouriteProducts(response?.data?.favouriteProducts);
     // console.log(response?.data);
-
   }, [token]);
 
   useEffect(() => {
@@ -75,17 +74,12 @@ const App = () => {
       fetchUserDetails();
       fetchCartProducts();
       fetchFavouriteProducts();
-    }else {
+    } else {
       setCartProducts([]);
       setCartProductsCount(0);
       setFavouriteProducts([]);
     }
-  }, [
-    fetchUserDetails,
-    fetchCartProducts,
-    fetchFavouriteProducts,
-    token,
-  ]);
+  }, [fetchUserDetails, fetchCartProducts, fetchFavouriteProducts, token]);
 
   return (
     <>
@@ -104,11 +98,10 @@ const App = () => {
           draggable
           draggableDirection="x"
           position="top-center"
-          autoClose={1500}
+          autoClose={2000}
           transition={Bounce}
           limit={2}
           theme="dark"
-          // style={{transition: 'ease-in-out'}}
         />
 
         <div className="flex flex-col min-h-screen">

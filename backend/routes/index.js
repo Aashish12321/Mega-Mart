@@ -32,6 +32,7 @@ const adminProductDetails = require("../controller/products/adminProductDetails"
 const createCoupon = require("../controller/orders/createCoupon");
 const getProductsProperties = require("../controller/categories/getProductsProperties");
 const checkCoupon = require("../controller/orders/checkCoupon");
+const payment = require("../controller/orders/payment");
 
 
 router.post("/signup", userSignUp);
@@ -53,6 +54,7 @@ router.post("/add-new-review", authToken, addReview);
 router.post("/read-reviews", readReviews);
 router.post("/reply-to-review", authToken, replyToReview);
 router.post("/product-rating",  productRating);
+router.post("/create-payment-intent", payment);
 
 // cloudinary
 router.post("/delete-media", authToken, deleteMedia);

@@ -117,7 +117,10 @@ const SummaryApi = {
         url: `/api/get-products-properties`,
         method: 'get'
     },
-    
+    create_payment_intent : {
+        url: `/api/create-payment-intent`,
+        method: 'post'
+    },
 }
 
 export default SummaryApi;

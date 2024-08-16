@@ -74,8 +74,8 @@ const Cart = () => {
   }, [cartProducts, fetchCartProductsDetails]);
 
   return (
-    <div className="w-full text-white border border-transparent p-1">
-      <div className="flex mt-2 lg:mx-12 justify-between text-xl lg:text-2xl font-semibold py-1 border-b-2 border-gray-700">
+    <div className="w-full p-1 md:p-4 xl:px-12 text-white">
+      <div className="w-full flex justify-between text-xl lg:text-2xl mb-4 p-1 font-semibold text-center border-2 border-stone-400 bg-zinc-700 select-none">
         <span>Shopping Cart</span>
         <span>
           {cartProducts?.reduce(
@@ -94,10 +94,10 @@ const Cart = () => {
       ) : loading ? (
         <Spinner />
       ) : (
-        <div className="lg:mx-12">
-          <table className="my-2 w-full bg-stone-700 border-2 border-zinc-500">
+        <div className="">
+          <table className="my-2 w-full bg-stone-700 border-2 border-stone-400">
             <thead className="w-full">
-              <tr className="w-full md:text-lg text-gray-300 border-b-2">
+              <tr className="w-full md:text-lg text-gray-300">
                 <th>PRODUCT</th>
                 <th className="hidden md:flex">QUANTITY</th>
                 <th>PRICE</th>
@@ -120,7 +120,7 @@ const Cart = () => {
                                   remove[spec?._id] &&
                                   "slideLeft 0.8s ease-out",
                               }}
-                              className="select-none border-b-2 border-gray-500"
+                              className="select-none border-t-2 border-gray-500"
                             >
                               <td className="p-2">
                                 <Link
@@ -274,7 +274,7 @@ const Cart = () => {
               )}
             </tbody>
           </table>
-          
+
           <div className="w-full p-4 flex justify-center mt-2 gap-4">
             <Link
               to={`/checkout`}

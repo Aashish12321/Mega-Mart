@@ -37,19 +37,19 @@ const Favourite = () => {
 
   return (
     <div className="w-full p-1 md:p-4 xl:px-12 text-white">
-      <div className="w-full flex justify-between text-xl md:mb-4 p-1 font-semibold text-center border-2 border-stone-400 bg-zinc-700 select-none">
+      <div className="w-full flex justify-between text-xl lg:text-2xl mb-4 p-1 font-semibold text-center border-2 border-stone-400 bg-zinc-700 select-none">
         <span>Favourites</span>
         <span>{favouriteProducts?.length} Items</span>
       </div>
 
       {favouriteProducts?.length === 0 ? (
-        <div className="w-full text-xl flex justify-center items-center h-80 my-2 bg-customCard rounded-xl">
+        <div className="w-full text-xl flex justify-center items-center h-80 my-2 bg-stone-700 rounded-xl">
           No items in Favourites !
         </div>
       ) : loading ? (
         <VPLoader />
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-8 xl:gap-12 py-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-8 xl:gap-12">
           {products?.map((product, _) =>
             product?.variants?.map((variant, vindex) => (
               <VerticalProductCard

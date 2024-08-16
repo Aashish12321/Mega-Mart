@@ -18,10 +18,11 @@ import ProductDetails from "./Pages/ProductDetails";
 import AddBanner from "./Pages/Admin/AddBanner";
 import Cart from "./Pages/Cart";
 import Favourite from "./Pages/Favourite";
-import AddReview from "./Pages/Reviews/AddReview"
+import AddReview from "./Pages/Reviews/AddReview";
 import Checkout from "./Pages/Checkout";
 import CreateCoupon from "./Pages/Admin/CreateCoupon";
 import UpdateProduct from "./Pages/Admin/UpdateProduct";
+import PaymentSuccess from "./Pages/PaymentSuccess";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "*", 
+        path: "*",
         element: <PageNotFound />,
       },
       {
@@ -38,15 +39,27 @@ const router = createBrowserRouter([
       },
       {
         path: "signup",
-        element: <ProtectedRoute><Signup /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <Signup />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "login",
-        element: <ProtectedRoute><Login /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <Login />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "forgot-password",
-        element: <ProtectedRoute><ForgotPassword /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <ForgotPassword />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "products",
@@ -62,19 +75,35 @@ const router = createBrowserRouter([
       },
       {
         path: "mycart",
-        element: <ProtectedRoute><Cart /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "myfavourite",
-        element: <ProtectedRoute><Favourite /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <Favourite />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/product/:pid/:vid/add-review",
-        element: <ProtectedRoute><AddReview /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <AddReview />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/checkout",
         element: <ProtectedRoute><Checkout /></ProtectedRoute>,
+      },
+      {
+        path: "/checkout/payment-success",
+        element: <ProtectedRoute><PaymentSuccess /></ProtectedRoute>,
       },
       {
         path: "permission-denied",
@@ -98,7 +127,7 @@ const router = createBrowserRouter([
           },
           {
             path: "add-category",
-            element: <Addcategory />
+            element: <Addcategory />,
           },
           {
             path: "all-products",

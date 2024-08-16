@@ -379,7 +379,7 @@ const ProductDetails = () => {
                 </div>
 
                 {imageZoom && (
-                  <div className="hidden lg:flex overflow-hidden absolute z-10 left-0 top-0 w-full h-[650px] bg-zinc-800 border-b-2 border-zinc-400">
+                  <div className="hidden lg:flex z-10 overflow-hidden absolute left-0 top-0 w-full h-[650px] bg-zinc-800 border-b-2 border-zinc-400">
                     <div
                       className="w-full h-full scale-110 scroll-smooth"
                       style={{

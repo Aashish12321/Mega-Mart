@@ -10,6 +10,7 @@ const StarRating = ({ rating, dimension }) => {
         numberOfStars={5}
         starDimension={dimension}
         starSpacing="1px"
+        
       />
     </div>
   );

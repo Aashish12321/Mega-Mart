@@ -1,11 +1,18 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FaCreditCard } from "react-icons/fa";
 import SummaryApi from "../Common";
 import Context from "../Context";
 import { toast } from "react-toastify";
 import Spinner from "../Components/Loaders/Spinner";
 import displayNepCurrency from "../helpers/displayNepCurrency";
+import PaymentForm from "../Pages/PaymentForm";
+
+// stripe payments
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+const stripepromise = loadStripe(
+  "pk_test_51PoJ9AEYPKZSSLXyZmNGBuLcc7NrlQHHB8HwaGS5QyKs9xN347cCZPPDMy92ANbMYyDw50eb7uSXXbAdLNpRKPPi00ZoB21PMn"
+);
 
 const Checkout = () => {
   const context = useContext(Context);
@@ -20,20 +27,22 @@ const Checkout = () => {
   const [total, setTotal] = useState(0);
 
   const handleCouponCode = async () => {
-    let response = await fetch(SummaryApi.check_coupon.url, {
-      method: SummaryApi.check_coupon.method,
-      headers: {
-        "content-type": "application/json",
-        authorization: `${token}`,
-      },
-      body: JSON.stringify({ couponCode: couponCode, products: products }),
-    });
-    response = await response.json();
-    if (response.success) {
-      setCoupon(response.data);
-      toast.success(response.message);
-    } else {
-      toast.error(response.message);
+    if (couponCode) {
+      let response = await fetch(SummaryApi.check_coupon.url, {
+        method: SummaryApi.check_coupon.method,
+        headers: {
+          "content-type": "application/json",
+          authorization: `${token}`,
+        },
+        body: JSON.stringify({ couponCode: couponCode, products: products }),
+      });
+      response = await response.json();
+      if (response.success) {
+        setCoupon(response.data);
+        toast.success(response.message);
+      } else {
+        toast.error(response.message);
+      }
     }
   };
 
@@ -75,7 +84,7 @@ const Checkout = () => {
 
   return (
     <div className="w-full p-1 md:p-4 xl:px-12 xl:py-4 text-white">
-      <div className="w-full text-xl md:mb-4 p-1 font-semibold text-center border-2 border-stone-400 bg-zinc-700">
+      <div className="w-full text-xl lg:text-2xl mb-4 p-1 font-semibold text-center border-2 border-stone-400 bg-zinc-700">
         Products Checkout
       </div>
       {cartProducts?.length > 0 ? (
@@ -90,12 +99,12 @@ const Checkout = () => {
                     <span className="text-xl font-semibold">
                       Shipping Address *
                     </span>
-                    <Link
+                    <button
                       // to={`/product/${pid}/${vid}/add-review`}
-                      className="flex px-2 py-1 text-center bg-stone-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+                      className="flex px-4 py-1 text-center rounded-full bg-stone-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
                     >
-                      Change Address
-                    </Link>
+                      Change
+                    </button>
                   </div>
                   <div className="text-md my-2 border-2 p-1 border-zinc-500">
                     address goes here
@@ -117,41 +126,9 @@ const Checkout = () => {
               </div>
 
               <div className="w-full flex flex-col p-2 border-2 border-stone-400 bg-stone-700">
-                <span className="flex p-2 gap-4 items-center text-xl font-semibold border-b-2 border-zinc-500">
-                  <FaCreditCard /> Debit/Credit Card
-                </span>
-                <div className="px-2 w-full">
-                  <div className="flex flex-col w-full my-2 p-1">
-                    <span className="text-md font-semibold">
-                      Enter Card Number *
-                    </span>
-                    <input
-                      type="number"
-                      className="w-full p-1 outline-none no-spinner border-2 border-zinc-500 bg-zinc-800 "
-                      placeholder="Eg:  1234 1234 1234"
-                    />
-                  </div>
-                  <div className="w-full flex flex-col lg:flex-row justify-between gap-6 my-4 p-1">
-                    <div className="w-full flex flex-col">
-                      <span className="text-md font-semibold">
-                        Expiry Date *
-                      </span>
-                      <input
-                        type="number"
-                        className="w-full p-1 outline-none no-spinner border-2 border-zinc-500 bg-zinc-800 "
-                        placeholder="Eg:  MM/YYYY"
-                      />
-                    </div>
-                    <div className="w-full flex flex-col">
-                      <span className="text-md font-semibold">CVV *</span>
-                      <input
-                        type="number"
-                        className="w-full p-1 outline-none no-spinner border-2 border-zinc-500 bg-zinc-800 "
-                        placeholder="CVV"
-                      />
-                    </div>
-                  </div>
-                </div>
+                <Elements stripe={stripepromise}>
+                  <PaymentForm total={total} />
+                </Elements>
               </div>
             </div>
 
@@ -254,9 +231,6 @@ const Checkout = () => {
                   <span>Total</span>
                   <span>{displayNepCurrency(total)}</span>
                 </div>
-                <button className="flex w-full max-w-36 p-1 justify-center rounded-full bg-green-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
-                  Make payment
-                </button>
               </div>
             </div>
           </div>

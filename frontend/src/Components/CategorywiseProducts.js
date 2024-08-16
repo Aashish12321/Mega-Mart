@@ -35,7 +35,7 @@ const CategorywiseProducts = ({ category, heading }) => {
 
   return (
     <div className="px-2 py-4">
-      <div className="flex justify-between">
+      <div className="w-full flex justify-between text-xl lg:text-2xl p-1 font-semibold">
         <div className="text-white text-xl font-semibold">{heading}</div>
         <div>
           <button

@@ -70,10 +70,9 @@ const ProductReviews = ({ productId, reviewMetrics }) => {
                     width: `${(starCounts[star] / maxStarRatingCount) * 100}%`,
                   }}
                 >
-                  {
-                    loading &&
+                  {loading && (
                     <div className="h-full bg-slate-200 animate-pulse rounded-full"></div>
-                  }
+                  )}
                 </div>
               </div>
               <span>{starCounts[star]}</span>
@@ -81,7 +80,7 @@ const ProductReviews = ({ productId, reviewMetrics }) => {
           ))}
         </div>
       </div>
-      
+
       <div className="w-full h-0.5 bg-gray-500"></div>
 
       <div className="w-full">
