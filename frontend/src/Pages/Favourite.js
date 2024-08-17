@@ -43,8 +43,8 @@ const Favourite = () => {
       </div>
 
       {favouriteProducts?.length === 0 ? (
-        <div className="w-full text-xl flex justify-center items-center h-80 my-2 bg-stone-700 rounded-xl">
-          No items in Favourites !
+        <div className="w-full text-lg xl:text-2xl p-2 font-semibold flex justify-center items-center text-center h-80 my-2 bg-stone-700 rounded-xl">
+          Looks like you have not added products so far ! <br /> Browse our collections and add something that you wish to buy.
         </div>
       ) : loading ? (
         <VPLoader />

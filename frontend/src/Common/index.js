@@ -121,6 +121,10 @@ const SummaryApi = {
         url: `/api/create-payment-intent`,
         method: 'post'
     },
+    create_order : {
+        url: `/api/create-order`,
+        method: 'post'
+    },
 }
 
 export default SummaryApi;

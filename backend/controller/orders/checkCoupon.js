@@ -42,7 +42,7 @@ async function checkCoupon(req, resp) {
     if (isCouponValid) {
 
       let totalOrderValue = products?.reduce(
-        (acc, product) => acc + product?.price?.sell * product?.cartQuantity,
+        (acc, product) => acc + product?.price?.sell * product?.quantity,
         0
       );
 
@@ -54,7 +54,7 @@ async function checkCoupon(req, resp) {
         );
         const totalValueOfProductsMatchingCoupon =
           productsMatchingCoupon?.reduce(
-            (acc, product) => acc + product?.price?.sell * product?.cartQuantity,
+            (acc, product) => acc + product?.price?.sell * product?.quantity,
             0
           );
         if (

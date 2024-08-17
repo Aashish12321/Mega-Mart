@@ -15,6 +15,7 @@ const Signup = () => {
   const [user, setUser] = useState({
     profilePic: "",
     name: "",
+    mobileNumber: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -92,38 +93,54 @@ const Signup = () => {
       </div>
 
       <div className="mt-4">
-        Name:
+        <label htmlFor="name">Name:</label>
         <div className="mb-2 bg-slate-100 rounded-md ">
           <input
             type="text"
             name="name"
+            id="name"
             placeholder="Enter full name..."
             className="w-full h-8 pl-1 rounded-md outline-none bg-transparent text-black"
-            value={user.name}
+            value={user?.name}
             onChange={handleOnchange}
             required
           />
         </div>
-        Email:
+        <label htmlFor="mobileNumber">Mobile Number:</label>
+        <div className="mb-2 bg-slate-100 rounded-md ">
+          <input
+            type="number"
+            name="mobileNumber"
+            id="mobileNumber"
+            placeholder="Eg: 9812345678"
+            className="w-full h-8 pl-1 rounded-md outline-none bg-transparent text-black"
+            value={user?.mobileNumber}
+            onChange={handleOnchange}
+            required
+          />
+        </div>
+        <label htmlFor="email">Email:</label>
         <div className="mb-2 bg-slate-100 w-full rounded-md ">
           <input
             type="email"
             name="email"
+            id="email"
             placeholder="Enter your email..."
             className="w-full h-8 pl-1 outline-none bg-transparent text-black"
-            value={user.email}
+            value={user?.email}
             onChange={handleOnchange}
             required
           />
         </div>
-        Password:
+        <label htmlFor="password">Password:</label>
         <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md items-center">
           <input
             type={showPassword ? "text" : "password"}
             name="password"
+            id="password"
             placeholder="Enter password..."
             className="w-full h-8 pl-1 outline-none bg-transparent text-black"
-            value={user.password}
+            value={user?.password}
             onChange={handleOnchange}
             required
           />
@@ -134,14 +151,15 @@ const Signup = () => {
             <span>{showPassword ? <FaEye /> : <IoEyeOff />}</span>
           </div>
         </div>
-        Confirm Password:
+        <label htmlFor="confirmPassword">Confirm Password:</label>
         <div className="flex mb-2 bg-slate-100 w-full h-8 rounded-md items-center">
           <input
             type={showPassword ? "text" : "password"}
             name="confirmPassword"
+            id="confirmPassword"
             placeholder="Enter confirm password..."
             className="w-full h-8 pl-1 outline-none bg-transparent text-black"
-            value={user.confirmPassword}
+            value={user?.confirmPassword}
             onChange={handleOnchange}
             required
           />
@@ -161,7 +179,7 @@ const Signup = () => {
           </button>
         </div>
         <div className="text-sm mt-5">
-          Already have account?
+          <span>Already have account?</span>
           <Link to={"/login"} className="text-red-500">
             &nbsp;&nbsp;Login
           </Link>

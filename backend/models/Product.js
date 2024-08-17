@@ -5,7 +5,14 @@ const variantSchema = new mongoose.Schema({
   specs: [
     {
       size: { type: String },
-      stock: { type: Number, min:0, required: true },
+      stock: { type: Number, min: 0, required: true },
+      available: {
+        type: Number,
+        min: 0,
+        default: function () {
+          return this.stock;
+        },
+      },
     },
   ],
   images: [{ type: String, required: true }],
@@ -25,22 +32,17 @@ const ProductSchema = new mongoose.Schema(
     discount: { type: Number },
     category: { type: String, required: true },
     subCategory: { type: String, required: true },
-    products: { type: String },
+    products: { type: String, required: true },
 
     variants: [variantSchema],
-    ratings: {
-      average: { type: Number, min: 0, max: 5, default: 0 },
-      total: { type: Number, default: 0 },
-    },
     seller: {
       id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
       name: { type: String, required: true },
       role: { type: String, required: true },
     },
-    customerReviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
   },
   {
-    timestamps: true, 
+    timestamps: true,
   }
 );
 

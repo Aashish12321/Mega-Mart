@@ -87,9 +87,9 @@ const Cart = () => {
       </div>
 
       {cartProducts?.length === 0 ? (
-        <div className="w-full text-xl flex justify-center items-center h-80 my-2 bg-customCard rounded-xl">
-          No treasures here yet! Browse our collections and add something
-          delightful to your cart
+        <div className="w-full text-lg xl:text-2xl p-2 text-center font-semibold flex justify-center items-center h-80 my-2 bg-stone-700 rounded-xl">
+          No treasures here yet ! <br/> Browse our collections and add something
+          delightful to your cart {":)"}
         </div>
       ) : loading ? (
         <Spinner />

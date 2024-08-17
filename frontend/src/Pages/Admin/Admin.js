@@ -14,8 +14,8 @@ const Admin = () => {
 
 
   return (
-    <div className="md:flex justify-between text-white">
-      <aside className="hidden md:flex min-h-screen w-full md:max-w-52 lg:max-w-60 bg-zinc-800 border-r-2 border-stone-500 shadow-lg text-white flex-col ">
+    <div className="md:flex relative justify-between text-white">
+      <aside className="hidden sticky md:flex min-h-screen w-full md:max-w-52 lg:max-w-60 bg-zinc-800 border-r-2 border-stone-500 shadow-lg text-white flex-col ">
         <div className="w-full pt-6 pb-2 rounded-lg text-white">
           {user?.profilePic ? (
             <img

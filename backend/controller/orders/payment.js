@@ -16,7 +16,10 @@ async function payment(req, resp) {
 
     resp.status(201).json({
       message: "Payment Intent created",
-      data: { clientSecret: paymentIntent.client_secret },
+      data: {
+        clientSecret: paymentIntent.client_secret,
+        transactionId: paymentIntent.id,
+      },
       success: true,
       error: false,
     });

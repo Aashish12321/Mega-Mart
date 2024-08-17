@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   CardNumberElement,
   CardExpiryElement,
@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 
 const PaymentForm = ({ total }) => {
   const user = useSelector(selectUser);
+  const [transactionId, setTransactionId] = useState("");
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ const PaymentForm = ({ total }) => {
           },
         }
       );
+      setTransactionId(response?.data?.transactionId);
 
       if (confirmPayment.error) {
         toast.error(confirmPayment.error.message);

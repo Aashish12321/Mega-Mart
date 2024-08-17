@@ -6,7 +6,7 @@ const orderSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
-  orderItems: [
+  items: [
     {
       product: {
         type: mongoose.Schema.Types.ObjectId,
@@ -14,40 +14,29 @@ const orderSchema = new mongoose.Schema({
         ref: "Product",
       },
       name: { type: String, required: true },
+      price: { type: Number, required: true },
+      size : { type: String },
       quantity: { type: Number, required: true },
       image: { type: String, required: true },
-      price: { type: Number, required: true },
     },
   ],
-  shippingAddress: {
-    address: { type: String, required: true },
-    city: { type: String, required: true },
-    postalCode: { type: String, required: true },
-  },
+  address: { type: String, required: true },
   payment: {
-    method: {
-      type: String,
-      required: true,
-      enum: ["Credit Card", "Cash on Delivery"],
-    },
+    method: { type: String, required: true },
     id: { type: String }, // Payment gateway transaction ID
-    status: { type: String }, // Payment status (e.g., 'Completed', 'Pending')
-    time: { type: String }, // Payment time
-    mobile: { type: String },
-    email: { type: String }, // Payer's email
+    isPaid: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    paidAt: {
+      type: Date,
+    },
   },
-  price: {
+  totalPrice: {
     type: Number,
     required: true,
     default: 0.0,
-  },
-  isPaid: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  paidAt: {
-    type: Date,
   },
   isDelivered: {
     type: Boolean,
@@ -60,7 +49,7 @@ const orderSchema = new mongoose.Schema({
   status: {
     type: String,
     required: true,
-    enum: ["Processing", "Shipped", "Delivered", "Cancelled", "Returned"],
+    enum: ["Processing", "Shipped", "Delivered", "Cancelled"],
     default: "Processing",
   },
   createdAt: {

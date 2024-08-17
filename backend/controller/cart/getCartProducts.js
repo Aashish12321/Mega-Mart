@@ -23,7 +23,7 @@ async function getCartProducts(req, resp) {
 
           let updatedProduct = {
             ...product._doc,
-            cartQuantity: cartProduct?.quantity
+            quantity: cartProduct?.quantity
           }
           return updatedProduct;
         })

@@ -5,11 +5,13 @@ import Context from "../Context";
 import { toast } from "react-toastify";
 import Spinner from "../Components/Loaders/Spinner";
 import displayNepCurrency from "../helpers/displayNepCurrency";
-import PaymentForm from "../Pages/PaymentForm";
+import PaymentForm from "../Components/PaymentForm";
 
 // stripe payments
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Store/selector";
 const stripepromise = loadStripe(
   "pk_test_51PoJ9AEYPKZSSLXyZmNGBuLcc7NrlQHHB8HwaGS5QyKs9xN347cCZPPDMy92ANbMYyDw50eb7uSXXbAdLNpRKPPi00ZoB21PMn"
 );
@@ -20,11 +22,30 @@ const Checkout = () => {
   const [couponCode, setCouponCode] = useState("");
   const [coupon, setCoupon] = useState({});
   const { cartProducts } = context;
+  const user = useSelector(selectUser);
 
   const token = localStorage.getItem("token");
   const [products, setProducts] = useState([]);
   const [subTotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
+
+  const [order, setOrder] = useState({
+    products: [],
+    address: "",
+    payment: {
+      method: "",
+      id: "",
+      isPaid: "",
+      paidAt: "",
+    },
+    totalPrice: 0,
+  });
+
+  const handleOrder = () => {
+    setOrder({ ...order, products: products });
+  };
+
+  const handleOrderAddress = () => {};
 
   const handleCouponCode = async () => {
     if (couponCode) {
@@ -58,6 +79,7 @@ const Checkout = () => {
     if (response.success) {
       setProducts(response.data);
       setLoading(false);
+      handleOrder();
     } else {
       toast.error(response.message);
     }
@@ -97,7 +119,7 @@ const Checkout = () => {
                 <div className="p-1">
                   <div className="flex p-2 justify-between border-b-2 border-zinc-500">
                     <span className="text-xl font-semibold">
-                      Shipping Address *
+                      Shipping Address
                     </span>
                     <button
                       // to={`/product/${pid}/${vid}/add-review`}
@@ -106,8 +128,47 @@ const Checkout = () => {
                       Change
                     </button>
                   </div>
-                  <div className="text-md my-2 border-2 p-1 border-zinc-500">
-                    address goes here
+                  <div className="text-md my-2">
+                    <input
+                      type="text"
+                      value={order?.address}
+                      name="address"
+                      autoComplete="off"
+                      onChange={(e) =>
+                        setOrder({ ...order, address: e.target.value })
+                      }
+                      className="w-full px-3 py-1 outline-none border-2 border-zinc-500 bg-zinc-800 "
+                      placeholder="Enter shipping address..."
+                    />
+                  </div>
+                  <div className="flex justify-between items-center my-2 border-2 p-1 border-zinc-500">
+                    <span className="text-md font-semibold">
+                      Choose Payment Method *
+                    </span>
+                    <select
+                      name="method"
+                      id="method"
+                      value={order?.payment?.method}
+                      onChange={(e) =>
+                        setOrder({
+                          ...order,
+                          payment: {
+                            ...order?.payment,
+                            id: e.target.value,
+                          },
+                        })
+                      }
+                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
+                      required
+                    >
+                      {["Credit Card", "Cash On Delivery"].map(
+                        (item, index) => (
+                          <option key={index} value={item}>
+                            {item}
+                          </option>
+                        )
+                      )}
+                    </select>
                   </div>
                 </div>
                 <div className="p-1">
@@ -116,11 +177,11 @@ const Checkout = () => {
                     <span className="text-md font-semibold">
                       Mobile Number *
                     </span>
-                    <div className="text-md">number goes here</div>
+                    <div className="text-md">{user?.mobileNumber}</div>
                   </div>
                   <div className="my-4 border-2 p-1 border-zinc-500">
                     <span className="text-md font-semibold">Email *</span>
-                    <div className="text-md">Email goes here</div>
+                    <div className="text-md">{user?.email}</div>
                   </div>
                 </div>
               </div>

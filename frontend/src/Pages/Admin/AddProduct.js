@@ -329,6 +329,7 @@ const AddProduct = () => {
                       onChange={handleProductChange}
                       className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                       disabled={!product.category}
+                      required
                     >
                       <option value="" disabled>
                         Select 
@@ -345,7 +346,7 @@ const AddProduct = () => {
                     </select>
                   </div>
                   <div className="flex flex-col w-full md:max-w-[160px]">
-                    <label htmlFor="products">Products</label>
+                    <label htmlFor="products">Products *</label>
                     <select
                       name="products"
                       id="products"
@@ -353,8 +354,9 @@ const AddProduct = () => {
                       onChange={handleProductChange}
                       className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                       disabled={!product.subCategory}
+                      required
                     >
-                      <option value="">Select</option>
+                      {/* <option value="" disabled>Select</option> */}
                       {categories.map((category, _) =>
                         category.subCategories.map(
                           (subCategory, _) =>
@@ -469,6 +471,7 @@ const AddProduct = () => {
                         id={`image-upload-${variantIndex}`}
                         className="hidden"
                         onChange={(e) => handleImageUpload(variantIndex, e)}
+                        required
                       />
                     </label>
                     <div className="mt-5 flex flex-wrap gap-4">
