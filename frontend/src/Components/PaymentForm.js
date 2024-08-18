@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   CardNumberElement,
   CardExpiryElement,
@@ -13,16 +13,27 @@ import { FaCreditCard } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const PaymentForm = ({ total }) => {
+const PaymentForm = ({ total, order, setOrder, handleOrder }) => {
   const user = useSelector(selectUser);
-  const [transactionId, setTransactionId] = useState("");
+  const [paymentId, setPaymentId] = useState("");
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
 
+  const handleOrderDetails = useCallback(() => {
+    setOrder((prev) => ({
+      ...prev,
+      payment: {
+        ...prev.payment,
+        id: paymentId,
+        isPaid: true,
+        paidAt: new Date().toISOString(),
+      },
+    }));
+  },[paymentId, setOrder]);
+
   const handleSubmit = async () => {
     const CardElement = elements.getElement(CardNumberElement);
-
     const paymentMethod = await stripe.createPaymentMethod({
       type: "card",
       card: CardElement,
@@ -40,7 +51,9 @@ const PaymentForm = ({ total }) => {
       });
 
       response = await response.json();
-
+      if (response.success) {
+        setPaymentId(response?.data?.transactionId);
+      }
       const confirmPayment = await stripe.confirmCardPayment(
         response?.data?.clientSecret,
         {
@@ -52,17 +65,30 @@ const PaymentForm = ({ total }) => {
           },
         }
       );
-      setTransactionId(response?.data?.transactionId);
 
       if (confirmPayment.error) {
         toast.error(confirmPayment.error.message);
       } else {
         toast.success("Payment Success");
         navigate("/checkout/payment-success");
-        // Handle post-payment success (e.g., update the database, show a success message)
       }
     }
   };
+
+  useEffect(() => {
+    const executeOrder = async () => {
+      if (paymentId) {
+        handleOrderDetails();
+      }
+    };
+    executeOrder();
+  }, [paymentId, handleOrderDetails]);
+
+  useEffect(() => {
+    if (order?.payment?.id){
+      handleOrder();
+    }
+  },[handleOrder, order]);
 
   return (
     <div className="w-full text-white">
@@ -85,7 +111,9 @@ const PaymentForm = ({ total }) => {
       </div>
       <div className="flex justify-center">
         <button
-          onClick={handleSubmit}
+          onClick={() => {
+            handleSubmit();
+          }}
           disabled={!stripe}
           className="w-full max-w-36 p-1 text-center rounded-full bg-green-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
         >

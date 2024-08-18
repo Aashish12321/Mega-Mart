@@ -6,20 +6,7 @@ const orderSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
-  items: [
-    {
-      product: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: "Product",
-      },
-      name: { type: String, required: true },
-      price: { type: Number, required: true },
-      size : { type: String },
-      quantity: { type: Number, required: true },
-      image: { type: String, required: true },
-    },
-  ],
+  products: [],
   address: { type: String, required: true },
   payment: {
     method: { type: String, required: true },
@@ -38,6 +25,7 @@ const orderSchema = new mongoose.Schema({
     required: true,
     default: 0.0,
   },
+  couponDiscount: { type: Number, default:0 },
   isDelivered: {
     type: Boolean,
     required: true,

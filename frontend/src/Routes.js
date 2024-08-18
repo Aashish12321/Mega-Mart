@@ -23,6 +23,7 @@ import Checkout from "./Pages/Checkout";
 import CreateCoupon from "./Pages/Admin/CreateCoupon";
 import UpdateProduct from "./Pages/Admin/UpdateProduct";
 import PaymentSuccess from "./Pages/PaymentSuccess";
+import OrderDetails from "./Pages/OrderDetails";
 
 const router = createBrowserRouter([
   {
@@ -99,11 +100,27 @@ const router = createBrowserRouter([
       },
       {
         path: "/checkout",
-        element: <ProtectedRoute><Checkout /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/checkout/payment-success",
-        element: <ProtectedRoute><PaymentSuccess /></ProtectedRoute>,
+        element: (
+          <ProtectedRoute>
+            <PaymentSuccess />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/profile/view-order",
+        element: (
+          <ProtectedRoute>
+            <OrderDetails />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "permission-denied",

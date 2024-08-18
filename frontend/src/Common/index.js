@@ -125,6 +125,10 @@ const SummaryApi = {
         url: `/api/create-order`,
         method: 'post'
     },
+    view_order : {
+        url: `/api/view-order`,
+        method: 'get'
+    },
 }
 
 export default SummaryApi;

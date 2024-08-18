@@ -30,22 +30,17 @@ const Checkout = () => {
   const [total, setTotal] = useState(0);
 
   const [order, setOrder] = useState({
-    products: [],
+    products: products,
     address: "",
     payment: {
-      method: "",
+      method: "Credit Card",
       id: "",
-      isPaid: "",
+      isPaid: false,
       paidAt: "",
     },
     totalPrice: 0,
+    couponDiscount: 0,
   });
-
-  const handleOrder = () => {
-    setOrder({ ...order, products: products });
-  };
-
-  const handleOrderAddress = () => {};
 
   const handleCouponCode = async () => {
     if (couponCode) {
@@ -79,7 +74,6 @@ const Checkout = () => {
     if (response.success) {
       setProducts(response.data);
       setLoading(false);
-      handleOrder();
     } else {
       toast.error(response.message);
     }
@@ -103,6 +97,35 @@ const Checkout = () => {
       setTotal(total - (coupon?.discountAmount || 0));
     }
   }, [cartProducts, products, coupon]);
+
+  const handleOrder = async () => {
+    let response = await fetch(SummaryApi.create_order.url, {
+      method: SummaryApi.create_order.method,
+      headers: {
+        "content-type": "application/json",
+        authorization: `${token}`,
+      },
+      body: JSON.stringify({order: order}),
+    });
+
+    response = await response.json();
+    if (response.success) {
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+  };
+
+  useEffect(() => {
+    if (products.length > 0) {
+      setOrder((prev) => ({
+        ...prev,
+        products: products,
+        totalPrice: total,
+        couponDiscount: coupon?.discountAmount || 0
+      }));
+    }
+  }, [products, total, coupon]);
 
   return (
     <div className="w-full p-1 md:p-4 xl:px-12 xl:py-4 text-white">
@@ -133,12 +156,15 @@ const Checkout = () => {
                       type="text"
                       value={order?.address}
                       name="address"
-                      autoComplete="off"
                       onChange={(e) =>
-                        setOrder({ ...order, address: e.target.value })
+                        setOrder({
+                          ...order,
+                          address: e.target.value,
+                        })
                       }
-                      className="w-full px-3 py-1 outline-none border-2 border-zinc-500 bg-zinc-800 "
+                      className="w-full p-2 outline-none border-2 border-zinc-500 bg-zinc-800 "
                       placeholder="Enter shipping address..."
+                      required
                     />
                   </div>
                   <div className="flex justify-between items-center my-2 border-2 p-1 border-zinc-500">
@@ -153,15 +179,15 @@ const Checkout = () => {
                         setOrder({
                           ...order,
                           payment: {
-                            ...order?.payment,
-                            id: e.target.value,
+                            ...order.payment,
+                            method: e.target.value,
                           },
                         })
                       }
                       className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
                       required
                     >
-                      {["Credit Card", "Cash On Delivery"].map(
+                      {["Credit Card", "Cash on Delivery"].map(
                         (item, index) => (
                           <option key={index} value={item}>
                             {item}
@@ -186,9 +212,21 @@ const Checkout = () => {
                 </div>
               </div>
 
-              <div className="w-full flex flex-col p-2 border-2 border-stone-400 bg-stone-700">
+              <div
+                style={{
+                  pointerEvents:
+                    order?.payment?.method === "Credit Card" ? "auto" : "none",
+                  opacity: order?.payment?.method === "Credit Card" ? 1 : 0.4,
+                }}
+                className="w-full flex flex-col p-2 border-2 border-stone-400 bg-stone-700"
+              >
                 <Elements stripe={stripepromise}>
-                  <PaymentForm total={total} />
+                  <PaymentForm
+                    total={total}
+                    order={order}
+                    setOrder={setOrder}
+                    handleOrder={handleOrder}
+                  />
                 </Elements>
               </div>
             </div>
@@ -293,6 +331,16 @@ const Checkout = () => {
                   <span>{displayNepCurrency(total)}</span>
                 </div>
               </div>
+              {order?.payment?.method === "Cash on Delivery" && (
+                <div className="flex justify-center">
+                  <button
+                    onClick={handleOrder}
+                    className="w-full max-w-36 p-1 text-center rounded-full bg-green-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+                  >
+                    Place Order
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )

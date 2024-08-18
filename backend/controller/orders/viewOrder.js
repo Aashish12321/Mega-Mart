@@ -1,20 +1,14 @@
 const Order = require("../../models/Order");
 
-async function createOrder(req, resp) {
+async function viewOrder(req, resp) {
   try {
     const userId = req.userId;
-    const { order } = req.body;
-
-    let newOrder = new Order({
-      user: userId,
-      ...order,
-    });
-
-    newOrder = await newOrder.save();
-    if (newOrder) {
+    const order = await Order.findOne({user: userId});
+    
+    if (order) {
       resp.status(201).json({
-        message: "Order created successfully",
-        data: newOrder,
+        message: "Order fetched successfully",
+        data: order,
         success: true,
         error: false,
       });
@@ -28,4 +22,4 @@ async function createOrder(req, resp) {
   }
 }
 
-module.exports = createOrder;
+module.exports = viewOrder;

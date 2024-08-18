@@ -34,6 +34,7 @@ const getProductsProperties = require("../controller/categories/getProductsPrope
 const checkCoupon = require("../controller/orders/checkCoupon");
 const payment = require("../controller/orders/payment");
 const createOrder = require("../controller/orders/createOrder");
+const viewOrder = require("../controller/orders/viewOrder");
 
 
 router.post("/signup", userSignUp);
@@ -57,6 +58,7 @@ router.post("/reply-to-review", authToken, replyToReview);
 router.post("/product-rating",  productRating);
 router.post("/create-payment-intent", payment);
 router.post("/create-order", authToken, createOrder);
+router.get("/view-order", authToken, viewOrder);
 
 // cloudinary
 router.post("/delete-media", authToken, deleteMedia);
