@@ -8,6 +8,7 @@ const orderSchema = new mongoose.Schema({
   },
   products: [],
   address: { type: String, required: true },
+  distance: { type: Number, required: true },
   payment: {
     method: { type: String, required: true },
     id: { type: String }, // Payment gateway transaction ID
@@ -25,7 +26,7 @@ const orderSchema = new mongoose.Schema({
     required: true,
     default: 0.0,
   },
-  couponDiscount: { type: Number, default:0 },
+  couponDiscount: { type: Number, default: 0 },
   isDelivered: {
     type: Boolean,
     required: true,

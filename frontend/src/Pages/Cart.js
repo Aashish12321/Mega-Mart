@@ -127,11 +127,11 @@ const Cart = () => {
                                   to={`/product/${product?._id}/${variant?._id}`}
                                   className="flex flex-col md:flex-row object-contain"
                                 >
-                                  <span className="w-full max-w-28 max-h-28">
+                                  <span className="w-full flex items-center max-w-28 max-h-28 bg-gray-300">
                                     <img
                                       src={variant?.images[0]}
                                       alt={`CartProduct ${pindex}`}
-                                      className="w-full max-h-28 object-contain bg-gray-300"
+                                      className="w-full max-h-28 object-contain"
                                     />
                                   </span>
                                   <span className="w-full max-w-sm inline-block text-wrap md:mx-4">

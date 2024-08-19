@@ -69,8 +69,7 @@ const PaymentForm = ({ total, order, setOrder, handleOrder }) => {
       if (confirmPayment.error) {
         toast.error(confirmPayment.error.message);
       } else {
-        toast.success("Payment Success");
-        navigate("/checkout/payment-success");
+        // toast.success("Payment Success");
       }
     }
   };
@@ -85,10 +84,12 @@ const PaymentForm = ({ total, order, setOrder, handleOrder }) => {
   }, [paymentId, handleOrderDetails]);
 
   useEffect(() => {
-    if (order?.payment?.id){
+    if (order?.payment?.id && order?.distance){
       handleOrder();
+      toast.success("Payment Success");
+      navigate("/checkout/payment-success");
     }
-  },[handleOrder, order]);
+  },[handleOrder, order, navigate]);
 
   return (
     <div className="w-full text-white">
@@ -109,7 +110,7 @@ const PaymentForm = ({ total, order, setOrder, handleOrder }) => {
           <CardCvcElement className="w-full text-white p-2 outline-none no-spinner border-2 border-zinc-500 bg-zinc-800" />
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center mb-4">
         <button
           onClick={() => {
             handleSubmit();

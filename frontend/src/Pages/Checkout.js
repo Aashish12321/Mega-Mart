@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SummaryApi from "../Common";
 import Context from "../Context";
 import { toast } from "react-toastify";
@@ -12,6 +12,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useSelector } from "react-redux";
 import { selectUser } from "../Store/selector";
+import MapComponent from "../Components/MapComponent";
 const stripepromise = loadStripe(
   "pk_test_51PoJ9AEYPKZSSLXyZmNGBuLcc7NrlQHHB8HwaGS5QyKs9xN347cCZPPDMy92ANbMYyDw50eb7uSXXbAdLNpRKPPi00ZoB21PMn"
 );
@@ -23,6 +24,7 @@ const Checkout = () => {
   const [coupon, setCoupon] = useState({});
   const { cartProducts } = context;
   const user = useSelector(selectUser);
+  const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
   const [products, setProducts] = useState([]);
@@ -32,6 +34,7 @@ const Checkout = () => {
   const [order, setOrder] = useState({
     products: products,
     address: "",
+    distance: null,
     payment: {
       method: "Credit Card",
       id: "",
@@ -105,7 +108,7 @@ const Checkout = () => {
         "content-type": "application/json",
         authorization: `${token}`,
       },
-      body: JSON.stringify({order: order}),
+      body: JSON.stringify({ order: order }),
     });
 
     response = await response.json();
@@ -122,7 +125,7 @@ const Checkout = () => {
         ...prev,
         products: products,
         totalPrice: total,
-        couponDiscount: coupon?.discountAmount || 0
+        couponDiscount: coupon?.discountAmount || 0,
       }));
     }
   }, [products, total, coupon]);
@@ -139,62 +142,12 @@ const Checkout = () => {
           <div className="w-full flex flex-col md:flex-row md:gap-4">
             <div className="flex flex-col w-full md:gap-4">
               <div className="w-full flex flex-col p-2 border-2 border-stone-400 bg-stone-700">
-                <div className="p-1">
-                  <div className="flex p-2 justify-between border-b-2 border-zinc-500">
-                    <span className="text-xl font-semibold">
-                      Shipping Address
-                    </span>
-                    <button
-                      // to={`/product/${pid}/${vid}/add-review`}
-                      className="flex px-4 py-1 text-center rounded-full bg-stone-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
-                    >
-                      Change
-                    </button>
+                <div className="px-1">
+                  <div className="flex text-xl font-semibold p-2 justify-between border-b-2 border-zinc-500">
+                    Delivery Address
                   </div>
                   <div className="text-md my-2">
-                    <input
-                      type="text"
-                      value={order?.address}
-                      name="address"
-                      onChange={(e) =>
-                        setOrder({
-                          ...order,
-                          address: e.target.value,
-                        })
-                      }
-                      className="w-full p-2 outline-none border-2 border-zinc-500 bg-zinc-800 "
-                      placeholder="Enter shipping address..."
-                      required
-                    />
-                  </div>
-                  <div className="flex justify-between items-center my-2 border-2 p-1 border-zinc-500">
-                    <span className="text-md font-semibold">
-                      Choose Payment Method *
-                    </span>
-                    <select
-                      name="method"
-                      id="method"
-                      value={order?.payment?.method}
-                      onChange={(e) =>
-                        setOrder({
-                          ...order,
-                          payment: {
-                            ...order.payment,
-                            method: e.target.value,
-                          },
-                        })
-                      }
-                      className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
-                      required
-                    >
-                      {["Credit Card", "Cash on Delivery"].map(
-                        (item, index) => (
-                          <option key={index} value={item}>
-                            {item}
-                          </option>
-                        )
-                      )}
-                    </select>
+                    <MapComponent setOrder={setOrder} />
                   </div>
                 </div>
                 <div className="p-1">
@@ -209,6 +162,33 @@ const Checkout = () => {
                     <span className="text-md font-semibold">Email *</span>
                     <div className="text-md">{user?.email}</div>
                   </div>
+                </div>
+                <div className="flex justify-between items-center gap-2 my-2 border-2 p-1 border-zinc-500">
+                  <span className="text-md font-semibold">
+                    Choose Payment Method *
+                  </span>
+                  <select
+                    name="method"
+                    id="method"
+                    value={order?.payment?.method}
+                    onChange={(e) =>
+                      setOrder({
+                        ...order,
+                        payment: {
+                          ...order.payment,
+                          method: e.target.value,
+                        },
+                      })
+                    }
+                    className="outline-none h-8 pl-2 text-white bg-zinc-800 rounded-lg border-2 border-zinc-400"
+                    required
+                  >
+                    {["Credit Card", "Cash on Delivery"].map((item, index) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
@@ -256,11 +236,11 @@ const Checkout = () => {
                                   to={`/product/${product?._id}/${variant?._id}`}
                                   className="flex flex-row object-contain gap-2 md:gap-0"
                                 >
-                                  <span className="w-full max-w-20 max-h-20">
+                                  <span className="w-full flex items-center max-w-20 max-h-20 bg-gray-300">
                                     <img
                                       src={variant?.images[0]}
                                       alt={`cartVariant ${pindex}`}
-                                      className="w-full max-h-20 object-contain bg-gray-300"
+                                      className="w-full max-h-20 object-contain"
                                     />
                                   </span>
                                   <span className="flex flex-col w-full max-w-sm text-wrap md:mx-4">
@@ -326,15 +306,30 @@ const Checkout = () => {
                     <span>- {displayNepCurrency(coupon?.discountAmount)}</span>
                   </div>
                 )}
+                {
+                  order?.address && 
+                  <div className="w-full flex justify-between font-semibold py-1 border-b-2 border-zinc-500">
+                    <span>Delivery Charge</span>
+                    <span>{order?.distance}</span>
+                  </div>
+                }
                 <div className="w-full flex justify-between font-semibold py-1 border-zinc-500">
                   <span>Total</span>
                   <span>{displayNepCurrency(total)}</span>
                 </div>
               </div>
               {order?.payment?.method === "Cash on Delivery" && (
-                <div className="flex justify-center">
+                <div className="flex justify-center mb-4">
                   <button
-                    onClick={handleOrder}
+                    onClick={() => {
+                      if (order?.distance){
+                        handleOrder();
+                        toast.success("Order created");
+                        navigate("/profile/view-order"); 
+                      } else {
+                        toast.error("Distance is missing");
+                      }
+                    }}
                     className="w-full max-w-36 p-1 text-center rounded-full bg-green-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
                   >
                     Place Order
