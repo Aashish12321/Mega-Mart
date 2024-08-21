@@ -39,7 +39,6 @@ body {
   }
 }
 
-
 /* Hiding the increment decrement button on number input. */
 @layer utilities {
   .no-spinner::-webkit-inner-spin-button, 
@@ -47,11 +46,9 @@ body {
     @apply appearance-none;
     margin: 0;
   }
-
   .no-spinner {
     -moz-appearance: textfield;
   }
-
   .no-spinner::-ms-clear, 
   .no-spinner::-ms-reveal {
     @apply hidden;

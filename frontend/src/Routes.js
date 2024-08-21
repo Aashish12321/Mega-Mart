@@ -16,14 +16,16 @@ import PageNotFound from "./PageNotFound";
 import Addcategory from "./Pages/Admin/Addcategory";
 import ProductDetails from "./Pages/ProductDetails";
 import AddBanner from "./Pages/Admin/AddBanner";
-import Cart from "./Pages/Cart";
-import Favourite from "./Pages/Favourite";
+import Cart from "./Pages/Customer/Cart";
+import Favourite from "./Pages/Customer/Favourite";
 import AddReview from "./Pages/Reviews/AddReview";
 import Checkout from "./Pages/Checkout";
 import CreateCoupon from "./Pages/Admin/CreateCoupon";
 import UpdateProduct from "./Pages/Admin/UpdateProduct";
 import PaymentSuccess from "./Pages/PaymentSuccess";
-import OrderDetails from "./Pages/OrderDetails";
+import OrderDetails from "./Pages/Customer/OrderDetails";
+import Profile from "./Pages/Customer/Profile";
+import AllOrders from "./Pages/Customer/AllOrders";
 
 const router = createBrowserRouter([
   {
@@ -75,22 +77,6 @@ const router = createBrowserRouter([
         element: <Categories />,
       },
       {
-        path: "mycart",
-        element: (
-          <ProtectedRoute>
-            <Cart />
-          </ProtectedRoute>
-        ),
-      },
-      {
-        path: "myfavourite",
-        element: (
-          <ProtectedRoute>
-            <Favourite />
-          </ProtectedRoute>
-        ),
-      },
-      {
         path: "/product/:pid/:vid/add-review",
         element: (
           <ProtectedRoute>
@@ -115,17 +101,56 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/profile/view-order",
-        element: (
-          <ProtectedRoute>
-            <OrderDetails />
-          </ProtectedRoute>
-        ),
-      },
-      {
         path: "permission-denied",
         element: <PermissionDenied />,
       },
+      {
+        path: "profile",
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            path: "details",
+            element: <Dashboard />,
+          },
+          {
+            path: "cart",
+            element: (
+              <ProtectedRoute>
+                <Cart />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "favourites",
+            element: (
+              <ProtectedRoute>
+                <Favourite />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "orders",
+            element: (
+              <ProtectedRoute>
+                <AllOrders />
+              </ProtectedRoute>
+            ),
+          },
+          {
+            path: "orders/order/:orderId",
+            element: (
+              <ProtectedRoute>
+                <OrderDetails />
+              </ProtectedRoute>
+            ),
+          },
+        ]
+      },
+
       {
         path: "admin",
         element: (

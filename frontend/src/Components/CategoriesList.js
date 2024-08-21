@@ -17,7 +17,7 @@ const CategoriesList = ({ showCategorySidebar, setShowCategorySidebar }) => {
   }, [showCategorySidebar]);
 
   return (
-    <div className="w-56 md:w-64 bg-gray-200 text-start ">
+    <div className="w-56 md:w-64 bg-gray-200 text-start">
       <div className="flex items-center p-[18px] bg-red-500 text-white justify-start gap-2 text-xl">
         {!catg && (
           <IoChevronBackCircleOutline

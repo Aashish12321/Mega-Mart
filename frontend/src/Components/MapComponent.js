@@ -9,6 +9,7 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { toast } from "react-toastify";
 
 // Custom marker icon for location select
 const redIcon = new L.Icon({
@@ -23,8 +24,8 @@ const redIcon = new L.Icon({
 });
 
 const kathmanduCoords = {
-  lat: 27.7172,
-  lng: 85.324,
+  lat: 27.708317,
+  lng: 85.3205817,
 };
 
 const MapClickHandler = ({ setCoordinates, setAddress, calculateDistance }) => {
@@ -35,7 +36,7 @@ const MapClickHandler = ({ setCoordinates, setAddress, calculateDistance }) => {
       const { lat, lng } = e.latlng;
       setCoordinates({ lat, lng });
 
-      // Reverse geocoding to get  text address from lat, lng
+      // Reverse geocoding to get text address from lat, lng
       try {
         const response = await fetch(
           `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`
@@ -63,7 +64,10 @@ const MapClickHandler = ({ setCoordinates, setAddress, calculateDistance }) => {
 };
 
 const MapComponent = ({ setOrder }) => {
-  const [coordinates, setCoordinates] = useState({ lat: 27.7172, lng: 85.324 }); // Default to Kathmandu
+  const [coordinates, setCoordinates] = useState({
+    lat: 27.708317,
+    lng: 85.3205817,
+  });
   const [address, setAddress] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState(null);
@@ -73,22 +77,29 @@ const MapComponent = ({ setOrder }) => {
   const calculateDistance = async (destCoords) => {
     const apiKey = "5b3ce3597851110001cf6248ed449c315f004c9989df313198de2b7a";
     const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${kathmanduCoords?.lng},${kathmanduCoords?.lat}&end=${destCoords?.lng},${destCoords?.lat}`;
-
-    const response = await fetch(url);
-    const data = await response.json();
-
-    if (data.routes && data.routes.length > 0) {
-      const distanceInMeters = data.routes[0].summary.distance;
-      setDistance(distanceInMeters / 1000);
+    
+    if (destCoords?.lat === kathmanduCoords?.lat){
+      setDistance(0.001); // giving dummy custom distance to the kmc office location
+      return;
     }
-    // console.log(data);
-  }
-  // , [coordinates?.lat, coordinates?.lng]);
+
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      
+      if (data?.features && data?.features?.length > 0) {
+        const distanceInMeters =
+          data?.features[0]?.properties?.summary?.distance;
+        setDistance(parseFloat(distanceInMeters / 1000).toFixed(3));
+      }
+    } catch (error) {
+      toast.error("Error calculating distance");
+    }
+  };
 
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!searchQuery) return;
-
     try {
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
@@ -106,20 +117,16 @@ const MapComponent = ({ setOrder }) => {
         // Auto zoom to the selected location
         if (mapRef.current) {
           const map = mapRef.current;
-          map.flyTo([lat, lon], 13); // Adjust zoom level
-          calculateDistance(newCoords); // Calculate distance after search
+          map.flyTo([lat, lon], 13);
         }
+        calculateDistance(newCoords);
       } else {
-        setError("Location not found.");
+        setError("Location not found. Please enter correct address");
       }
     } catch (err) {
       setError("Error fetching location.");
     }
   };
-
-  // useEffect(() => {
-  //   calculateDistance();
-  // }, [calculateDistance]);
 
   useEffect(() => {
     if (address && distance) {
@@ -127,16 +134,22 @@ const MapComponent = ({ setOrder }) => {
         ...prev,
         address: address,
         distance: distance,
+        shippingCharge:
+          prev?.totalWeight < 5 && distance < 5
+            ? 50
+            : parseInt(50 + distance * 15 + prev?.totalWeight * 10),
       }));
     }
   }, [address, setOrder, distance]);
 
-  // useEffect(() => {
-  //   setOrder((prev) => ({
-  //     ...prev,
-      
-  //   }));
-  // }, [distance, setOrder]);
+  useEffect(() => {
+    if (address && distance) {
+      setOrder((prev) => ({
+        ...prev,
+        total: prev?.subTotal + prev?.shippingCharge - prev?.couponDiscount,
+      }));
+    }
+  }, [setOrder, distance, address]);
 
   return (
     <div className="w-full border-2 border-zinc-500 p-2">

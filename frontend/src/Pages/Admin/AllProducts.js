@@ -24,27 +24,29 @@ const AllProducts = () => {
   }, []);
 
   return (
-    <div className="m-2 md:p-2 rounded-lg -500">
-      <div className="py-1">
+    <div className="m-2 md:p-2">
+      <div className="px-2 py-1 mb-4 border-2 border-zinc-400 bg-stone-500 rounded-full">
         <span className="text-xl font-bold">All Products</span>
       </div>
 
-      {loader ? (
-        <VPLoader />
-      ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-2 lg:p-4 gap-4 lg:gap-8 h-[calc(100vh-100px)] overflow-auto no-scrollbar">
-          {products.map((product) =>
-            product.variants.map((variant, variantIndex) => (
-              <AdminProductCard
-                key={variant?._id}
-                product={product}
-                variant={variant}
-                variantIndex={variantIndex}
-              />
-            ))
-          )}
-        </div>
-      )}
+      <div className="bg-stone-500 rounded-xl border-2 border-zinc-400">
+        {loader ? (
+          <VPLoader />
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-2 lg:p-4 gap-4 lg:gap-8 h-[calc(100vh-100px)] overflow-auto no-scrollbar">
+            {products.map((product) =>
+              product.variants.map((variant, variantIndex) => (
+                <AdminProductCard
+                  key={variant?._id}
+                  product={product}
+                  variant={variant}
+                  variantIndex={variantIndex}
+                />
+              ))
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

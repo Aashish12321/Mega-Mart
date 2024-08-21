@@ -1,20 +1,24 @@
 import React, { useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { FaCartArrowDown, FaHeart, FaUserCircle } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { IoPeople } from "react-icons/io5";
-import { RiCoupon2Fill, RiDashboardFill } from "react-icons/ri";
+import { RiCoupon2Fill } from "react-icons/ri";
+import { BiSolidUserRectangle } from "react-icons/bi";
 
 import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { selectUser } from "../../Store/selector";
+import { RxCross2 } from "react-icons/rx";
+import { HiMiniBars3 } from "react-icons/hi2";
 
-const Admin = () => {
+const Profile = () => {
   const user = useSelector(selectUser);
   const [expandProduct, setExpandProduct] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+
 
   return (
-    <div className="md:flex relative justify-between text-white">
-      <aside className="hidden sticky md:flex min-h-screen w-full md:max-w-52 lg:max-w-60 bg-zinc-800 border-r-2 border-stone-500 shadow-lg text-white flex-col ">
+    <div className="flex relative justify-between text-white">
+      <aside className={`fixed md:sticky flex flex-col transition-transform duration-500 ease-in-out md:transition-none ${showProfileMenu ? "translate-x-0":"-translate-x-full md:translate-x-0"} min-h-screen w-full min-[320px]:max-w-60 md:max-w-52 lg:max-w-60 z-10 bg-zinc-800 border-r-2 border-stone-500 shadow-lg text-white`}>
         <div className="w-full pt-6 pb-2 rounded-lg text-white">
           {user?.profilePic ? (
             <img
@@ -31,27 +35,39 @@ const Admin = () => {
         <div className="flex flex-col gap-2 w-full mt-3 p-2 border-t-2 border-stone-500">
           <Link
             to={"dashboard"}
+            onClick={()=>setShowProfileMenu(false)}
             className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
           >
-            <RiDashboardFill className="text-xl mt-0.5" />
-            <p className="active:text-red-500">Dashboard</p>
+            <BiSolidUserRectangle className="text-xl mt-0.5" />
+            <p className="active:text-red-500">Details</p>
           </Link>
           <Link
-            to={"users"}
+            to={"favourites"}
+            onClick={()=>setShowProfileMenu(false)}
             className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
           >
-            <IoPeople className="text-lg mt-1" />
-            <p>Users</p>
+            <FaHeart className="text-lg mt-1" />
+            <p>Favourites</p>
           </Link>
           <Link
-            to={"create-coupon"}
+            to={"cart"}
+            onClick={()=>setShowProfileMenu(false)}
+            className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
+          >
+            <FaCartArrowDown className="text-lg mt-1" />
+            <p>Cart</p>
+          </Link>
+          <Link
+            to={"Coupons"}
+            onClick={()=>setShowProfileMenu(false)}
             className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
           >
             <RiCoupon2Fill className="text-lg mt-1" />
-            <p>Create Coupon</p>
+            <p>Coupons & Promocode</p>
           </Link>
           <Link
             to={"orders"}
+            onClick={()=>setShowProfileMenu(false)}
             className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
           >
             <RiCoupon2Fill className="text-lg mt-1" />
@@ -112,7 +128,7 @@ const Admin = () => {
         </div>
       </aside>
 
-      <div className="md:hidden mx-1 my-2 p-1 text-center text-sm rounded-md h-8 bg-customCard">
+      {/* <div className="md:hidden mx-1 my-2 p-1 text-center text-sm rounded-md h-8 bg-customCard">
         <Link className="mr-2 hover:text-red-500" to={"dashboard"}>
           Dashboard
         </Link>
@@ -137,13 +153,19 @@ const Admin = () => {
         <Link className="ml-2 hover:text-red-500" to={"add-banner"}>
           Add Banners
         </Link>
-      </div>
+      </div> */}
 
       <div className="w-full bg-stone-600 shadow-lg">
+        <div
+          onClick={() => setShowProfileMenu(!showProfileMenu)}
+          className="md:hidden flex justify-end px-4 text-3xl text-white cursor-pointer"
+        >
+          <span className="mt-1 border-2 border-zinc-400 p-0.5">{showProfileMenu ? <RxCross2 /> : <HiMiniBars3 />}</span>
+        </div>
         <Outlet />
       </div>
     </div>
   );
 };
 
-export default Admin;
+export default Profile;

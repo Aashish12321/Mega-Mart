@@ -3,7 +3,6 @@ import logo from "../Assets/logo.png";
 import { GoSearch } from "react-icons/go";
 import { FaUserCircle } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
-import { IoLogOutOutline } from "react-icons/io5";
 import { HiMiniBars3 } from "react-icons/hi2";
 import { RxCross2 } from "react-icons/rx";
 import { MdArrowDropUp } from "react-icons/md";
@@ -11,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import SummaryApi from "../Common";
 import { toast } from "react-toastify";
-import { setUserDetails } from "../Store/userSlice";
+// import { setUserDetails } from "../Store/userSlice";
 import { setCategories } from "../Store/categorySlice";
 import role from "../Common/role";
 import CategoriesList from "./CategoriesList";
@@ -26,20 +25,20 @@ const Header = () => {
 
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
   const context = useContext(Context);
 
-  const handleLogout = async () => {
-    if (token) {
-      navigate("/");
-      localStorage.removeItem("token");
-      dispatch(setUserDetails(null));
-      toast.success("Logout successful");
-    } else {
-      toast.info("You are not logged in.");
-      navigate("/login");
-    }
-  };
+  // const handleLogout = async () => {
+  //   if (token) {
+  //     navigate("/");
+  //     localStorage.removeItem("token");
+  //     dispatch(setUserDetails(null));
+  //     toast.success("Logout successful");
+  //   } else {
+  //     toast.info("You are not logged in.");
+  //     navigate("/login");
+  //   }
+  // };
 
   const allCategory = useCallback(async () => {
     let fetchCategory = await fetch(SummaryApi.get_categories.url, {
@@ -112,7 +111,7 @@ const Header = () => {
 
           <div className="flex items-center h-12 gap-4 lg:gap-8 justify-end">
             <Link
-              to={"mycart"}
+              to={"/profile/cart"}
               className="relative text-3xl flex cursor-pointer text-white"
             >
               <span>
@@ -160,7 +159,7 @@ const Header = () => {
 
                   {user?.role === role.admin && (
                     <div className="border-b-2 border-gray-500 -mt-4">
-                      <Link 
+                      <Link
                         to={"/admin/all-products"}
                         onClick={() => setShowUserMenu(!showuserMenu)}
                         className="min-[320px]:flex mx-6 font-semibold whitespace-nowrap p-1 hover:text-red-500"
@@ -170,31 +169,16 @@ const Header = () => {
                     </div>
                   )}
                   {user?._id && (
-                    <div className={`${user?.role !== "ADMIN" && "-mt-4"}`}>
-                      <div className="border-b-2 border-gray-500">
-                        <Link
-                          to={"/myfavourite"}
-                          className="flex items-center mx-6 my-1 font-semibold hover:text-red-500"
-                          onClick={() => {
-                            setShowUserMenu(!showuserMenu);
-                          }}
-                        >
-                          Favourite
-                        </Link>
-                      </div>
-                      <span className="">
-                        <Link
-                          to={"/login"}
-                          className="flex items-center mx-6 font-semibold hover:text-red-500"
-                          onClick={() => {
-                            setShowUserMenu(!showuserMenu);
-                            handleLogout();
-                          }}
-                        >
-                          Logout
-                          <IoLogOutOutline className="ml-1 text-xl" />
-                        </Link>
-                      </span>
+                    <div className="border-b-2 border-gray-500">
+                      <Link
+                        to={"/profile/cart"}
+                        className="flex items-center mx-6 my-1 font-semibold hover:text-red-500"
+                        onClick={() => {
+                          setShowUserMenu(!showuserMenu);
+                        }}
+                      >
+                        Profile
+                      </Link>
                     </div>
                   )}
                 </div>
@@ -212,16 +196,16 @@ const Header = () => {
       </header>
 
       {/* Categories sidemenu */}
-      <div className="fixed top-0 left-0 z-10 text-black">
+      <div className="fixed top-0 left-0 z-20 text-black">
         {showCategorySidebar ? (
-          <div className="fixed top-0 left-0 duration-700 ease-in-out ">
+          <div className="fixed transition-transform translate-x-0 duration-500 ease-in-out">
             <CategoriesList
               showCategorySidebar={showCategorySidebar}
               setShowCategorySidebar={setShowCategorySidebar}
             />
           </div>
         ) : (
-          <div className="fixed  top-0 -left-[350px] duration-300 ease-in-out">
+          <div className="fixed transition-transform -translate-x-64 duration-500 ease-in-out">
             <CategoriesList
               showCategorySidebar={showCategorySidebar}
               setShowCategorySidebar={setShowCategorySidebar}

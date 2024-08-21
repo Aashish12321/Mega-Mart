@@ -34,15 +34,18 @@ const Checkout = () => {
   const [order, setOrder] = useState({
     products: products,
     address: "",
-    distance: null,
+    distance: 0,
     payment: {
       method: "Credit Card",
       id: "",
       isPaid: false,
       paidAt: "",
     },
-    totalPrice: 0,
+    subTotal: 0,
+    total: 0,
     couponDiscount: 0,
+    totalWeight: 0,
+    shippingCharge: 0,
   });
 
   const handleCouponCode = async () => {
@@ -124,11 +127,15 @@ const Checkout = () => {
       setOrder((prev) => ({
         ...prev,
         products: products,
-        totalPrice: total,
+        subTotal: subTotal,
         couponDiscount: coupon?.discountAmount || 0,
+        totalWeight: parseFloat(products?.reduce((acc, product) => {
+          return acc + (product?.quantity * product?.weight) / 1000;
+        }, 0)).toFixed(3),
+        total: total + prev?.shippingCharge,
       }));
     }
-  }, [products, total, coupon]);
+  }, [products, subTotal, total, coupon]);
 
   return (
     <div className="w-full p-1 md:p-4 xl:px-12 xl:py-4 text-white">
@@ -144,7 +151,7 @@ const Checkout = () => {
               <div className="w-full flex flex-col p-2 border-2 border-stone-400 bg-stone-700">
                 <div className="px-1">
                   <div className="flex text-xl font-semibold p-2 justify-between border-b-2 border-zinc-500">
-                    Delivery Address
+                    Shipping Address
                   </div>
                   <div className="text-md my-2">
                     <MapComponent setOrder={setOrder} />
@@ -302,32 +309,33 @@ const Checkout = () => {
                 </div>
                 {coupon?.discountAmount && (
                   <div className="w-full flex justify-between font-semibold py-1 border-b-2 border-zinc-500">
-                    <span>Coupon discount</span>
-                    <span>- {displayNepCurrency(coupon?.discountAmount)}</span>
+                    <span>Coupon Discount</span>
+                    <span>- {displayNepCurrency(order?.couponDiscount)}</span>
                   </div>
                 )}
-                {
-                  order?.address && 
+                {order?.shippingCharge > 0 && (
                   <div className="w-full flex justify-between font-semibold py-1 border-b-2 border-zinc-500">
-                    <span>Delivery Charge</span>
-                    <span>{order?.distance}</span>
+                    <span>Shipping Charge</span>
+                    {/* <span>{order?.distance}</span> */}
+                    {/* <span>{order?.totalWeight}</span> */}
+                    <span>+ {displayNepCurrency(order?.shippingCharge)}</span>
                   </div>
-                }
+                )}
                 <div className="w-full flex justify-between font-semibold py-1 border-zinc-500">
-                  <span>Total</span>
-                  <span>{displayNepCurrency(total)}</span>
+                  <span>Total {order?.distance}, {order?.totalWeight}</span>
+                  <span>{displayNepCurrency(order?.total)}</span>
                 </div>
               </div>
               {order?.payment?.method === "Cash on Delivery" && (
                 <div className="flex justify-center mb-4">
                   <button
                     onClick={() => {
-                      if (order?.distance){
+                      if (order?.distance) {
                         handleOrder();
                         toast.success("Order created");
-                        navigate("/profile/view-order"); 
+                        navigate("/profile/view-order/:");
                       } else {
-                        toast.error("Distance is missing");
+                        toast.error("Please select shipping address");
                       }
                     }}
                     className="w-full max-w-36 p-1 text-center rounded-full bg-green-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"

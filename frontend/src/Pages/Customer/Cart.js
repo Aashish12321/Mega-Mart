@@ -1,11 +1,11 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import Context from "../Context/index";
-import SummaryApi from "../Common";
+import Context from "../../Context";
+import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import displayNepCurrency from "../helpers/displayNepCurrency";
-import addToCart from "../helpers/addToCart";
-import Spinner from "../Components/Loaders/Spinner";
+import displayNepCurrency from "../../helpers/displayNepCurrency";
+import addToCart from "../../helpers/addToCart";
+import Spinner from "../../Components/Loaders/Spinner";
 
 const Cart = () => {
   const context = useContext(Context);
@@ -74,8 +74,8 @@ const Cart = () => {
   }, [cartProducts, fetchCartProductsDetails]);
 
   return (
-    <div className="w-full p-1 md:p-4 xl:px-12 text-white">
-      <div className="w-full flex justify-between text-xl lg:text-2xl mb-4 p-1 font-semibold text-center border-2 border-stone-400 bg-zinc-700 select-none">
+    <div className="m-2 md:p-2">
+      <div className="w-full flex justify-between text-xl md:text-2xl font-semibold px-2 py-1 mb-4 border-2 border-zinc-400 bg-stone-500 rounded-full select-none">
         <span>Shopping Cart</span>
         <span>
           {cartProducts?.reduce(
@@ -87,15 +87,15 @@ const Cart = () => {
       </div>
 
       {cartProducts?.length === 0 ? (
-        <div className="w-full text-lg xl:text-2xl p-2 text-center font-semibold flex justify-center items-center h-80 my-2 bg-stone-700 rounded-xl">
-          No treasures here yet ! <br/> Browse our collections and add something
-          delightful to your cart {":)"}
+        <div className="w-full text-xl p-2 text-center font-semibold flex justify-center items-center h-80 my-2 bg-stone-700 rounded-xl border-2 border-zinc-400">
+          No treasures here yet ! <br /> Browse our collections and add
+          something delightful to your cart {":)"}
         </div>
       ) : loading ? (
         <Spinner />
       ) : (
-        <div className="">
-          <table className="my-2 w-full bg-stone-700 border-2 border-stone-400">
+        <div className="bg-stone-700 border-2 border-zinc-400 rounded-xl">
+          <table className="w-full bg-stone-700 rounded-xl">
             <thead className="w-full">
               <tr className="w-full md:text-lg text-gray-300">
                 <th>PRODUCT</th>
@@ -275,10 +275,10 @@ const Cart = () => {
             </tbody>
           </table>
 
-          <div className="w-full p-4 flex justify-center mt-2 gap-4">
+          <div className="w-full p-4 flex justify-center gap-4">
             <Link
               to={`/checkout`}
-              className="flex justify-center bg-green-500 w-32 p-2 text-sm text-white rounded-full shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+              className="flex justify-center bg-green-500 w-32 p-2 text-md font-semibold text-white rounded-full shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
             >
               Checkout
             </Link>

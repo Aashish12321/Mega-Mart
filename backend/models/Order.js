@@ -21,12 +21,11 @@ const orderSchema = new mongoose.Schema({
       type: Date,
     },
   },
-  totalPrice: {
-    type: Number,
-    required: true,
-    default: 0.0,
-  },
+  subTotal: { type: Number, required: true },
+  total: { type: Number, required: true },
   couponDiscount: { type: Number, default: 0 },
+  totalWeight: { type: Number, default: 0 },
+  shippingCharge: { type: Number, required: true },
   isDelivered: {
     type: Boolean,
     required: true,

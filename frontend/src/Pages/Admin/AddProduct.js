@@ -150,13 +150,13 @@ const AddProduct = () => {
     <div className="">
       <div className="m-2 p-2 rounded-lg">
         <form onSubmit={handleFormSubmit}>
-          <div className="py-1">
+          <div className="px-2 py-1 mb-4 border-2 border-zinc-400 bg-stone-500 rounded-full">
             <span className="text-xl font-bold">Add new product</span>
           </div>
 
           <div className="">
             <div className="flex flex-wrap lg:flex-nowrap justify-around gap-4">
-              <div className="w-full flex flex-col p-4 bg-stone-500 rounded-lg">
+              <div className="w-full flex flex-col p-4 bg-stone-500 rounded-xl">
                 <label className="text-lg font-semibold">General information</label>
 
                 <div className="w-full md:flex justify-between gap-2 md:gap-4">
@@ -206,7 +206,7 @@ const AddProduct = () => {
             </div>
 
             <div className="flex flex-wrap lg:flex-nowrap justify-around gap-4 my-4 ">
-              <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg">
+              <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-xl">
                 <label htmlFor="Pricing and Stock" className="text-lg font-semibold">
                   Pricing and Stock
                 </label>
@@ -295,7 +295,7 @@ const AddProduct = () => {
                 </div>
               </div>
 
-              <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg">
+              <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-xl">
                 <label htmlFor="ProductCategory" className="text-lg font-semibold">
                   Categories
                 </label>
@@ -376,7 +376,7 @@ const AddProduct = () => {
 
             {product?.variants?.map((variant, variantIndex) => (
               <div className="flex flex-wrap lg:flex-nowrap justify-around gap-4 my-4 ">
-                <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg">
+                <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-xl">
                   <label
                     htmlFor="Specifications of Variants"
                     className="text-lg font-semibold"
@@ -438,7 +438,7 @@ const AddProduct = () => {
 
                 <div
                   key={variantIndex}
-                  className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg"
+                  className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-xl"
                 >
                   <label htmlFor="ProductImages" className="text-lg font-semibold">
                     Upload Variant images

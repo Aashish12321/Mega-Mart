@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import Context from "../Context";
-import VerticalProductCard from "../Components/VerticalProductCard";
-import SummaryApi from "../Common";
+import Context from "../../Context";
+import VerticalProductCard from "../../Components/VerticalProductCard";
+import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
-import VPLoader from "../Components/Loaders/VPLoader";
+import VPLoader from "../../Components/Loaders/VPLoader";
 
 const Favourite = () => {
   const [loading, setLoading] = useState(true);
@@ -36,20 +36,21 @@ const Favourite = () => {
   }, [favouriteProducts, fetchFavouriteProductsDetails]);
 
   return (
-    <div className="w-full p-1 md:p-4 xl:px-12 text-white">
-      <div className="w-full flex justify-between text-xl lg:text-2xl mb-4 p-1 font-semibold text-center border-2 border-stone-400 bg-zinc-700 select-none">
+    <div className="m-2 md:p-2">
+      <div className="w-full flex justify-between text-xl md:text-2xl font-semibold px-2 py-1 mb-4 border-2 border-zinc-400 bg-stone-500 rounded-full select-none">
         <span>Favourites</span>
         <span>{favouriteProducts?.length} Items</span>
       </div>
 
+      <div className="bg-stone-500 rounded-xl border-2 border-zinc-400">
       {favouriteProducts?.length === 0 ? (
-        <div className="w-full text-lg xl:text-2xl p-2 font-semibold flex justify-center items-center text-center h-80 my-2 bg-stone-700 rounded-xl">
-          Looks like you have not added products so far ! <br /> Browse our collections and add something that you wish to buy.
+        <div className="w-full text-lg xl:text-2xl p-2 font-semibold flex justify-center items-center text-center h-80 bg-stone-700 rounded-xl">
+          Looks like you have not added products so far ! <br /> Browse our collections and add something you wish to buy.
         </div>
       ) : loading ? (
         <VPLoader />
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-8 xl:gap-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  p-2 lg:p-4 gap-4 lg:gap-8 h-[calc(100vh-100px)] overflow-auto no-scrollbar">
           {products?.map((product, _) =>
             product?.variants?.map((variant, vindex) => (
               <VerticalProductCard
@@ -62,6 +63,7 @@ const Favourite = () => {
           )}
         </div>
       )}
+      </div>
     </div>
   );
 };
