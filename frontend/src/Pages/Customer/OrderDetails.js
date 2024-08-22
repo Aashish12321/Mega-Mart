@@ -3,15 +3,21 @@ import SummaryApi from "../../Common";
 import displayNepCurrency from "../../helpers/displayNepCurrency";
 import { toast } from "react-toastify";
 import { MdDiscount } from "react-icons/md";
+import { FaTruck } from "react-icons/fa";
 import Spinner from "../../Components/Loaders/Spinner";
+import { Link, useParams } from "react-router-dom";
+import moment from "moment";
 
 const OrderDetails = () => {
   const [order, setOrder] = useState({});
   const token = localStorage.getItem("token");
   const [loading, setLoading] = useState(true);
+  const [estimateDelivery, setEstimatedDelivery] = useState("");
+
+  const { orderId } = useParams();
 
   const fetchOrder = useCallback(async () => {
-    let response = await fetch(SummaryApi.view_order.url, {
+    let response = await fetch(SummaryApi.view_order.url + `/${orderId}`, {
       method: SummaryApi.view_order.method,
       headers: {
         "content-type": "application/json",
@@ -25,12 +31,21 @@ const OrderDetails = () => {
       setLoading(false);
     } else {
       toast.error(response.message);
+      setLoading(false);
     }
-  }, [token]);
+  }, [token, orderId]);
 
   useEffect(() => {
     fetchOrder();
   }, [fetchOrder]);
+
+  useEffect(() => {
+    if (order?._id) {
+      let dateCreation = new Date(order?.createdAt);
+      const newDate = dateCreation.setDate(dateCreation.getDate() + 7);
+      setEstimatedDelivery(newDate);
+    }
+  }, [order]);
 
   return (
     <div className="m-2 md:p-2">
@@ -40,46 +55,67 @@ const OrderDetails = () => {
       {loading ? (
         <Spinner />
       ) : order?._id ? (
-        <div className="w-full p-2 font-semibold my-2 bg-stone-700 border-2 border-stone-400">
-          <div className="w-full flex justify-between">
+        <div className="w-full p-2 my-2 bg-stone-700 border-2 border-zinc-400 rounded-xl">
+          <div className="w-full flex flex-col md:flex-row justify-between gap-4">
             <div className="flex flex-col gap-4">
-              <h1 className="text-2xl font-semibold">Order ID: {order?._id}</h1>
-              <span className="text-xl font-semibold">
-                Status: {order?.status}
+              <i className="text-xl font-semibold">Order ID : #{order?._id}</i>
+              <span className="text-lg font-semibold">
+                <i className="mr-2">Status :</i>
+                {order?.status === "Processing" ? (
+                  <i className="px-4 py-1 font-Roboto font-semibold bg-orange-200 text-orange-600 rounded-lg">
+                    Processing
+                  </i>
+                ) : order?.status === "Shipped" ? (
+                  <i className="px-4 py-1 font-Roboto font-semibold bg-blue-200 text-blue-600 rounded-lg">
+                    Shipped
+                  </i>
+                ) : order?.status === "Delivered" ? (
+                  <i className="px-4 py-1 font-Roboto font-semibold bg-green-200 text-green-600 rounded-lg">
+                    Delivered
+                  </i>
+                ) : (
+                  <i className="px-4 py-1 font-Roboto font-semibold bg-gray-200 text-gray-600 rounded-lg">
+                    Cancelled
+                  </i>
+                )}
+              </span>
+              <span className="flex flex-col w-full max-w-lg text-wrap">
+                <i className="w-full max-w-xs text-lg font-semibold">
+                  Shipping Address :
+                </i>
+                <i className="text-wrap">{order?.address}</i>
               </span>
             </div>
-            <div className="flex flex-col gap-4 text-lg text-end">
-              <span className="mb-2">
+            <div className="flex flex-col md:items-end gap-4 text-lg">
+              <i className="hidden md:flex">
                 {new Date(order?.createdAt).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
                 })}
-              </span>
+              </i>
               {order?.isDelivered ? (
-                <span>
-                  Delivered At:{" "}
-                  {new Date(order?.deliveredAt).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                <span className="flex flex-col font-semibold md:justify-end">
+                  <i className="mr-1">Delivered At :</i>
+                  <i className="w-fit px-4 py-1 font-Roboto bg-green-200 text-green-600 rounded-lg">
+                    {moment(order?.deliveredAt).format("ll")}
+                  </i>
                 </span>
               ) : (
-                <span className="text-green-600 font-semibold mb-6">
-                  Estimated delivery:{" "}
-                  {new Date(order?.createdAt).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                <span className="flex flex-col font-semibold md:justify-end">
+                  <i className="mr-1">Estimated delivery :</i>
+                  <i className="w-fit px-4 py-1 font-Roboto bg-green-200 text-green-600 rounded-lg">
+                    {moment(estimateDelivery).format("ll")}
+                  </i>
                 </span>
               )}
             </div>
           </div>
 
-          <div className="mb-6">
-            <h2 className="text-xl font-semibold mb-4">Ordered Items</h2>
+          <div className="my-6">
+            <h2 className="text-xl font-semibold mb-4 border-b-2 border-zinc-400">
+              Ordered Items
+            </h2>
             <ul>
               {order?.products?.map((product, index) => (
                 <li
@@ -94,23 +130,26 @@ const OrderDetails = () => {
                     />
                   </span>
 
-                  <span className="flex flex-col w-full text-wrap md:mx-4">
-                    <span className="line-clamp-1 text-lg font-semibold hover:text-gray-300">
+                  <span className="flex flex-col w-full text-wrap md:mx-2">
+                    <Link
+                      to={`/product/${product?._id}/${product?.variants[0]?._id}`}
+                      className="line-clamp-1 text-md font-semibold hover:text-gray-300"
+                    >
                       {product?.name}
-                    </span>
+                    </Link>
                     {product?.variants[0]?.specs[0]?.size && (
-                      <span className="flex font-semibold w-full text-md gap-1 md:gap-4 items-center">
+                      <span className="flex w-full text-md gap-1 md:gap-4 items-center">
                         <span className="w-6">Size</span>
                         <span> : </span>
                         <span>{product?.variants[0]?.specs[0]?.size}</span>
                       </span>
                     )}
-                    <span className="flex font-semibold w-full text-md gap-1 md:gap-4 items-center">
+                    <span className="flex w-full text-md gap-1 md:gap-4 items-center">
                       <span className="w-6">Qty</span>
                       <span> : </span>
                       <span>{product?.quantity}</span>
                     </span>
-                    <span className="flex font-semibold w-full text-md gap-1 md:gap-4 items-center">
+                    <span className="flex w-full text-md gap-1 md:gap-4 items-center">
                       <span className="w-6">Price</span>
                       <span> : </span>
                       <span>
@@ -120,7 +159,7 @@ const OrderDetails = () => {
                   </span>
                   {/* </div> */}
                   <div className="text-right">
-                    <p className="font-semibold">
+                    <p>
                       {displayNepCurrency(
                         product?.quantity * product?.price?.sell
                       )}
@@ -132,24 +171,30 @@ const OrderDetails = () => {
           </div>
 
           <div className="w-full lg:max-w-4xl mx-auto flex flex-col items-center px-2 gap-2">
-            <div className="text-2xl text-center font-semibold">Summary</div>
-            <div className="w-full flex justify-between text-lg font-semibold py-1 border-b-2 border-zinc-500">
+            <div className="text-xl text-center font-semibold">Summary</div>
+            <div className="w-full flex justify-between text-lg py-1 border-b-2 border-zinc-500">
               <span>Subtotal</span>
-              <span>
-                {displayNepCurrency(order?.totalPrice + order?.couponDiscount)}
-              </span>
+              <span>{displayNepCurrency(order?.subTotal)}</span>
             </div>
-            {order?.couponDiscount && (
-              <div className="w-full flex justify-between text-lg font-semibold py-1 border-b-2 border-zinc-500">
+            {order?.couponDiscount > 0 && (
+              <div className="w-full flex justify-between text-lg  py-1 border-b-2 border-zinc-500">
                 <span className="flex items-center gap-1">
-                  <MdDiscount /> Coupon discount
+                  <MdDiscount /> Coupon Discount
                 </span>
                 <span>- {displayNepCurrency(order?.couponDiscount)}</span>
               </div>
             )}
-            <div className="w-full flex justify-between text-xl font-semibold py-1 border-zinc-500">
+            {order?.shippingCharge && (
+              <div className="w-full flex justify-between text-lg  py-1 border-b-2 border-zinc-500">
+                <span className="flex items-center gap-1">
+                  <FaTruck /> Shipping Charge
+                </span>
+                <span>+ {displayNepCurrency(order?.shippingCharge)}</span>
+              </div>
+            )}
+            <div className="w-full flex justify-between text-lg font-semibold py-1 border-zinc-500">
               <span>Total</span>
-              <span>{displayNepCurrency(order?.totalPrice)}</span>
+              <span>{displayNepCurrency(order?.total)}</span>
             </div>
           </div>
 

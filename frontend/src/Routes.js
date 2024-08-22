@@ -26,6 +26,7 @@ import PaymentSuccess from "./Pages/PaymentSuccess";
 import OrderDetails from "./Pages/Customer/OrderDetails";
 import Profile from "./Pages/Customer/Profile";
 import AllOrders from "./Pages/Customer/AllOrders";
+import Account from "./Pages/Customer/Account";
 
 const router = createBrowserRouter([
   {
@@ -113,8 +114,8 @@ const router = createBrowserRouter([
         ),
         children: [
           {
-            path: "details",
-            element: <Dashboard />,
+            path: "account",
+            element: <Account />,
           },
           {
             path: "cart",

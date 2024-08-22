@@ -138,18 +138,18 @@ const UpdateProduct = () => {
 
   return (
     <div className="">
-      <div className="m-2 p-2 rounded-lg">
+      <div className="m-1 p-1 md:m-2 md:p-2 rounded-lg">
         {loading ? (
           <Spinner />
         ) : (
           <form onSubmit={handleFormSubmit}>
-            <div className="py-1">
-              <span className="text-xl font-bold">Edit product</span>
-            </div>
+          <div className="px-2 py-1 mb-4 border-2 border-zinc-400 bg-stone-500 rounded-full">
+            <span className="text-xl font-bold">Edit Product</span>
+          </div>
 
             <div className="">
               <div className="flex flex-wrap md:flex-nowrap justify-around xl:justify-center gap-4">
-                <div className="w-full flex flex-col p-4 bg-stone-500 rounded-lg">
+                <div className="w-full flex flex-col p-4 bg-stone-500 rounded-xl border-2 border-zinc-400">
                   <label className="text-lg font-semibold">
                     General information
                   </label>
@@ -201,7 +201,7 @@ const UpdateProduct = () => {
               </div>
 
               <div className="flex flex-wrap lg:flex-nowrap justify-around gap-4 my-4 ">
-                <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg">
+                <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-xl border-2 border-zinc-400">
                   <label
                     htmlFor="Pricing and Stock"
                     className="text-lg font-semibold"
@@ -285,7 +285,7 @@ const UpdateProduct = () => {
                   </div>
                 </div>
 
-                <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg">
+                <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-xl border-2 border-zinc-400">
                   <label
                     htmlFor="ProductCategory"
                     className="text-lg font-semibold"
@@ -370,7 +370,7 @@ const UpdateProduct = () => {
 
               {product?.variants?.map((variant, variantIndex) => (
                 <div className="flex flex-wrap lg:flex-nowrap justify-around gap-4 my-4 ">
-                  <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg">
+                  <div className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-xl border-2 border-zinc-400">
                     <label
                       htmlFor="Specifications of Variants"
                       className="text-lg font-semibold"
@@ -429,7 +429,7 @@ const UpdateProduct = () => {
 
                   <div
                     key={variantIndex}
-                    className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-lg"
+                    className="w-full max-w-2xl flex flex-col p-4 bg-stone-500 rounded-xl border-2 border-zinc-400"
                   >
                     <label
                       htmlFor="ProductImages"

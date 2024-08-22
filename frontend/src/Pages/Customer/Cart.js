@@ -95,16 +95,16 @@ const Cart = () => {
         <Spinner />
       ) : (
         <div className="bg-stone-700 border-2 border-zinc-400 rounded-xl">
-          <table className="w-full bg-stone-700 rounded-xl">
+          <table className="w-full bg-stone-800 rounded-xl">
             <thead className="w-full">
               <tr className="w-full md:text-lg text-gray-300">
-                <th>PRODUCT</th>
-                <th className="hidden md:flex">QUANTITY</th>
+                <th className="p-2">PRODUCT</th>
+                <th className="hidden md:flex py-2 text-center">QUANTITY</th>
                 <th>PRICE</th>
                 <th>TOTAL</th>
               </tr>
             </thead>
-            <tbody className="w-full">
+            <tbody className="w-full bg-stone-700">
               {cartProducts?.map((cartVariant) =>
                 products?.map((product, pindex) =>
                   product?.variants?.map(

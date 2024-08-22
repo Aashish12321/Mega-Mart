@@ -2,8 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
 import moment from "moment";
-import { FaRegEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdEditSquare } from "react-icons/md";
 import ChangeUserRole from "../../Components/ChangeUserRole";
 import Spinner from "../../Components/Loaders/Spinner";
 
@@ -13,6 +12,7 @@ const Users = () => {
   const [searchKey, setSearchKey] = useState("");
   const [loader, setLoader] = useState(true);
   const token = localStorage.getItem("token");
+  // const [isSearching, setIsSearching] = useState("false");
   const [updateEachUser, setUpdateEachUser] = useState({
     _id: "",
     name: "",
@@ -20,23 +20,22 @@ const Users = () => {
     role: "",
   });
   const fetchAllUsers = useCallback(async () => {
-    const response = await fetch(SummaryApi.all_users.url, {
+    let response = await fetch(SummaryApi.all_users.url, {
       method: SummaryApi.all_users.method,
       headers: {
         "content-type": "application/json",
-        'authorization': `${token}`
+        authorization: `${token}`,
       },
     });
 
-    const data = await response.json();
-    if (data.success) {
-      setAllUser(data.data);
+    response = await response.json();
+    if (response.success) {
+      setAllUser(response?.data);
       setLoader(false);
-      // console.log(data.data[0]);
     } else {
-      toast.error(data.message);
+      toast.error(response.message);
     }
-  },[token]);
+  }, [token]);
 
   useEffect(() => {
     fetchAllUsers();
@@ -52,10 +51,9 @@ const Users = () => {
         },
       });
 
-      let data = await response.json();
-      data = data.data;
-      if (data) {
-        setAllUser(data);
+      response = await response.json();
+      if (response.success) {
+        setAllUser(response.data);
         setLoader(false);
       }
     } else {
@@ -64,25 +62,25 @@ const Users = () => {
   };
 
   return (
-    <div className="allUser pt-2 px-2 ">
+    <div className="allUser m-2 md:p-2">
       <div className="text-center mb-2">
         <input
           onChange={(e) => setSearchKey(e.target.value)}
           onKeyDown={handleUserSearch}
-          className="bg-gray-900 w-full md:max-w-lg rounded-full px-4 h-8 md:h-10 outline-none"
+          className={`${searchKey && "border-zinc-400"} outline-none bg-zinc-800 w-full md:max-w-lg rounded-full px-4 h-10 border-2 border-transparent`}
           type="text"
           placeholder="Search for the user..."
         />
       </div>
 
-      <div className="rounded-lg">
+      <div className="w-full rounded-lg overflow-x-auto">
         {loader ? (
           <Spinner />
         ) : (
-          <table className="w-full border-collapse">
-            <thead className="">
-              <tr className="bg-gray-900">
-                <th>S.N.</th>
+          <table className="w-full bg-stone-800 rounded-xl">
+            <thead className="w-full rounded-xl">
+              <tr className="w-full md:text-lg text-gray-300">
+                <th className="p-2">S.N.</th>
                 <th>Name</th>
                 <th>Role</th>
                 <th>Email</th>
@@ -90,15 +88,18 @@ const Users = () => {
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="w-full bg-stone-700">
               {allUser.map((user, index) => (
-                <tr key={user._id}>
-                  <td>{index + 1}</td>
-                  <td>{user.name}</td>
-                  <td>{user.role}</td>
-                  <td>{user.email}</td>
-                  <td>{moment(user?.createdAt).format("lll")}</td>
-                  <td className="flex justify-between">
+                <tr
+                  key={user?._id}
+                  className="select-none odd:bg-stone-700 even:bg-stone-500"
+                >
+                  <td className="p-2 text-center">{index + 1}.</td>
+                  <td className="p-2 text-center">{user?.name}</td>
+                  <td className="p-2 text-center">{user?.role}</td>
+                  <td className="p-2 text-center">{user?.email}</td>
+                  <td className="p-2 text-center">{moment(user?.createdAt).format("ll")}</td>
+                  <td className="p-2 text-center flex justify-between gap-4">
                     <button
                       onClick={() => {
                         setUpdateEachUser(user);
@@ -106,7 +107,7 @@ const Users = () => {
                       }}
                       className="text-green-400 text-2xl text-center mx-auto"
                     >
-                      <FaRegEdit />
+                      <MdEditSquare />
                     </button>
                     <button className="text-red-600 text-2xl text-center mx-auto">
                       <MdDelete />
@@ -122,10 +123,7 @@ const Users = () => {
       <div>
         {showUpdateBox && (
           <ChangeUserRole
-            id={updateEachUser._id}
-            name={updateEachUser.name}
-            email={updateEachUser.email}
-            role={updateEachUser.role}
+            updateEachUser={updateEachUser}
             onClose={() => setShowUpdateBox(false)}
             callFunc={fetchAllUsers}
           />

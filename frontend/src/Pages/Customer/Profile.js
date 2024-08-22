@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { FaCartArrowDown, FaHeart, FaUserCircle } from "react-icons/fa";
-import { MdKeyboardArrowRight } from "react-icons/md";
 import { RiCoupon2Fill } from "react-icons/ri";
-import { BiSolidUserRectangle } from "react-icons/bi";
+import { BiSolidNotepad, BiSolidUserRectangle } from "react-icons/bi";
 
 import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
@@ -12,13 +11,17 @@ import { HiMiniBars3 } from "react-icons/hi2";
 
 const Profile = () => {
   const user = useSelector(selectUser);
-  const [expandProduct, setExpandProduct] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-
 
   return (
     <div className="flex relative justify-between text-white">
-      <aside className={`fixed md:sticky flex flex-col transition-transform duration-500 ease-in-out md:transition-none ${showProfileMenu ? "translate-x-0":"-translate-x-full md:translate-x-0"} min-h-screen w-full min-[320px]:max-w-60 md:max-w-52 lg:max-w-60 z-10 bg-zinc-800 border-r-2 border-stone-500 shadow-lg text-white`}>
+      <aside
+        className={`fixed md:sticky flex flex-col transition-transform duration-500 ease-in-out md:transition-none ${
+          showProfileMenu
+            ? "translate-x-0"
+            : "-translate-x-full md:translate-x-0"
+        } min-h-screen w-full min-[320px]:max-w-60 md:max-w-52 lg:max-w-60 z-10 bg-zinc-800 border-r-2 border-stone-500 shadow-lg text-white`}
+      >
         <div className="w-full pt-6 pb-2 rounded-lg text-white">
           {user?.profilePic ? (
             <img
@@ -34,16 +37,16 @@ const Profile = () => {
         </div>
         <div className="flex flex-col gap-2 w-full mt-3 p-2 border-t-2 border-stone-500">
           <Link
-            to={"dashboard"}
-            onClick={()=>setShowProfileMenu(false)}
+            to={"account"}
+            onClick={() => setShowProfileMenu(false)}
             className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
           >
             <BiSolidUserRectangle className="text-xl mt-0.5" />
-            <p className="active:text-red-500">Details</p>
+            <p className="active:text-red-500">Account</p>
           </Link>
           <Link
             to={"favourites"}
-            onClick={()=>setShowProfileMenu(false)}
+            onClick={() => setShowProfileMenu(false)}
             className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
           >
             <FaHeart className="text-lg mt-1" />
@@ -51,7 +54,7 @@ const Profile = () => {
           </Link>
           <Link
             to={"cart"}
-            onClick={()=>setShowProfileMenu(false)}
+            onClick={() => setShowProfileMenu(false)}
             className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
           >
             <FaCartArrowDown className="text-lg mt-1" />
@@ -59,7 +62,7 @@ const Profile = () => {
           </Link>
           <Link
             to={"Coupons"}
-            onClick={()=>setShowProfileMenu(false)}
+            onClick={() => setShowProfileMenu(false)}
             className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
           >
             <RiCoupon2Fill className="text-lg mt-1" />
@@ -67,100 +70,23 @@ const Profile = () => {
           </Link>
           <Link
             to={"orders"}
-            onClick={()=>setShowProfileMenu(false)}
+            onClick={() => setShowProfileMenu(false)}
             className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
           >
-            <RiCoupon2Fill className="text-lg mt-1" />
+            <BiSolidNotepad className="text-lg mt-1" />
             <p>Orders</p>
           </Link>
-
-          <div
-            className={`${
-              expandProduct
-                ? "bg-stone-600 rounded-3xl"
-                : "duration-500 ease-in-out rounded-3xl"
-            }`}
-          >
-            <div
-              // to={"all-products"}
-              onClick={(e) => setExpandProduct(!expandProduct)}
-              className="cursor-pointer flex space-x-2 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full items-center"
-            >
-              {expandProduct ? (
-                <MdKeyboardArrowRight className="text-2xl duration-300 rotate-90" />
-              ) : (
-                <MdKeyboardArrowRight className="text-2xl duration-300 rotate-0" />
-              )}
-              <p>Products</p>
-            </div>
-
-            <div
-              className={`${
-                expandProduct ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
-              } ml-12 flex flex-col gap-2 duration-500 ease-in-out rounded-b-3xl`}
-            >
-              <Link
-                to={"all-products"}
-                className="px-2 py-1 hover:bg-stone-700 rounded-full"
-              >
-                All Products
-              </Link>
-              <Link
-                to={"add-product"}
-                className="px-2 py-1 hover:bg-stone-700 rounded-full"
-              >
-                Add Product
-              </Link>
-              <Link
-                to={"add-category"}
-                className="px-2 py-1 hover:bg-stone-700 rounded-full"
-              >
-                Add Category
-              </Link>
-              <Link
-                to={"add-banner"}
-                className="px-2 py-1 hover:bg-stone-700 rounded-full"
-              >
-                Add Banners
-              </Link>
-            </div>
-          </div>
         </div>
       </aside>
 
-      {/* <div className="md:hidden mx-1 my-2 p-1 text-center text-sm rounded-md h-8 bg-customCard">
-        <Link className="mr-2 hover:text-red-500" to={"dashboard"}>
-          Dashboard
-        </Link>
-        <Link className="mx-2 hover:text-red-500" to={"users"}>
-          Users
-        </Link>
-        <Link className="ml-2 hover:text-red-500" to={"create-coupon"}>
-          Create Coupon
-        </Link>
-        <Link className="ml-2 hover:text-red-500" to={"Orders"}>
-          Orders
-        </Link>
-        <Link className="mx-2 hover:text-red-500" to={"all-products"}>
-          Products
-        </Link>
-        <Link className="ml-2 hover:text-red-500" to={"add-product"}>
-          Add Product
-        </Link>
-        <Link className="ml-2 hover:text-red-500" to={"add-category"}>
-          Add Category
-        </Link>
-        <Link className="ml-2 hover:text-red-500" to={"add-banner"}>
-          Add Banners
-        </Link>
-      </div> */}
-
-      <div className="w-full bg-stone-600 shadow-lg">
-        <div
-          onClick={() => setShowProfileMenu(!showProfileMenu)}
-          className="md:hidden flex justify-end px-4 text-3xl text-white cursor-pointer"
-        >
-          <span className="mt-1 border-2 border-zinc-400 p-0.5">{showProfileMenu ? <RxCross2 /> : <HiMiniBars3 />}</span>
+      <div className="w-full bg-stone-600">
+        <div className="md:hidden flex justify-end px-4 text-3xl text-white cursor-pointer">
+          <span
+            onClick={() => setShowProfileMenu(!showProfileMenu)}
+            className="mt-1 border-2 border-zinc-400 p-0.5"
+          >
+            {showProfileMenu ? <RxCross2 /> : <HiMiniBars3 />}
+          </span>
         </div>
         <Outlet />
       </div>

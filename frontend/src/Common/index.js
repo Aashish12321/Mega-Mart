@@ -130,7 +130,7 @@ const SummaryApi = {
         method: 'get'
     },
     view_order : {
-        url: `/api/view-order/:orderId`,
+        url: `/api/view-order`,
         method: 'get'
     },
 }

@@ -16,17 +16,7 @@ body {
   @apply bg-stone-600 no-scrollbar;
 }
 
-.allUser th {
-  @apply p-2 border text-center border-none;
-}
-.allUser td {
-  @apply p-2 border text-center border-none;
-}
-
-.allUser tbody tr {
-  @apply odd:bg-gray-700 even:bg-gray-500 rounded-md;
-}
-
+/* Custom */
 /* Cart remove item css */
 @keyframes slideLeft {
   from {

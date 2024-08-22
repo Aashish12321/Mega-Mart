@@ -72,7 +72,7 @@ async function checkCoupon(req, resp) {
         );
       }
     } else {
-      throw new Error("Coupon code not valid for selected products");
+      throw new Error("Coupon code cannot be applied to selected products");
     }
 
     resp.status(200).json({

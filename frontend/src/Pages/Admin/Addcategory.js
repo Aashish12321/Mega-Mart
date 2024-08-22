@@ -39,14 +39,18 @@ const Addcategory = () => {
   };
 
   return (
-    <div className="mt-20">
+    <div className="m-1 p-1 md:m-2 md:p-2 rounded-lg">
+      <div className="px-2 py-1 mb-4 border-2 border-zinc-400 bg-stone-500 rounded-full">
+        <span className="text-xl font-bold">Add new category</span>
+      </div>
       <form
         onSubmit={handleSubmit}
-        className="mx-auto rounded-md bg-stone-500 shadow-md p-6 w-full max-w-lg"
+        className="mx-auto rounded-lg border-2 border-zinc-400 bg-stone-500 shadow-md p-6 w-full max-w-lg"
       >
-        <div className="pb-4 text-xl font-semibold">Add new categories</div>
         <div className="flex flex-col">
-          <label htmlFor="category" className="font-semibold">Category</label>
+          <label htmlFor="category" className="font-semibold">
+            Category
+          </label>
           <input
             onChange={handleChange}
             type="text"
@@ -58,7 +62,9 @@ const Addcategory = () => {
           />
         </div>
         <div className="flex flex-col mt-2">
-          <label htmlFor="subCategory" className="font-semibold">Sub-Category</label>
+          <label htmlFor="subCategory" className="font-semibold">
+            Sub-Category
+          </label>
           <input
             onChange={handleChange}
             type="text"
@@ -70,7 +76,9 @@ const Addcategory = () => {
           />
         </div>
         <div className="flex flex-col mt-2">
-          <label htmlFor="product" className="font-semibold">Product</label>
+          <label htmlFor="product" className="font-semibold">
+            Product
+          </label>
           <input
             onChange={handleChange}
             type="text"

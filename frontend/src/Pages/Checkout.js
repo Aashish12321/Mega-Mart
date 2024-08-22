@@ -333,7 +333,7 @@ const Checkout = () => {
                       if (order?.distance) {
                         handleOrder();
                         toast.success("Order created");
-                        navigate("/profile/view-order/:");
+                        navigate("/profile/orders");
                       } else {
                         toast.error("Please select shipping address");
                       }

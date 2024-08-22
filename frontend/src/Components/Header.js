@@ -68,7 +68,7 @@ const Header = () => {
             </Link>
           </div>
 
-          <div className="hidden md:flex w-full md:max-w-xs lg:max-w-md 2xl:max-w-md bg-slate-100 items-center rounded-lg cursor-pointer">
+          <div className="hidden sm:flex w-full sm:max-w-xs lg:max-w-md xl:max-w-lg bg-slate-100 items-center rounded-lg cursor-pointer">
             <input
               className="w-full bg-transparent outline-none h-9 pl-1 border-l-8 border-red-500 rounded-l-lg"
               type="text"
@@ -82,14 +82,14 @@ const Header = () => {
           <div
             onMouseEnter={() => setExpandSearch(true)}
             onMouseLeave={() => setExpandSearch(false)}
-            className="flex md:hidden h-9 w-9 p-1.5 rounded-r-lg text-white text-2xl cursor-pointer"
+            className="flex sm:hidden h-9 w-9 p-1.5 rounded-r-lg text-white text-2xl cursor-pointer"
           >
             <GoSearch />
           </div>
           <div
             onMouseEnter={() => setExpandSearch(true)}
             onMouseLeave={() => setExpandSearch(false)}
-            className={`flex md:hidden w-full transition-transform duration-500 ${
+            className={`flex sm:hidden w-full transition-transform duration-500 ${
               expandSearch ? "translate-y-0" : "-translate-y-16"
             } fixed justify-between z-10 md:max-w-xs lg:max-w-md 2xl:max-w-md bg-slate-100 items-center rounded-lg cursor-pointer `}
           >

@@ -3,6 +3,7 @@ import Spinner from "../../Components/Loaders/Spinner";
 import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 const AllOrders = () => {
   const [loading, setLoading] = useState(true);
@@ -44,7 +45,7 @@ const AllOrders = () => {
           want at an exclusive price and bumper discounts {":)"}
         </div>
       ) : (
-        <div className="bg-stone-700 border-2 border-zinc-400 rounded-xl">
+        <div className="overflow-x-auto p-1 bg-stone-700 border-2 border-zinc-400 rounded-xl">
           <table className="w-full bg-stone-700 rounded-xl">
             <thead className="w-full">
               <tr className="w-full md:text-lg text-gray-300">
@@ -62,23 +63,43 @@ const AllOrders = () => {
                   onClick={(e) => navigate(`order/${order?._id}`)}
                   className="w-full select-none border-t-2 border-gray-500 hover:text-gray-300 cursor-pointer"
                 >
-                  <td className="text-center p-2">{index+1}.</td>
-                  <td className="text-center p-2">{order?._id}</td>
+                  <td className="text-center p-2">{index + 1}.</td>
                   <td className="text-center p-2">
-                    {new Date(order?.createdAt).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
+                    <span className="w-full flex items-center flex-arap">{order?._id}</span>
+                  </td>
+                  <td className="text-center p-2">
+                    {moment(order?.createdAt).format("ll")}
                   </td>
                   <td className="text-center p-2 ">
                     {order?.payment?.isPaid ? (
-                      <i className="px-4 py-1 font-Roboto font-semibold bg-green-200 text-green-600 rounded-lg">Paid</i>
+                      <i className="px-4 py-1 font-Roboto font-semibold bg-green-200 text-green-600 rounded-lg">
+                        Paid
+                      </i>
                     ) : (
-                      <i className="px-4 py-1 font-Roboto font-semibold bg-red-200 text-red-600 rounded-lg">Not Paid</i>
+                      <i className="px-4 py-1 font-Roboto font-semibold bg-red-200 text-red-600 rounded-lg">
+                        Unpaid
+                      </i>
                     )}
                   </td>
-                  <td className="text-center p-2">{order?.status}</td>
+                  <td className="text-center p-2">
+                    {order?.status === "Processing" ? (
+                      <i className="px-4 py-1 font-Roboto font-semibold bg-orange-200 text-orange-600 rounded-lg">
+                        Processing
+                      </i>
+                    ) : order?.status === "Shipped" ? (
+                      <i className="px-4 py-1 font-Roboto font-semibold bg-blue-200 text-blue-600 rounded-lg">
+                        Shipped
+                      </i>
+                    ) : order?.status === "Delivered" ? (
+                      <i className="px-4 py-1 font-Roboto font-semibold bg-green-200 text-green-600 rounded-lg">
+                        Delivered
+                      </i>
+                    ) : (
+                      <i className="px-4 py-1 font-Roboto font-semibold bg-gray-200 text-gray-600 rounded-lg">
+                        Cancelled
+                      </i>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>

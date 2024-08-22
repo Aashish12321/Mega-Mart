@@ -71,13 +71,14 @@ const CreateCoupon = () => {
   }, [getApplicableProducts]);
 
   return (
-    <div className="w-full h-full flex items-center border-2 ">
+    <div className="m-1 p-1 md:m-2 md:p-2 rounded-lg">
+      <div className="px-2 py-1 mb-4 border-2 border-zinc-400 bg-stone-500 rounded-full">
+        <span className="text-xl font-bold">Create new coupon</span>
+      </div>
       <form
         onSubmit={handleSubmit}
-        className="w-full flex flex-col mx-auto gap-6 p-6 border-2 max-w-xl rounded-md bg-stone-500"
+        className="w-full flex flex-col mx-auto gap-6 p-4 border-2 border-zinc-400 rounded-xl bg-stone-500"
       >
-        <div className="text-xl font-semibold">Create new coupon</div>
-
         <div className="flex flex-col">
           <label htmlFor="code" className="font-semibold">
             Coupon code *
@@ -90,12 +91,12 @@ const CreateCoupon = () => {
             name="code"
             id="code"
             placeholder="Eg: boAt500"
-            className="w-full outline-none h-8 p-2 bg-zinc-800 border-2 border-zinc-400"
+            className="w-full outline-none h-8 p-2 bg-zinc-800 border-2 border-zinc-400 rounded-lg"
             required
           />
           <div className="text-sm text-end">Maximum 20 characters</div>
         </div>
-        <div className="w-full flex gap-8 justify-between">
+        <div className="w-full flex flex-col md:flex-row gap-8 justify-between">
           <div className="w-full flex flex-col">
             <label htmlFor="discount" className="font-semibold">
               Discount (in %) *
@@ -107,7 +108,7 @@ const CreateCoupon = () => {
               name="discount"
               id="discount"
               placeholder="Eg: 5"
-              className="w-full outline-none no-spinner h-8 p-2 bg-zinc-800 border-2 border-zinc-400"
+              className="w-full outline-none no-spinner h-8 p-2 bg-zinc-800 border-2 border-zinc-400 rounded-lg"
               required
             />
           </div>
@@ -122,7 +123,7 @@ const CreateCoupon = () => {
               name="discountUpto"
               id="discountUpto"
               placeholder="Eg: 500"
-              className="w-full outline-none no-spinner h-8 p-2 bg-zinc-800 border-2 border-zinc-400"
+              className="w-full outline-none no-spinner h-8 p-2 bg-zinc-800 border-2 border-zinc-400 rounded-lg"
               required
             />
           </div>
@@ -138,7 +139,7 @@ const CreateCoupon = () => {
               value={newCoupon?.validUntil}
               name="validUntil"
               id="validUntil"
-              className="w-full outline-none h-8 p-2 bg-zinc-800 border-2 border-zinc-400"
+              className="w-full outline-none h-8 p-2 bg-zinc-800 border-2 border-zinc-400 rounded-lg"
               required
             />
           </div>
@@ -154,12 +155,12 @@ const CreateCoupon = () => {
               name="minimumOrderValue"
               id="minimumOrderValue"
               placeholder="Eg: 2000"
-              className="w-full outline-none no-spinner h-8 p-2 bg-zinc-800 border-2 border-zinc-400"
+              className="w-full outline-none no-spinner h-8 p-2 bg-zinc-800 border-2 border-zinc-400 rounded-lg"
               required
             />
           </div>
         </div>
-        <div className="w-full flex gap-8 justify-between">
+        <div className="w-full flex flex-col md:flex-row gap-8 justify-between">
           <div className="w-full flex flex-col">
             <label htmlFor="applicableProducts" className="font-semibold">
               Applicable Products *
@@ -169,7 +170,7 @@ const CreateCoupon = () => {
               id="applicableProducts"
               value={newCoupon?.applicableProducts}
               onChange={handleChange}
-              className="outline-none w-full h-8 text-white bg-zinc-800 border-2 border-zinc-400"
+              className="outline-none w-full h-8 text-white bg-zinc-800 border-2 border-zinc-400 rounded-lg"
               required
             >
               {applicable?.map((productsWithBrands, index) => (
@@ -188,7 +189,7 @@ const CreateCoupon = () => {
               id="applicableBrand"
               value={newCoupon?.applicableBrand}
               onChange={handleChange}
-              className="outline-none w-full h-8 text-white bg-zinc-800 border-2 border-zinc-400"
+              className="outline-none w-full h-8 text-white bg-zinc-800 border-2 border-zinc-400 rounded-lg"
               required
             >
               <option value="" disabled>
@@ -207,7 +208,7 @@ const CreateCoupon = () => {
             </select>
           </div>
         </div>
-        <div className="w-full flex gap-8 justify-between">
+        <div className="w-full flex flex-col md:flex-row gap-8 justify-between">
           <div className="w-full flex flex-col">
             <label htmlFor="applicableProductId" className="font-semibold">
               Applicable Product Id
@@ -219,7 +220,7 @@ const CreateCoupon = () => {
               name="applicableProductId"
               id="applicableProductId"
               placeholder="Eg: kjyrhr23rwhewrkjfkshf83"
-              className="w-full outline-none h-8 p-2 bg-zinc-800 border-2 border-zinc-400"
+              className="w-full outline-none h-8 p-2 bg-zinc-800 border-2 border-zinc-400 rounded-lg"
             />
           </div>
           <div className="w-full flex flex-col">
@@ -231,7 +232,7 @@ const CreateCoupon = () => {
               id="applicableUsers"
               value={newCoupon?.applicableUsers}
               onChange={handleChange}
-              className="outline-none w-full h-8 text-white bg-zinc-800 border-2 border-zinc-400"
+              className="outline-none w-full h-8 text-white bg-zinc-800 border-2 border-zinc-400 rounded-lg"
               required
             >
               <option value="" disabled>

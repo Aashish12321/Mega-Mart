@@ -7,14 +7,24 @@ import { RiCoupon2Fill, RiDashboardFill } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { selectUser } from "../../Store/selector";
+import { RxCross2 } from "react-icons/rx";
+import { HiMiniBars3 } from "react-icons/hi2";
+import { BiSolidNotepad } from "react-icons/bi";
 
 const Admin = () => {
   const user = useSelector(selectUser);
   const [expandProduct, setExpandProduct] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
 
   return (
-    <div className="md:flex relative justify-between text-white">
-      <aside className="hidden sticky md:flex min-h-screen w-full md:max-w-52 lg:max-w-60 bg-zinc-800 border-r-2 border-stone-500 shadow-lg text-white flex-col ">
+    <div className="flex relative justify-between text-white">
+      <aside
+        className={`fixed md:sticky flex flex-col transition-transform duration-500 ease-in-out md:transition-none ${
+          showProfileMenu
+            ? "translate-x-0"
+            : "-translate-x-full md:translate-x-0"
+        } min-h-screen w-full min-[320px]:max-w-60 md:max-w-52 lg:max-w-60 z-10 bg-zinc-800 border-r-2 border-stone-500 shadow-lg text-white`}
+      >
         <div className="w-full pt-6 pb-2 rounded-lg text-white">
           {user?.profilePic ? (
             <img
@@ -31,6 +41,7 @@ const Admin = () => {
         <div className="flex flex-col gap-2 w-full mt-3 p-2 border-t-2 border-stone-500">
           <Link
             to={"dashboard"}
+            onClick={() => setShowProfileMenu(false)}
             className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
           >
             <RiDashboardFill className="text-xl mt-0.5" />
@@ -38,6 +49,7 @@ const Admin = () => {
           </Link>
           <Link
             to={"users"}
+            onClick={() => setShowProfileMenu(false)}
             className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
           >
             <IoPeople className="text-lg mt-1" />
@@ -45,6 +57,7 @@ const Admin = () => {
           </Link>
           <Link
             to={"create-coupon"}
+            onClick={() => setShowProfileMenu(false)}
             className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
           >
             <RiCoupon2Fill className="text-lg mt-1" />
@@ -52,12 +65,12 @@ const Admin = () => {
           </Link>
           <Link
             to={"orders"}
+            onClick={() => setShowProfileMenu(false)}
             className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
           >
-            <RiCoupon2Fill className="text-lg mt-1" />
+            <BiSolidNotepad className="text-lg mt-1" />
             <p>Orders</p>
           </Link>
-
           <div
             className={`${
               expandProduct
@@ -66,7 +79,6 @@ const Admin = () => {
             }`}
           >
             <div
-              // to={"all-products"}
               onClick={(e) => setExpandProduct(!expandProduct)}
               className="cursor-pointer flex space-x-2 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full items-center"
             >
@@ -85,24 +97,28 @@ const Admin = () => {
             >
               <Link
                 to={"all-products"}
+                onClick={() => setShowProfileMenu(false)}
                 className="px-2 py-1 hover:bg-stone-700 rounded-full"
               >
                 All Products
               </Link>
               <Link
                 to={"add-product"}
+                onClick={() => setShowProfileMenu(false)}
                 className="px-2 py-1 hover:bg-stone-700 rounded-full"
               >
                 Add Product
               </Link>
               <Link
                 to={"add-category"}
+                onClick={() => setShowProfileMenu(false)}
                 className="px-2 py-1 hover:bg-stone-700 rounded-full"
               >
                 Add Category
               </Link>
               <Link
                 to={"add-banner"}
+                onClick={() => setShowProfileMenu(false)}
                 className="px-2 py-1 hover:bg-stone-700 rounded-full"
               >
                 Add Banners
@@ -112,34 +128,15 @@ const Admin = () => {
         </div>
       </aside>
 
-      <div className="md:hidden mx-1 my-2 p-1 text-center text-sm rounded-md h-8 bg-customCard">
-        <Link className="mr-2 hover:text-red-500" to={"dashboard"}>
-          Dashboard
-        </Link>
-        <Link className="mx-2 hover:text-red-500" to={"users"}>
-          Users
-        </Link>
-        <Link className="ml-2 hover:text-red-500" to={"create-coupon"}>
-          Create Coupon
-        </Link>
-        <Link className="ml-2 hover:text-red-500" to={"Orders"}>
-          Orders
-        </Link>
-        <Link className="mx-2 hover:text-red-500" to={"all-products"}>
-          Products
-        </Link>
-        <Link className="ml-2 hover:text-red-500" to={"add-product"}>
-          Add Product
-        </Link>
-        <Link className="ml-2 hover:text-red-500" to={"add-category"}>
-          Add Category
-        </Link>
-        <Link className="ml-2 hover:text-red-500" to={"add-banner"}>
-          Add Banners
-        </Link>
-      </div>
-
-      <div className="w-full bg-stone-600 shadow-lg">
+      <div className="w-full bg-stone-600">
+        <span className="md:hidden flex justify-end px-4 text-3xl text-white cursor-pointer">
+          <span
+            onClick={() => setShowProfileMenu(!showProfileMenu)}
+            className="mt-1 border-2 border-zinc-400 p-0.5"
+          >
+            {showProfileMenu ? <RxCross2 /> : <HiMiniBars3 />}
+          </span>
+        </span>
         <Outlet />
       </div>
     </div>
