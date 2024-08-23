@@ -36,6 +36,7 @@ const payment = require("../controller/orders/payment");
 const createOrder = require("../controller/orders/createOrder");
 const viewOrder = require("../controller/orders/viewOrder");
 const viewAllOrders = require("../controller/orders/viewAllOrders");
+const updateUserRole = require("../controller/users/updateUserRole");
 
 
 router.post("/signup", userSignUp);
@@ -61,14 +62,14 @@ router.post("/create-payment-intent", payment);
 router.post("/create-order", authToken, createOrder);
 router.get("/view-order/:orderId", authToken, viewOrder);
 router.get("/view-all-orders", authToken, viewAllOrders);
-
+router.post("/update-user", authToken, updateUser);
 // cloudinary
 router.post("/delete-media", authToken, deleteMedia);
 
 
 // admin
 router.get("/all-users", allUsers);
-router.post("/update-user", authToken, updateUser);
+router.post("/update-user-role", authToken, updateUserRole);
 router.get("/search-user/:key", authToken, searchUser);
 router.post("/upload-product", authToken, uploadProduct);
 router.post("/update-product", authToken, updateProduct);

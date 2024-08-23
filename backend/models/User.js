@@ -12,6 +12,8 @@ const UserSchema = new mongoose.Schema(
     },
     password: { type: String, required: true },
     role: { type: String, required: true },
+    dob: { type: String },
+    gender: { type: String }
   },
   {
     timestamps: true,

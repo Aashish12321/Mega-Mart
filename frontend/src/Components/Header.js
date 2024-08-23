@@ -10,7 +10,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import SummaryApi from "../Common";
 import { toast } from "react-toastify";
-// import { setUserDetails } from "../Store/userSlice";
 import { setCategories } from "../Store/categorySlice";
 import role from "../Common/role";
 import CategoriesList from "./CategoriesList";
@@ -22,23 +21,10 @@ const Header = () => {
   const [showCategorySidebar, setShowCategorySidebar] = useState(false);
   const [expandSearch, setExpandSearch] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const user = useSelector(selectUser);
-  const dispatch = useDispatch();
-  // const token = localStorage.getItem("token");
   const context = useContext(Context);
-
-  // const handleLogout = async () => {
-  //   if (token) {
-  //     navigate("/");
-  //     localStorage.removeItem("token");
-  //     dispatch(setUserDetails(null));
-  //     toast.success("Logout successful");
-  //   } else {
-  //     toast.info("You are not logged in.");
-  //     navigate("/login");
-  //   }
-  // };
 
   const allCategory = useCallback(async () => {
     let fetchCategory = await fetch(SummaryApi.get_categories.url, {
@@ -61,14 +47,14 @@ const Header = () => {
   return (
     <>
       <header className="w-full sticky top-0 z-20 select-none bg-gray-900">
-        <div className="flex items-center min-[320px]:py-2 2xl:py-0 justify-around">
+        <div className="flex items-center py-1 justify-around">
           <div className="flex w-full min-[320px]:w-40 md:w-44 lg:w-48 2xl:w-56 text-white cursor-pointer items-center justify-around">
             <Link to={"/"}>
               <img src={logo} alt="logo" className="w-full h-full" />
             </Link>
           </div>
 
-          <div className="hidden sm:flex w-full sm:max-w-xs lg:max-w-md xl:max-w-lg bg-slate-100 items-center rounded-lg cursor-pointer">
+          <div className="hidden sm:flex w-full sm:max-w-xs lg:max-w-md xl:max-w-lg 2xl:max-w-xl bg-slate-100 items-center rounded-lg cursor-pointer">
             <input
               className="w-full bg-transparent outline-none h-9 pl-1 border-l-8 border-red-500 rounded-l-lg"
               type="text"
@@ -126,7 +112,7 @@ const Header = () => {
               </div>
             </Link>
 
-            <div className="relative flex justify-center">
+            <div className="flex justify-center text-white ">
               {!user?._id && (
                 <button
                   onClick={() => navigate("/login")}
@@ -137,14 +123,14 @@ const Header = () => {
               )}
               {user?._id && (
                 <div
-                  className="min-[375px]:mx-3 text-3xl cursor-pointer text-white items-center"
+                  className="min-[375px]:mx-3 w-10 h-10 text-3xl cursor-pointer text-white items-center"
                   onClick={() => {
                     setShowUserMenu(!showuserMenu);
                   }}
                 >
                   {user?.profilePic ? (
                     <img
-                      className="w-full max-w-10 rounded-full"
+                      className="w-full h-full rounded-full"
                       src={user?.profilePic}
                       alt={user?.username}
                     />
@@ -154,33 +140,29 @@ const Header = () => {
                 </div>
               )}
               {showuserMenu && (
-                <div className="absolute rounded-b-lg border-l-2 border-b-2 border-r-2 border-gray-500 top-[51px] py-2 bg-customCard text-white">
-                  <MdArrowDropUp className="text-4xl -mt-[29px] ml-11" />
-
+                <div
+                  className={`absolute mt-12 lg:mt-[51px] xl:mt-14 flex flex-col items-center w-28 border rounded-b-lg border-t-0 border-zinc-400 bg-stone-200 text-stone-700`}
+                >
+                  <MdArrowDropUp className="absolute text-4xl text-stone-200 -my-5 text-center" />
                   {user?.role === role.admin && (
-                    <div className="border-b-2 border-gray-500 -mt-4">
-                      <Link
-                        to={"/admin/all-products"}
-                        onClick={() => setShowUserMenu(!showuserMenu)}
-                        className="min-[320px]:flex mx-6 font-semibold whitespace-nowrap p-1 hover:text-red-500"
-                      >
-                        Admin
-                      </Link>
-                    </div>
+                    <Link
+                      to={"/admin/all-products"}
+                      onClick={() => setShowUserMenu(!showuserMenu)}
+                      className="w-full border-b border-zinc-400 min-[320px]:flex justify-center font-semibold p-1 hover:text-red-500"
+                    >
+                      Admin
+                    </Link>
                   )}
-                  {user?._id && (
-                    <div className="border-b-2 border-gray-500">
-                      <Link
-                        to={"/profile/cart"}
-                        className="flex items-center mx-6 my-1 font-semibold hover:text-red-500"
-                        onClick={() => {
-                          setShowUserMenu(!showuserMenu);
-                        }}
-                      >
-                        Profile
-                      </Link>
-                    </div>
-                  )}
+
+                  <Link
+                    to={"/profile/cart"}
+                    className="flex items-center justify-center p-1 font-semibold hover:text-red-500"
+                    onClick={() => {
+                      setShowUserMenu(!showuserMenu);
+                    }}
+                  >
+                    Profile
+                  </Link>
                 </div>
               )}
             </div>

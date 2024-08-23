@@ -9,8 +9,8 @@ const ChangeUserRole = ({ updateEachUser, onClose, callFunc }) => {
 
   const updateUserRole = async () => {
     const token = localStorage.getItem("token");
-    const userResponse = await fetch(SummaryApi.update_user.url, {
-      method: SummaryApi.update_user.method,
+    const userResponse = await fetch(SummaryApi.update_user_role.url, {
+      method: SummaryApi.update_user_role.method,
       headers: {
         "content-type": "application/json",
         Authorization: `${token}`,

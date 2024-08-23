@@ -17,6 +17,10 @@ const SummaryApi = {
         url: `/api/all-users`,
         method: 'get'
     },
+    update_user_role : {
+        url: `/api/update-user-role`,
+        method: 'post'
+    },
     update_user : {
         url: `/api/update-user`,
         method: 'post'

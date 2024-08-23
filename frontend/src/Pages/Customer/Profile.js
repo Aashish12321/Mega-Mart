@@ -2,16 +2,28 @@ import React, { useState } from "react";
 import { FaCartArrowDown, FaHeart, FaUserCircle } from "react-icons/fa";
 import { RiCoupon2Fill } from "react-icons/ri";
 import { BiSolidNotepad, BiSolidUserRectangle } from "react-icons/bi";
-
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setUserDetails } from "../../Store/userSlice";
 import { Link, Outlet } from "react-router-dom";
 import { selectUser } from "../../Store/selector";
 import { RxCross2 } from "react-icons/rx";
 import { HiMiniBars3 } from "react-icons/hi2";
+import { TbLogout } from "react-icons/tb";
+import { toast } from "react-toastify";
 
 const Profile = () => {
   const user = useSelector(selectUser);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    if (token) {
+      localStorage.removeItem("token");
+      dispatch(setUserDetails(null));
+      toast.success("Logout successful");
+    }
+  };
 
   return (
     <div className="flex relative justify-between text-white">
@@ -75,6 +87,14 @@ const Profile = () => {
           >
             <BiSolidNotepad className="text-lg mt-1" />
             <p>Orders</p>
+          </Link>
+          <Link
+            to={"/"}
+            onClick={handleLogout}
+            className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
+          >
+            <TbLogout className="text-lg mt-1" />
+            <p>Logout</p>
           </Link>
         </div>
       </aside>
