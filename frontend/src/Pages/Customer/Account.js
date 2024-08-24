@@ -36,7 +36,9 @@ const Account = () => {
     setUpdatedUser({ ...updatedUser, [name]: value });
   };
 
-  const updateUserDetails = async () => {
+  const updateUserDetails = async (e) => {
+    e.preventDefault();
+
     let response = await fetch(SummaryApi.update_user.url, {
       method: SummaryApi.update_user.method,
       headers: {
@@ -48,6 +50,7 @@ const Account = () => {
     response = await response.json();
     if (response.success) {
       toast.success(response.message);
+      navigate("/profile/cart");
     } else {
       toast.error(response.message);
     }
@@ -55,12 +58,15 @@ const Account = () => {
 
   return (
     <div>
-      <div className="m-1 p-1 md:m-2 md:p-2 rounded-lg">
+      <form
+        onSubmit={updateUserDetails}
+        className="m-1 p-1 md:m-2 md:p-2 rounded-lg"
+      >
         <div className="px-2 py-1 mb-4 border-2 border-zinc-400 bg-stone-500 rounded-full">
           <span className="text-xl font-bold">Your Account Details</span>
         </div>
 
-        <div className="w-full flex flex-col gap-6 px-4 py-4 bg-stone-700 rounded-xl border-2 border-zinc-400">
+        <div className="w-full flex flex-col gap-8 px-4 py-4 bg-stone-700 rounded-xl border-2 border-zinc-400">
           <span className="text-lg font-semibold border-b-2 border-zinc-400">
             Personal Information
           </span>
@@ -70,9 +76,10 @@ const Account = () => {
               user={updatedUser?.name}
               name="name"
               handleDataChange={handleDataChange}
+              required={true}
             />
           </div>
-          <div className="w-full flex flex-col md:flex-row gap-6 ">
+          <div className="w-full flex flex-col md:flex-row gap-8">
             <FloatingInput
               label="Email"
               type="email"
@@ -80,12 +87,15 @@ const Account = () => {
               name="email"
               handleDataChange={handleDataChange}
               disabled={true}
+              required={true}
             />
             <FloatingInput
               label="Mobile Number"
+              type="number"
               user={updatedUser?.mobileNumber}
               name="mobileNumber"
               handleDataChange={handleDataChange}
+              required={true}
             />
           </div>
           <div className="w-full">
@@ -122,7 +132,7 @@ const Account = () => {
 
           <div className="flex justify-end gap-4 mt-12 text-center">
             <button
-              onClick={updateUserDetails}
+              type="submit"
               className={`${
                 isChange
                   ? "bg-red-500 active:shadow-none active:translate-y-0.5"
@@ -140,7 +150,7 @@ const Account = () => {
             </button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

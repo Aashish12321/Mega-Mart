@@ -3,7 +3,7 @@ import App from "./App";
 import Homepage from "./Pages/Homepage";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
-import ForgotPassword from "./Pages/ForgotPassword";
+import ResetPassword from "./Pages/ResetPassword";
 import Admin from "./Pages/Admin/Admin";
 import Users from "./Pages/Admin/Users";
 import Dashboard from "./Pages/Admin/Dashboard";
@@ -58,12 +58,8 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "forgot-password",
-        element: (
-          <ProtectedRoute>
-            <ForgotPassword />
-          </ProtectedRoute>
-        ),
+        path: "reset-password",
+        element: <ResetPassword />
       },
       {
         path: "products",
@@ -119,35 +115,19 @@ const router = createBrowserRouter([
           },
           {
             path: "cart",
-            element: (
-              <ProtectedRoute>
-                <Cart />
-              </ProtectedRoute>
-            ),
+            element: <Cart />,
           },
           {
             path: "favourites",
-            element: (
-              <ProtectedRoute>
-                <Favourite />
-              </ProtectedRoute>
-            ),
+            element: <Favourite />,
           },
           {
             path: "orders",
-            element: (
-              <ProtectedRoute>
-                <AllOrders />
-              </ProtectedRoute>
-            ),
+            element: <AllOrders />,
           },
           {
             path: "orders/order/:orderId",
-            element: (
-              <ProtectedRoute>
-                <OrderDetails />
-              </ProtectedRoute>
-            ),
+            element: <OrderDetails />,
           },
         ]
       },

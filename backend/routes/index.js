@@ -37,10 +37,12 @@ const createOrder = require("../controller/orders/createOrder");
 const viewOrder = require("../controller/orders/viewOrder");
 const viewAllOrders = require("../controller/orders/viewAllOrders");
 const updateUserRole = require("../controller/users/updateUserRole");
+const resetPassword = require("../controller/users/resetPassword");
 
 
 router.post("/signup", userSignUp);
 router.post("/login", userLogin);
+router.post("/reset-password", resetPassword);
 router.get("/user-details", authToken, userDetails);
 router.get("/get-products", getAllProducts);
 router.post("/productdetails", productDetails);

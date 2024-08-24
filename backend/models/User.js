@@ -10,10 +10,13 @@ const UserSchema = new mongoose.Schema(
       unique: true,
       required: true,
     },
-    password: { type: String, required: true },
     role: { type: String, required: true },
     dob: { type: String },
-    gender: { type: String }
+    gender: { type: String },
+    
+    password: { type: String, required: true },
+    passwordRecoveryCode: { type: String },
+    recoveryCodeExpiry: { type: Date },
   },
   {
     timestamps: true,

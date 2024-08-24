@@ -16,7 +16,20 @@ body {
   @apply bg-stone-600 no-scrollbar;
 }
 
-/* Custom */
+/* Custom CSS*/
+
+/* Prevent autofill from graying out input fields */
+@layer components {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-text-fill-color: white;
+    caret-color: white;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+}
+
 /* Cart remove item css */
 @keyframes slideLeft {
   from {
@@ -31,15 +44,15 @@ body {
 
 /* Hiding the increment decrement button on number input. */
 @layer utilities {
-  .no-spinner::-webkit-inner-spin-button, 
-  .no-spinner::-webkit-outer-spin-button { 
+  .no-spinner::-webkit-inner-spin-button,
+  .no-spinner::-webkit-outer-spin-button {
     @apply appearance-none;
     margin: 0;
   }
   .no-spinner {
     -moz-appearance: textfield;
   }
-  .no-spinner::-ms-clear, 
+  .no-spinner::-ms-clear,
   .no-spinner::-ms-reveal {
     @apply hidden;
   }

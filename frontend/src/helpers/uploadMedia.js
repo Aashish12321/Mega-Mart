@@ -9,7 +9,6 @@ const uploadMedia = async (media, upload_preset_name) => {
         method: 'post',
         body: formData
     })
-
     return dataResponse.json();
 }
 
