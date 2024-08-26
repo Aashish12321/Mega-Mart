@@ -1,24 +1,28 @@
 const mongoose = require("mongoose");
 const Order = require("../../models/Order");
+const User = require("../../models/User");
 
-async function viewOrder(req, resp) {
+async function adminViewOrder(req, resp) {
   try {
     const userId = req.userId;
+    const user = await User.findById(userId);
     let { orderId } = req.params;
     orderId = new mongoose.Types.ObjectId(`${orderId}`);
 
     const order = await Order.findById(orderId);
-    // console.log(order);
 
-    if (order?.user.equals(userId)) {
+    if (user?.role === "VENDOR") {
+        order.seller = order?.seller[userId];
+    }
+    // console.log(orders);
+
+    if (order) {
       resp.status(201).json({
-        message: "Order fetched successfully",
+        message: "Vendor specific order details fetched successfully",
         data: order,
         success: true,
         error: false,
       });
-    } else {
-      throw new Error("Order not found");
     }
   } catch (err) {
     resp.status(400).json({
@@ -29,4 +33,4 @@ async function viewOrder(req, resp) {
   }
 }
 
-module.exports = viewOrder;
+module.exports = adminViewOrder;

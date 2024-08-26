@@ -1,32 +1,49 @@
 import React, { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import FloatingInput from "../Components/FloatingInput";
-import { Link, useNavigate } from "react-router-dom";
 import SummaryApi from "../Common";
 import { toast } from "react-toastify";
+import { GoEye } from "react-icons/go";
+import { IoEyeOff } from "react-icons/io5";
 
 const ResetPassword = () => {
-  const [email, setEmail] = useState("");
+  const [searchParams] = useSearchParams();
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const recoveryCode = searchParams.get("code");
   const navigate = useNavigate();
 
   const handleOnChange = (e) => {
-    setEmail(e.target.value);
+    const { name, value } = e.target;
+    if (name === "newPassword") {
+      setNewPassword(value);
+    }
+    if (name === "confirmPassword") {
+      setConfirmPassword(value);
+    }
   };
 
-  const handleResetPassword = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (newPassword !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
 
     let response = await fetch(SummaryApi.reset_password.url, {
       method: SummaryApi.reset_password.method,
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({ email: email }),
+      body: JSON.stringify({ recoveryCode, newPassword }),
     });
     response = await response.json();
-    if (response.success){
+    if (response.success) {
       toast.success(response.message);
       navigate("/login");
-      
     } else {
       toast.error(response.message);
     }
@@ -35,43 +52,60 @@ const ResetPassword = () => {
     <div className="w-full flex flex-col items-center justify-center mt-20 px-3 text-white">
       <div className="w-full max-w-lg bg-stone-700 shadow-custom p-6 rounded-lg">
         <div className="w-full flex flex-col gap-4">
-          <span className="text-xl xl:text-2xl font-semibold border-b-2 border-zinc-400">
-            Reset Password
+          <span className="text-xl xl:text-2xl font-semibold py-1 border-b-2 border-zinc-400">
+            Change Your Password
           </span>
           <p className="text-sm block">
-            Enter the email address you used when you joined and we'll send you
-            password reset code to reset your password. <br />
-            <br /> For security reasons, we do NOT store your password. So, rest
-            assured that we will never send your password via email.
+            Enter a new password below to change your password
           </p>
         </div>
         <form
-          onSubmit={handleResetPassword}
-          className="w-full flex flex-col gap-2 mt-8"
+          onSubmit={handleSubmit}
+          className="w-full flex flex-col gap-6 mt-8"
         >
-          <div className="w-full flex flex-col gap-6">
+          <div className="flex w-full relative justify-end items-center rounded-md">
             <FloatingInput
-              label="Email"
-              type="email"
-              user={email}
-              name="email"
+              label="New Password"
+              type={showPassword ? "text" : "password"}
+              user={newPassword}
+              name="newPassword"
               handleDataChange={handleOnChange}
               required={true}
             />
+            <div
+              className="absolute cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              <span className="flex items-center mr-2">
+                {showPassword ? <GoEye /> : <IoEyeOff />}
+              </span>
+            </div>
+          </div>
+          <div className="flex w-full relative justify-end items-center rounded-md">
+            <FloatingInput
+              label="Confirm New Password"
+              type={showPassword ? "text" : "password"}
+              user={confirmPassword}
+              name="confirmPassword"
+              handleDataChange={handleOnChange}
+              required={true}
+            />
+            <div
+              className="absolute cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              <span className="flex items-center mr-2">
+                {showPassword ? <GoEye /> : <IoEyeOff />}
+              </span>
+            </div>
           </div>
           <div className="text-center mt-4">
             <button
               type="submit"
               className="bg-red-500 w-28 h-8 rounded-2xl shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
             >
-              Reset
+              Submit
             </button>
-          </div>
-          <div className="text-sm mt-5">
-            Don't have an account?
-            <Link to={"/signup"} className="text-red-500">
-              &nbsp;&nbsp;SignUp
-            </Link>
           </div>
         </form>
       </div>

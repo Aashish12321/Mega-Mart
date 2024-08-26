@@ -78,6 +78,7 @@ async function checkCoupon(req, resp) {
     resp.status(200).json({
       message: "Congrats! Coupon applied successfully",
       data: {
+        code: coupon?.code,
         discountPercent: coupon?.discount,
         discountAmount: parseInt(calculatedDiscount),
       },

@@ -1,63 +1,37 @@
 const User = require("../../models/User");
-const crypto = require("crypto");
-const nodemailer = require("nodemailer");
+const bcrypt = require("bcrypt");
 
-async function viewOrder(req, resp) {
-  const { email } = req.body;
-
+async function resetPassword(req, resp) {
   try {
-    const user = await User.findOne({ email });
+    const { recoveryCode, newPassword } = req.body;
+
+    const user = await User.findOne({
+      passwordRecoveryCode: recoveryCode,
+      recoveryCodeExpiry: { $gt: Date.now() },
+    });
+
     if (!user) {
-      throw new Error("Email not found");
+      throw new Error("Code expired");
     }
 
-    // Generating recovery code
-    const recoveryCode = crypto.randomBytes(20).toString("hex");
-    user.passwordRecoveryCode = recoveryCode;
-    user.recoveryCodeExpiry = Date.now() + 3600000; // Code valid for 1 hour
-    await user.save();
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    const hashedPassword = bcrypt.hashSync(newPassword, salt);
+    if (!hashedPassword) {
+      throw new Error("Something goes wrong");
+    }
 
-    const passwordResetUrl = `${process.env.FRONTEND_URL}/reset-password?code=${recoveryCode}`;
-
-    // Send email
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "aashishshroff@gmail.com",
-        pass: "shopquicklyfrommegamart",
-      },
-      host: "smtp.gmail.com",
-      port: 465, // For secure SMTP
-      secure: true, // true for 465, false for other ports
-    });
-
-    console.log(transporter);
-
-    const mailOptions = {
-      from: "shopquick.megamart@gmail.com",
-      to: email,
-      subject: "Password Recovery",
-      html: `
-            <h2>Password Reset Request</h2>
-            <p>You requested to reset your password. Click the link below to reset your password:</p>
-            <a href="${passwordResetUrl}">Reset Password</a>
-            <p>If you did not request this, please ignore this email.</p>
-        `,
-      text: "This is a test email using Nodemailer and Google App Passwords.",
-    };
-
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email sent: " + info.response);
-      }
-    });
-    resp.status(400).json({
-      message: "Password reset code sent",
-      success: true,
-      error: false,
-    });
+    user.password = hashedPassword;
+    user.passwordRecoveryCode = undefined;
+    user.recoveryCodeExpiry = undefined;
+    const updateUserPassword = await user.save();
+    if (updateUserPassword){
+      resp.status(200).json({
+        message: "Password reset successful ! Please login",
+        success: true,
+        error: false,
+      });
+    }
   } catch (err) {
     resp.status(400).json({
       message: err.message || err,
@@ -67,4 +41,4 @@ async function viewOrder(req, resp) {
   }
 }
 
-module.exports = viewOrder;
+module.exports = resetPassword;

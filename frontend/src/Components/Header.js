@@ -144,7 +144,7 @@ const Header = () => {
                   className={`absolute mt-12 lg:mt-[51px] xl:mt-14 flex flex-col items-center w-28 border rounded-b-lg border-t-0 border-zinc-400 bg-stone-200 text-stone-700`}
                 >
                   <MdArrowDropUp className="absolute text-4xl text-stone-200 -my-5 text-center" />
-                  {user?.role === role.admin && (
+                  {user?.role !== role.general && (
                     <Link
                       to={"/admin/all-products"}
                       onClick={() => setShowUserMenu(!showuserMenu)}

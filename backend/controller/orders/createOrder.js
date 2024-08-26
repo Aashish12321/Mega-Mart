@@ -1,4 +1,6 @@
 const Order = require("../../models/Order");
+const Coupon = require("../../models/Coupon");
+const SubOrder = require("../../models/SubOrder");
 
 async function createOrder(req, resp) {
   try {
@@ -9,8 +11,52 @@ async function createOrder(req, resp) {
       user: userId,
       ...order,
     });
+    let mainOrder = await newOrder.save();
 
-    newOrder = await newOrder.save();
+    let coupon = await Coupon.findOne({ code: order?.coupon });
+
+    let seller = {};
+    order?.products?.forEach((product) => {
+      if (!seller[product.seller.id]) {
+        seller[product.seller.id] = {
+          mainOrder: mainOrder?._id,
+          seller: product?.seller?.id,
+          products: [],
+          address: mainOrder?.address,
+          payment: mainOrder?.payment,
+          subTotal: 0,
+          total: 0,
+          coupon: "",
+          couponDiscount: 0,
+          status: "Processing",
+        };
+      }
+      seller[product.seller.id].products.push(product);
+      seller[product.seller.id].subTotal +=
+        product?.quantity * product?.price?.sell;
+      if (
+        product?.brand === coupon?.applicableBrand &&
+        product?.products === coupon?.applicableProducts
+      ) {
+        seller[product.seller.id].coupon = mainOrder?.coupon;
+        seller[product.seller.id].couponDiscount = mainOrder?.couponDiscount;
+      }
+    });
+
+    let subOrders = Object.values(seller).map((subOrder) => {
+      if (subOrder?.products?.length > 0) {
+        return {
+          ...subOrder,
+          total: subOrder?.subTotal - subOrder?.couponDiscount,
+        };
+      }
+    });
+
+    subOrders.forEach(async (subOrder) => {
+      let saveSubOrder = new SubOrder(subOrder);
+      saveSubOrder = await saveSubOrder.save();
+    });
+
     if (newOrder) {
       resp.status(201).json({
         message: "Order created successfully",

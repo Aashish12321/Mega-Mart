@@ -64,12 +64,12 @@ const Admin = () => {
             <p>Create Coupon</p>
           </Link>
           <Link
-            to={"orders"}
+            to={"all-orders"}
             onClick={() => setShowProfileMenu(false)}
             className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
           >
             <BiSolidNotepad className="text-lg mt-1" />
-            <p>Orders</p>
+            <p>All Orders</p>
           </Link>
           <div
             className={`${

@@ -5,15 +5,15 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
-const AllOrders = () => {
+const AdminOrders = () => {
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 
   const fetchAllOrders = useCallback(async () => {
-    let response = await fetch(SummaryApi.view_all_orders.url, {
-      method: SummaryApi.view_all_orders.method,
+    let response = await fetch(SummaryApi.admin_all_orders.url, {
+      method: SummaryApi.admin_all_orders.method,
       headers: {
         "content-type": "application/json",
         authorization: `${token}`,
@@ -50,10 +50,12 @@ const AllOrders = () => {
             <thead className="w-full">
               <tr className="w-full md:text-lg text-gray-300">
                 <th>S.N.</th>
-                <th>ORDER</th>
+                <th>ORDER-ID</th>
+                {/* <th>CUSTOMER</th> */}
                 <th>DATE</th>
                 <th>PAYMENT</th>
                 <th>STATUS</th>
+                <th>UPDATE</th>
               </tr>
             </thead>
             <tbody className="w-full">
@@ -64,9 +66,8 @@ const AllOrders = () => {
                   className="w-full select-none border-t-2 border-gray-500 hover:text-gray-300 cursor-pointer"
                 >
                   <td className="text-center p-2">{index + 1}.</td>
-                  <td className="text-center p-2">
-                    <span className="w-full flex justify-center items-center">{order?._id}</span>
-                  </td>
+                  <td className="text-center p-2">{order?._id}</td>
+                  {/* <td className="text-center p-2">{order?._}</td> */}
                   <td className="text-center p-2">
                     {moment(order?.createdAt).format("ll")}
                   </td>
@@ -110,4 +111,4 @@ const AllOrders = () => {
   );
 };
 
-export default AllOrders;
+export default AdminOrders;

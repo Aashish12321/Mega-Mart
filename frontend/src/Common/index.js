@@ -9,6 +9,10 @@ const SummaryApi = {
         url: `/api/login`,
         method: 'post'
     },
+    forgot_password : {
+        url: `/api/forgot-password`,
+        method: 'post'
+    },
     reset_password : {
         url: `/api/reset-password`,
         method: 'post'
@@ -139,6 +143,14 @@ const SummaryApi = {
     },
     view_order : {
         url: `/api/view-order`,
+        method: 'get'
+    },
+    admin_all_orders : {
+        url: `/api/admin-all-orders`,
+        method: 'get'
+    },
+    admin_view_order : {
+        url: `/api/admin-view-order`,
         method: 'get'
     },
 }

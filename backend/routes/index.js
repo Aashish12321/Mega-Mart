@@ -37,11 +37,15 @@ const createOrder = require("../controller/orders/createOrder");
 const viewOrder = require("../controller/orders/viewOrder");
 const viewAllOrders = require("../controller/orders/viewAllOrders");
 const updateUserRole = require("../controller/users/updateUserRole");
+const forgotPassword = require("../controller/users/forgotPassword");
 const resetPassword = require("../controller/users/resetPassword");
+const adminAllOrders = require("../controller/orders/adminAllOrders");
+const adminViewOrder = require("../controller/orders/adminViewOrder");
 
 
 router.post("/signup", userSignUp);
 router.post("/login", userLogin);
+router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
 router.get("/user-details", authToken, userDetails);
 router.get("/get-products", getAllProducts);
@@ -80,5 +84,7 @@ router.post("/admin-product-details", authToken, adminProductDetails);
 router.get("/get-products-properties", authToken, getProductsProperties);
 router.post("/create-coupon", authToken, createCoupon);
 router.post("/check-coupon", authToken, checkCoupon);
+router.get("/admin-all-orders", authToken, adminAllOrders);
+router.get("/admin-view-order/:orderId", authToken, adminViewOrder);
 
 module.exports = router;

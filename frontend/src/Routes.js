@@ -3,6 +3,7 @@ import App from "./App";
 import Homepage from "./Pages/Homepage";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
+import ForgotPassword from "./Pages/ForgotPassword";
 import ResetPassword from "./Pages/ResetPassword";
 import Admin from "./Pages/Admin/Admin";
 import Users from "./Pages/Admin/Users";
@@ -27,6 +28,8 @@ import OrderDetails from "./Pages/Customer/OrderDetails";
 import Profile from "./Pages/Customer/Profile";
 import AllOrders from "./Pages/Customer/AllOrders";
 import Account from "./Pages/Customer/Account";
+import AdminOrders from "./Pages/Admin/AdminOrders";
+import Order from "./Pages/Admin/Order";
 
 const router = createBrowserRouter([
   {
@@ -58,8 +61,12 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
         path: "reset-password",
-        element: <ResetPassword />
+        element: <ResetPassword />,
       },
       {
         path: "products",
@@ -129,7 +136,7 @@ const router = createBrowserRouter([
             path: "orders/order/:orderId",
             element: <OrderDetails />,
           },
-        ]
+        ],
       },
 
       {
@@ -171,6 +178,14 @@ const router = createBrowserRouter([
           {
             path: "create-coupon",
             element: <CreateCoupon />,
+          },
+          {
+            path: "all-orders",
+            element: <AdminOrders />,
+          },
+          {
+            path: "all-orders/order/:orderId",
+            element: <Order />,
           },
         ],
       },

@@ -61,6 +61,7 @@ const Login = () => {
               user={user?.email}
               name="email"
               handleDataChange={handleOnchange}
+              required={true}
             />
             <div className="flex w-full relative justify-end items-center rounded-md">
               <FloatingInput
@@ -69,6 +70,7 @@ const Login = () => {
                 user={user?.password}
                 name="password"
                 handleDataChange={handleOnchange}
+                required={true}
               />
               <div
                 className="absolute cursor-pointer"
@@ -80,7 +82,7 @@ const Login = () => {
           </div>
 
           <div className="flex justify-end">
-            <Link to={"/reset-password"} className="text-md text-red-500 hover:text-gray-500">Forgot password?</Link>
+            <Link to={"/forgot-password"} className="text-md text-red-500 hover:text-gray-500">Forgot password?</Link>
           </div>
           <div className="text-center mt-4">
             <button

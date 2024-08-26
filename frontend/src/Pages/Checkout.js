@@ -43,6 +43,7 @@ const Checkout = () => {
     },
     subTotal: 0,
     total: 0,
+    coupon: "",
     couponDiscount: 0,
     totalWeight: 0,
     shippingCharge: 0,
@@ -128,6 +129,7 @@ const Checkout = () => {
         ...prev,
         products: products,
         subTotal: subTotal,
+        coupon: coupon?.code,
         couponDiscount: coupon?.discountAmount || 0,
         totalWeight: parseFloat(products?.reduce((acc, product) => {
           return acc + (product?.quantity * product?.weight) / 1000;
@@ -332,7 +334,7 @@ const Checkout = () => {
                     onClick={() => {
                       if (order?.distance) {
                         handleOrder();
-                        toast.success("Order created");
+                        // toast.success("Order created");
                         navigate("/profile/orders");
                       } else {
                         toast.error("Please select shipping address");
