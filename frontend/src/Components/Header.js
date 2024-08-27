@@ -148,15 +148,15 @@ const Header = () => {
                     <Link
                       to={"/admin/all-products"}
                       onClick={() => setShowUserMenu(!showuserMenu)}
-                      className="w-full border-b border-zinc-400 min-[320px]:flex justify-center font-semibold p-1 hover:text-red-500"
+                      className="w-full border-b border-zinc-400 flex justify-center font-semibold p-1 hover:text-red-500"
                     >
                       Admin
                     </Link>
                   )}
-
+                  
                   <Link
                     to={"/profile/cart"}
-                    className="flex items-center justify-center p-1 font-semibold hover:text-red-500"
+                    className="w-full flex items-center justify-center p-1 font-semibold hover:text-red-500"
                     onClick={() => {
                       setShowUserMenu(!showuserMenu);
                     }}

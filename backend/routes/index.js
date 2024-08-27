@@ -34,13 +34,16 @@ const getProductsProperties = require("../controller/categories/getProductsPrope
 const checkCoupon = require("../controller/orders/checkCoupon");
 const payment = require("../controller/orders/payment");
 const createOrder = require("../controller/orders/createOrder");
-const viewOrder = require("../controller/orders/viewOrder");
-const viewAllOrders = require("../controller/orders/viewAllOrders");
+const customerOrderDetails = require("../controller/orders/customerOrderDetails");
+const customerOrders = require("../controller/orders/customerOrders");
 const updateUserRole = require("../controller/users/updateUserRole");
 const forgotPassword = require("../controller/users/forgotPassword");
 const resetPassword = require("../controller/users/resetPassword");
-const adminAllOrders = require("../controller/orders/adminAllOrders");
-const adminViewOrder = require("../controller/orders/adminViewOrder");
+const allOrders = require("../controller/orders/allOrders");
+const subOrders = require("../controller/orders/subOrders");
+const suborderDetails = require("../controller/orders/suborderDetails");
+const updateOrderStatus = require("../controller/orders/updateOrderStatus");
+const updateSuborderStatus = require("../controller/orders/updateSuborderStatus");
 
 
 router.post("/signup", userSignUp);
@@ -66,9 +69,11 @@ router.post("/reply-to-review", authToken, replyToReview);
 router.post("/product-rating",  productRating);
 router.post("/create-payment-intent", payment);
 router.post("/create-order", authToken, createOrder);
-router.get("/view-order/:orderId", authToken, viewOrder);
-router.get("/view-all-orders", authToken, viewAllOrders);
+router.get("/customer-orders", authToken, customerOrders);
+router.get("/customer-order-details/:orderId", authToken, customerOrderDetails);
 router.post("/update-user", authToken, updateUser);
+
+
 // cloudinary
 router.post("/delete-media", authToken, deleteMedia);
 
@@ -84,7 +89,11 @@ router.post("/admin-product-details", authToken, adminProductDetails);
 router.get("/get-products-properties", authToken, getProductsProperties);
 router.post("/create-coupon", authToken, createCoupon);
 router.post("/check-coupon", authToken, checkCoupon);
-router.get("/admin-all-orders", authToken, adminAllOrders);
-router.get("/admin-view-order/:orderId", authToken, adminViewOrder);
+router.get("/all-orders", authToken, allOrders);
+router.get("/sub-orders/:orderId", authToken, subOrders);
+router.get("/suborder-details/:suborderId", authToken, suborderDetails);
+router.post("/update-order-status", authToken, updateOrderStatus);
+router.post("/update-suborder-status", authToken, updateSuborderStatus);
+
 
 module.exports = router;

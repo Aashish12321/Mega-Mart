@@ -17,8 +17,8 @@ const OrderDetails = () => {
   const { orderId } = useParams();
 
   const fetchOrder = useCallback(async () => {
-    let response = await fetch(SummaryApi.view_order.url + `/${orderId}`, {
-      method: SummaryApi.view_order.method,
+    let response = await fetch(SummaryApi.customer_order_details.url + `/${orderId}`, {
+      method: SummaryApi.customer_order_details.method,
       headers: {
         "content-type": "application/json",
         authorization: `${token}`,

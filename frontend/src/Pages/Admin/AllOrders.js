@@ -4,16 +4,25 @@ import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../Store/selector";
+import { MdEditSquare } from "react-icons/md";
+import OrderStatusUpdate from "../../Components/OrderStatusUpdate";
+import SuborderStatusUpdate from "../../Components/SuborderStatusUpdate";
 
 const AllOrders = () => {
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
+  const user = useSelector(selectUser);
+  const [showUpdateBox, setShowUpdateBox] = useState(false);
+  const [updateOrder, setUpdateOrder] = useState({});
+
 
   const fetchAllOrders = useCallback(async () => {
-    let response = await fetch(SummaryApi.view_all_orders.url, {
-      method: SummaryApi.view_all_orders.method,
+    let response = await fetch(SummaryApi.all_orders.url, {
+      method: SummaryApi.all_orders.method,
       headers: {
         "content-type": "application/json",
         authorization: `${token}`,
@@ -50,22 +59,31 @@ const AllOrders = () => {
             <thead className="w-full">
               <tr className="w-full md:text-lg text-gray-300">
                 <th>S.N.</th>
-                <th>ORDER</th>
+                <th>ORDER-ID</th>
                 <th>DATE</th>
                 <th>PAYMENT</th>
                 <th>STATUS</th>
+                <th>UPDATE</th>
               </tr>
             </thead>
             <tbody className="w-full">
               {orders?.map((order, index) => (
                 <tr
                   key={index}
-                  onClick={(e) => navigate(`order/${order?._id}`)}
-                  className="w-full select-none border-t-2 border-gray-500 hover:text-gray-300 cursor-pointer"
+                  className="w-full select-none border-t-2 border-gray-500"
                 >
                   <td className="text-center p-2">{index + 1}.</td>
-                  <td className="text-center p-2">
-                    <span className="w-full flex justify-center items-center">{order?._id}</span>
+                  <td
+                    onClick={() => {
+                      if (user?.role === "ADMIN")
+                        navigate(`${order?._id}/suborder`);
+                      else {
+                        navigate(`suborder/${order?._id}`);
+                      }
+                    }}
+                    className="text-center p-2 hover:text-gray-300 cursor-pointer"
+                  >
+                    {order?._id}
                   </td>
                   <td className="text-center p-2">
                     {moment(order?.createdAt).format("ll")}
@@ -98,6 +116,31 @@ const AllOrders = () => {
                       <i className="px-4 py-1 font-Roboto font-semibold bg-gray-200 text-gray-600 rounded-lg">
                         Cancelled
                       </i>
+                    )}
+                  </td>
+                  <td className="text-center p-2">
+                    <button
+                      onClick={() => {
+                        setUpdateOrder(order);
+                        setShowUpdateBox(true);
+                      }}
+                      className="text-green-400 text-2xl text-center mx-auto"
+                    >
+                      <MdEditSquare />
+                    </button>
+                    {user?.role === "VENDOR" && showUpdateBox && (
+                      <SuborderStatusUpdate
+                        suborder={updateOrder}
+                        onClose={() => setShowUpdateBox(false)}
+                        callFunc={fetchAllOrders}
+                      />
+                    )}
+                    {user?.role === "ADMIN" && showUpdateBox && (
+                      <OrderStatusUpdate
+                        order={updateOrder}
+                        onClose={() => setShowUpdateBox(false)}
+                        callFunc={fetchAllOrders}
+                      />
                     )}
                   </td>
                 </tr>

@@ -1,6 +1,6 @@
 const Order = require("../../models/Order");
 
-async function viewAllOrders(req, resp) {
+async function customerOrders(req, resp) {
   try {
     const userId = req.userId;
     const orders = await Order.find({user: userId}).sort({createdAt: -1});
@@ -22,4 +22,4 @@ async function viewAllOrders(req, resp) {
   }
 }
 
-module.exports = viewAllOrders;
+module.exports = customerOrders;

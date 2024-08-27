@@ -2,22 +2,21 @@ const Order = require("../../models/Order");
 const Suborder = require("../../models/SubOrder");
 const User = require("../../models/User");
 
-async function adminAllOrders(req, resp) {
+async function allOrders(req, resp) {
   try {
     const userId = req.userId;
     const user = await User.findById(userId);
     let orders = [];
     if (user?.role === "VENDOR") {
-      orders = await Suborder.find({seller: userId});
+      orders = await Suborder.find({seller: userId}).sort({ createdAt: -1 });
     }
     if (user?.role === "ADMIN") {
       orders = await Order.find().sort({ createdAt: -1 });
     }
-    // console.log(orders);
 
     if (orders) {
       resp.status(201).json({
-        message: "Vendor specific orders fetched successfully",
+        message: "Admin/Vendor specific orders fetched successfully",
         data: orders,
         success: true,
         error: false,
@@ -32,4 +31,4 @@ async function adminAllOrders(req, resp) {
   }
 }
 
-module.exports = adminAllOrders;
+module.exports = allOrders;

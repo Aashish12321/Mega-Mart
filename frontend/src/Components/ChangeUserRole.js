@@ -35,7 +35,7 @@ const ChangeUserRole = ({ updateEachUser, onClose, callFunc }) => {
     }
   };
   return (
-    <div className="fixed top-0 bottom-0 left-0 right-0 w-full h-full z-10 bg-slate-300 bg-opacity-50 flex justify-between items-center">
+    <div className="fixed top-0 bottom-0 left-0 right-0 w-full h-full z-10 text-white bg-slate-300 bg-opacity-50 flex justify-between items-center">
       <div className="mx-auto rounded-md bg-stone-600 p-4 w-full max-w-sm border-2 border-gray-300">
         <button onClick={onClose} className="text-lg ml-auto block">
           <FaRegWindowClose />

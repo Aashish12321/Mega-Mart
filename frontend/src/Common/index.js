@@ -137,21 +137,33 @@ const SummaryApi = {
         url: `/api/create-order`,
         method: 'post'
     },
-    view_all_orders : {
-        url: `/api/view-all-orders`,
+    customer_orders : {
+        url: `/api/customer-orders`,
         method: 'get'
     },
-    view_order : {
-        url: `/api/view-order`,
+    customer_order_details: {
+        url: `/api/customer-order-details`,
         method: 'get'
     },
-    admin_all_orders : {
-        url: `/api/admin-all-orders`,
+    all_orders : {
+        url: `/api/all-orders`,
         method: 'get'
     },
-    admin_view_order : {
-        url: `/api/admin-view-order`,
+    suborder_details : {
+        url: `/api/suborder-details`,
         method: 'get'
+    },
+    sub_orders : {
+        url: `/api/sub-orders`,
+        method: 'get'
+    },
+    update_order_status : {
+        url: `/api/update-order-status`,
+        method: 'post'
+    },
+    update_suborder_status : {
+        url: `/api/update-suborder-status`,
+        method: 'post'
     },
 }
 

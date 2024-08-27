@@ -8,17 +8,17 @@ import Spinner from "../../Components/Loaders/Spinner";
 import { Link, useParams } from "react-router-dom";
 import moment from "moment";
 
-const Order = () => {
+const SuborderDetails = () => {
   const [order, setOrder] = useState({});
   const token = localStorage.getItem("token");
   const [loading, setLoading] = useState(true);
   const [estimateDelivery, setEstimatedDelivery] = useState("");
 
-  const { orderId } = useParams();
+  const { suborderId } = useParams();
 
   const fetchOrder = useCallback(async () => {
-    let response = await fetch(SummaryApi.admin_view_order.url + `/${orderId}`, {
-      method: SummaryApi.admin_view_order.method,
+    let response = await fetch(SummaryApi.suborder_details.url + `/${suborderId}`, {
+      method: SummaryApi.suborder_details.method,
       headers: {
         "content-type": "application/json",
         authorization: `${token}`,
@@ -33,7 +33,7 @@ const Order = () => {
       toast.error(response.message);
       setLoading(false);
     }
-  }, [token, orderId]);
+  }, [token, suborderId]);
 
   useEffect(() => {
     fetchOrder();
@@ -50,7 +50,7 @@ const Order = () => {
   return (
     <div className="m-2 md:p-2">
       <div className="w-full text-xl md:text-2xl font-semibold px-2 py-1 mb-4 border-2 border-zinc-400 bg-stone-500 rounded-full select-none">
-        <span>Order</span>
+        <span>Suborder Details</span>
       </div>
       {loading ? (
         <Spinner />
@@ -58,7 +58,7 @@ const Order = () => {
         <div className="w-full p-2 my-2 bg-stone-700 border-2 border-zinc-400 rounded-xl">
           <div className="w-full flex flex-col md:flex-row justify-between gap-4">
             <div className="flex flex-col gap-4">
-              <i className="text-xl font-semibold">Order ID : #{order?._id}</i>
+              <i className="text-xl font-semibold">Suborder ID : #{order?._id}</i>
               <span className="text-lg font-semibold">
                 <i className="mr-2">Status :</i>
                 {order?.status === "Processing" ? (
@@ -197,15 +197,6 @@ const Order = () => {
               <span>{displayNepCurrency(order?.total)}</span>
             </div>
           </div>
-
-          <div className="flex justify-between mt-8">
-            <button className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-              Contact Support
-            </button>
-            <button className="px-6 py-3 bg-gray-300 text-black rounded-lg hover:bg-gray-400">
-              Return Policy
-            </button>
-          </div>
         </div>
       ) : (
         <div className="w-full text-xl p-2 text-center font-semibold flex justify-center items-center h-80 my-2 bg-stone-700 rounded-xl border-2 border-zinc-400">
@@ -216,4 +207,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default SuborderDetails;

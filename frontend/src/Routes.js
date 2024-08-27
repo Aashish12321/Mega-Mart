@@ -26,10 +26,11 @@ import UpdateProduct from "./Pages/Admin/UpdateProduct";
 import PaymentSuccess from "./Pages/PaymentSuccess";
 import OrderDetails from "./Pages/Customer/OrderDetails";
 import Profile from "./Pages/Customer/Profile";
-import AllOrders from "./Pages/Customer/AllOrders";
+import CustomerAllOrders from "./Pages/Customer/CustomerAllOrders";
 import Account from "./Pages/Customer/Account";
-import AdminOrders from "./Pages/Admin/AdminOrders";
-import Order from "./Pages/Admin/Order";
+import AllOrders from "./Pages/Admin/AllOrders";
+import SuborderDetails from "./Pages/Admin/SuborderDetails";
+import Suborders from "./Pages/Admin/Suborders";
 
 const router = createBrowserRouter([
   {
@@ -130,7 +131,7 @@ const router = createBrowserRouter([
           },
           {
             path: "orders",
-            element: <AllOrders />,
+            element: <CustomerAllOrders />,
           },
           {
             path: "orders/order/:orderId",
@@ -181,11 +182,19 @@ const router = createBrowserRouter([
           },
           {
             path: "all-orders",
-            element: <AdminOrders />,
+            element: <AllOrders />,
           },
           {
-            path: "all-orders/order/:orderId",
-            element: <Order />,
+            path: "all-orders/suborder/:suborderId",
+            element: <SuborderDetails />,
+          },
+          {
+            path: "all-orders/:orderId/suborder",
+            element: <Suborders />,
+          },
+          {
+            path: "all-orders/:orderId/suborder/:suborderId",
+            element: <SuborderDetails />,
           },
         ],
       },

@@ -12,6 +12,7 @@ const SuborderSchema = new mongoose.Schema(
       required: true,
       ref: "User",
     },
+    products: [],
     address: { type: String, required: true },
     payment: {
       method: { type: String, required: true },
@@ -32,7 +33,7 @@ const SuborderSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ["Processing", "Shipped"],
+      enum: ["Processing", "Completed"],
       default: "Processing",
     },
   },
