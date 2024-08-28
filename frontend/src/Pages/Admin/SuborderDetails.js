@@ -65,17 +65,9 @@ const SuborderDetails = () => {
                   <i className="px-4 py-1 font-Roboto font-semibold bg-orange-200 text-orange-600 rounded-lg">
                     Processing
                   </i>
-                ) : order?.status === "Shipped" ? (
-                  <i className="px-4 py-1 font-Roboto font-semibold bg-blue-200 text-blue-600 rounded-lg">
-                    Shipped
-                  </i>
-                ) : order?.status === "Delivered" ? (
-                  <i className="px-4 py-1 font-Roboto font-semibold bg-green-200 text-green-600 rounded-lg">
-                    Delivered
-                  </i>
                 ) : (
-                  <i className="px-4 py-1 font-Roboto font-semibold bg-gray-200 text-gray-600 rounded-lg">
-                    Cancelled
+                  <i className="px-4 py-1 font-Roboto font-semibold bg-blue-200 text-blue-600 rounded-lg">
+                    Completed
                   </i>
                 )}
               </span>

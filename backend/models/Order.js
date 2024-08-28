@@ -27,11 +27,6 @@ const orderSchema = new mongoose.Schema({
   couponDiscount: { type: Number, default: 0 },
   totalWeight: { type: Number, default: 0 },
   shippingCharge: { type: Number, required: true },
-  isDelivered: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
   deliveredAt: {
     type: Date,
   },

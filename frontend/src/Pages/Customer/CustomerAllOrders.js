@@ -60,7 +60,7 @@ const CustomerAllOrders = () => {
               {orders?.map((order, index) => (
                 <tr
                   key={index}
-                  onClick={(e) => navigate(`order/${order?._id}`)}
+                  onClick={(e) => navigate(`order/${order?._id}/details`)}
                   className="w-full select-none border-t-2 border-gray-500 hover:text-gray-300 cursor-pointer"
                 >
                   <td className="text-center p-2">{index + 1}.</td>

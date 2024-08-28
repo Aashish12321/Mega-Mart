@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FloatingInput from "../../Components/FloatingInput";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../Store/selector";
 import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Context from "../../Context";
 
 const genders = [
   { label: "Male", icon: "♂" },
@@ -17,6 +18,8 @@ const Account = () => {
   const [updatedUser, setUpdatedUser] = useState({});
   const [isChange, setIsChange] = useState(false);
   const navigate = useNavigate();
+  const context = useContext(Context);
+  const { fetchUserDetails } = context;
 
   useEffect(() => {
     if (currentUser) {
@@ -50,6 +53,7 @@ const Account = () => {
     response = await response.json();
     if (response.success) {
       toast.success(response.message);
+      fetchUserDetails();
       navigate("/profile/cart");
     } else {
       toast.error(response.message);
@@ -117,9 +121,10 @@ const Account = () => {
                     ? "bg-green-600 text-white"
                     : "bg-white text-green-500"
                 }`}
-                onClick={() =>
-                  setUpdatedUser({ ...updatedUser, gender: gender.label })
-                }
+                onClick={() => {
+                  setUpdatedUser({ ...updatedUser, gender: gender.label });
+                  setIsChange(true);
+                }}
               >
                 <div className="text-3xl">{gender.icon}</div>
                 <div className="mt-2 text-lg">{gender.label}</div>

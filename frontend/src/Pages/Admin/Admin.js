@@ -45,7 +45,7 @@ const Admin = () => {
             className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
           >
             <RiDashboardFill className="text-xl mt-0.5" />
-            <p className="active:text-red-500">Dashboard</p>
+            <p>Dashboard</p>
           </Link>
           <Link
             to={"users"}

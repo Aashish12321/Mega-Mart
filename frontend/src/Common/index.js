@@ -165,6 +165,10 @@ const SummaryApi = {
         url: `/api/update-suborder-status`,
         method: 'post'
     },
+    dashboard : {
+        url: `/api/dashboard`,
+        method: 'get'
+    },
 }
 
 export default SummaryApi;

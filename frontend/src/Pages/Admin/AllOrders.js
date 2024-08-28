@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import Spinner from "../../Components/Loaders/Spinner";
 import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../Store/selector";
@@ -14,11 +14,9 @@ const AllOrders = () => {
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
   const token = localStorage.getItem("token");
-  const navigate = useNavigate();
   const user = useSelector(selectUser);
   const [showUpdateBox, setShowUpdateBox] = useState(false);
   const [updateOrder, setUpdateOrder] = useState({});
-
 
   const fetchAllOrders = useCallback(async () => {
     let response = await fetch(SummaryApi.all_orders.url, {
@@ -73,17 +71,17 @@ const AllOrders = () => {
                   className="w-full select-none border-t-2 border-gray-500"
                 >
                   <td className="text-center p-2">{index + 1}.</td>
-                  <td
-                    onClick={() => {
-                      if (user?.role === "ADMIN")
-                        navigate(`${order?._id}/suborder`);
-                      else {
-                        navigate(`suborder/${order?._id}`);
+                  <td>
+                    <Link
+                      to={
+                        user?.role === "ADMIN"
+                          ? `${order?._id}/suborders`
+                          : `suborder/${order?._id}`
                       }
-                    }}
-                    className="text-center p-2 hover:text-gray-300 cursor-pointer"
-                  >
-                    {order?._id}
+                      className="text-center p-2 hover:text-gray-300 cursor-pointer"
+                    >
+                      {order?._id}
+                    </Link>
                   </td>
                   <td className="text-center p-2">
                     {moment(order?.createdAt).format("ll")}

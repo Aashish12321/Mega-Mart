@@ -61,6 +61,7 @@ const SuborderStatusUpdate = ({ suborder, onClose, callFunc }) => {
           <button
             onClick={updateStatus}
             className="bg-red-400 opacity-40 w-28 h-8 rounded-2xl shadow-sm shadow-white mx-auto block mt-2"
+            disabled
           >
             Update
           </button>

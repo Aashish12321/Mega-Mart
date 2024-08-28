@@ -44,6 +44,7 @@ const subOrders = require("../controller/orders/subOrders");
 const suborderDetails = require("../controller/orders/suborderDetails");
 const updateOrderStatus = require("../controller/orders/updateOrderStatus");
 const updateSuborderStatus = require("../controller/orders/updateSuborderStatus");
+const dashboard = require("../controller/dashboard/dashboard");
 
 
 router.post("/signup", userSignUp);
@@ -94,6 +95,6 @@ router.get("/sub-orders/:orderId", authToken, subOrders);
 router.get("/suborder-details/:suborderId", authToken, suborderDetails);
 router.post("/update-order-status", authToken, updateOrderStatus);
 router.post("/update-suborder-status", authToken, updateSuborderStatus);
-
+router.get("/dashboard", authToken, dashboard);
 
 module.exports = router;

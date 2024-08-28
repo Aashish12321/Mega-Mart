@@ -134,7 +134,7 @@ const router = createBrowserRouter([
             element: <CustomerAllOrders />,
           },
           {
-            path: "orders/order/:orderId",
+            path: "orders/order/:orderId/details",
             element: <OrderDetails />,
           },
         ],
@@ -189,12 +189,16 @@ const router = createBrowserRouter([
             element: <SuborderDetails />,
           },
           {
-            path: "all-orders/:orderId/suborder",
+            path: "all-orders/:orderId/suborders",
             element: <Suborders />,
           },
           {
-            path: "all-orders/:orderId/suborder/:suborderId",
+            path: "all-orders/:orderId/suborders/:suborderId/details",
             element: <SuborderDetails />,
+          },
+          {
+            path: "all-orders/:orderId/details",
+            element: <OrderDetails />,
           },
         ],
       },
