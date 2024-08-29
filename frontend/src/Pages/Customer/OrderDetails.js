@@ -17,13 +17,16 @@ const OrderDetails = () => {
   const { orderId } = useParams();
 
   const fetchOrder = useCallback(async () => {
-    let response = await fetch(SummaryApi.customer_order_details.url + `/${orderId}`, {
-      method: SummaryApi.customer_order_details.method,
-      headers: {
-        "content-type": "application/json",
-        authorization: `${token}`,
-      },
-    });
+    let response = await fetch(
+      SummaryApi.customer_order_details.url + `/${orderId}`,
+      {
+        method: SummaryApi.customer_order_details.method,
+        headers: {
+          "content-type": "application/json",
+          authorization: `${token}`,
+        },
+      }
+    );
 
     response = await response.json();
     if (response.success) {
@@ -69,14 +72,12 @@ const OrderDetails = () => {
                   <i className="px-4 py-1 font-Roboto font-semibold bg-blue-200 text-blue-600 rounded-lg">
                     Shipped
                   </i>
-                ) : order?.status === "Delivered" ? (
-                  <i className="px-4 py-1 font-Roboto font-semibold bg-green-200 text-green-600 rounded-lg">
-                    Delivered
-                  </i>
                 ) : (
-                  <i className="px-4 py-1 font-Roboto font-semibold bg-gray-200 text-gray-600 rounded-lg">
-                    Cancelled
-                  </i>
+                  order?.status === "Delivered" && (
+                    <i className="px-4 py-1 font-Roboto font-semibold bg-green-200 text-green-600 rounded-lg">
+                      Delivered
+                    </i>
+                  )
                 )}
               </span>
               <span className="flex flex-col w-full max-w-lg text-wrap">

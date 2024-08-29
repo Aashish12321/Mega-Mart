@@ -44,13 +44,16 @@ const subOrders = require("../controller/orders/subOrders");
 const suborderDetails = require("../controller/orders/suborderDetails");
 const updateOrderStatus = require("../controller/orders/updateOrderStatus");
 const updateSuborderStatus = require("../controller/orders/updateSuborderStatus");
-const dashboard = require("../controller/dashboard/dashboard");
+const adminDashboard = require("../controller/dashboard/adminDashboard");
+const vendorDashboard = require("../controller/dashboard/vendorDashboard");
+const searchProducts = require("../controller/products/searchProducts");
 
 
 router.post("/signup", userSignUp);
 router.post("/login", userLogin);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
+router.get("/search/:query", searchProducts);
 router.get("/user-details", authToken, userDetails);
 router.get("/get-products", getAllProducts);
 router.post("/productdetails", productDetails);
@@ -95,6 +98,7 @@ router.get("/sub-orders/:orderId", authToken, subOrders);
 router.get("/suborder-details/:suborderId", authToken, suborderDetails);
 router.post("/update-order-status", authToken, updateOrderStatus);
 router.post("/update-suborder-status", authToken, updateSuborderStatus);
-router.get("/dashboard", authToken, dashboard);
+router.get("/admin-dashboard", authToken, adminDashboard);
+router.get("/vendor-dashboard", authToken, vendorDashboard);
 
 module.exports = router;

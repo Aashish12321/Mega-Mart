@@ -1,5 +1,5 @@
 const Order = require("../../models/Order");
-const Suborder = require("../../models/SubOrder");
+const Suborder = require("../../models/Suborder");
 const User = require("../../models/User");
 
 async function allOrders(req, resp) {

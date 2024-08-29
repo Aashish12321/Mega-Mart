@@ -31,6 +31,7 @@ import Account from "./Pages/Customer/Account";
 import AllOrders from "./Pages/Admin/AllOrders";
 import SuborderDetails from "./Pages/Admin/SuborderDetails";
 import Suborders from "./Pages/Admin/Suborders";
+import SearchProduct from "./Pages/SearchProduct";
 
 const router = createBrowserRouter([
   {
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
       {
         path: "categories/:categoryName",
         element: <Categories />,
+      },
+      {
+        path: "search",
+        element: <SearchProduct />,
       },
       {
         path: "/product/:pid/:vid/add-review",

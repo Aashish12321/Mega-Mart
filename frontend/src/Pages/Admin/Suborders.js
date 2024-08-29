@@ -85,9 +85,9 @@ const Suborders = () => {
                   </td>
                   <td className="text-center p-2">{suborder?.seller?.name}</td>
                   <td className="text-center p-2">
-                    {suborder?.status === "Completed" ? (
+                    {suborder?.status === "Shipped" ? (
                       <i className="px-4 py-1 font-Roboto font-semibold bg-blue-200 text-blue-600 rounded-lg">
-                        Completed
+                        Shipped
                       </i>
                     ) : (
                       <i className="px-4 py-1 font-Roboto font-semibold bg-orange-200 text-orange-600 rounded-lg">

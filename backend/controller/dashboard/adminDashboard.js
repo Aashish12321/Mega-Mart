@@ -1,8 +1,7 @@
-const Favourite = require("../../models/Favourite");
 const User = require("../../models/User");
 const Order = require("../../models/Order");
 
-async function dashboard(req, resp) {
+async function adminDashboard(req, resp) {
   try {
     const now = new Date();
     const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
@@ -66,7 +65,7 @@ async function dashboard(req, resp) {
       {
         $group: {
           _id: { $dateToString: { format: "%Y-%m", date: "$createdAt" } },
-          totalSales: { $sum: "$total" },
+          totalSales: { $sum: "$subTotal" },
         },
       },
       {
@@ -107,4 +106,4 @@ async function dashboard(req, resp) {
   }
 }
 
-module.exports = dashboard;
+module.exports = adminDashboard;

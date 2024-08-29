@@ -2,11 +2,17 @@ const Order = require("../../models/Order");
 
 async function updateOrderStatus(req, resp) {
   try {
-    const { orderId, status } = req.body;
+    const { orderId, status, isPaid } = req.body;
+    let paidStatus = isPaid;
+    if (!isPaid){
+      if (status === "Delivered"){
+        paidStatus = true;
+      }
+    }
 
     const order = await Order.findByIdAndUpdate(
       orderId,
-      { $set: { status: status } },
+      { $set: { status: status, payment: { isPaid: paidStatus } } },
       { new: true }
     );
 

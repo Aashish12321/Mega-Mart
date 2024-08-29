@@ -57,7 +57,7 @@ const AllOrders = () => {
             <thead className="w-full">
               <tr className="w-full md:text-lg text-gray-300">
                 <th>S.N.</th>
-                <th>ORDER-ID</th>
+                <th>ORDERS</th>
                 <th>DATE</th>
                 <th>PAYMENT</th>
                 <th>STATUS</th>
@@ -106,13 +106,9 @@ const AllOrders = () => {
                       <i className="px-4 py-1 font-Roboto font-semibold bg-blue-200 text-blue-600 rounded-lg">
                         Shipped
                       </i>
-                    ) : order?.status === "Delivered" ? (
+                    ) : order?.status === "Delivered" && (
                       <i className="px-4 py-1 font-Roboto font-semibold bg-green-200 text-green-600 rounded-lg">
                         Delivered
-                      </i>
-                    ) : (
-                      <i className="px-4 py-1 font-Roboto font-semibold bg-gray-200 text-gray-600 rounded-lg">
-                        Cancelled
                       </i>
                     )}
                   </td>

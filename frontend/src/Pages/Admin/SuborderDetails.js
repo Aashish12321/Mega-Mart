@@ -61,13 +61,13 @@ const SuborderDetails = () => {
               <i className="text-xl font-semibold">Suborder ID : #{order?._id}</i>
               <span className="text-lg font-semibold">
                 <i className="mr-2">Status :</i>
-                {order?.status === "Processing" ? (
-                  <i className="px-4 py-1 font-Roboto font-semibold bg-orange-200 text-orange-600 rounded-lg">
-                    Processing
+                {order?.status === "Shipped" ? (
+                  <i className="px-4 py-1 font-Roboto font-semibold bg-blue-200 text-blue-600 rounded-lg">
+                    Shipped
                   </i>
                 ) : (
-                  <i className="px-4 py-1 font-Roboto font-semibold bg-blue-200 text-blue-600 rounded-lg">
-                    Completed
+                  <i className="px-4 py-1 font-Roboto font-semibold bg-orange-200 text-orange-600 rounded-lg">
+                    Processing
                   </i>
                 )}
               </span>

@@ -45,6 +45,10 @@ const SummaryApi = {
         url: `/api/get-products`,
         method: 'get'
     },
+    search_products : {
+        url: `/api/search`,
+        method: 'get'
+    },
     admin_product_details : {
         url: `/api/admin-product-details`,
         method: 'post'
@@ -165,8 +169,12 @@ const SummaryApi = {
         url: `/api/update-suborder-status`,
         method: 'post'
     },
-    dashboard : {
-        url: `/api/dashboard`,
+    admin_dashboard : {
+        url: `/api/admin-dashboard`,
+        method: 'get'
+    },
+    vendor_dashboard : {
+        url: `/api/vendor-dashboard`,
         method: 'get'
     },
 }

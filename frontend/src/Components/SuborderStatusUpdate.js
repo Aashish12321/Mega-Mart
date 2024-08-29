@@ -48,7 +48,7 @@ const SuborderStatusUpdate = ({ suborder, onClose, callFunc }) => {
             onChange={(e) => setStatus(e.target.value)}
             className="bg-gray-600 outline-none border px-4 py-1 rounded-full"
           >
-            {["Processing", "Completed"].map((el) => {
+            {["Processing", "Shipped"].map((el) => {
               return (
                 <option value={el} key={el}>
                   {el}

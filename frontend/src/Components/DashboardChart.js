@@ -15,10 +15,10 @@ ChartJS.register(
   Legend,
   BarElement,
   CategoryScale,
-  LinearScale,
+  LinearScale
 );
 
-const DashboardChart = ({salesData}) => {
+const DashboardChart = ({ salesData }) => {
   const labels = salesData?.map((item) => item._id);
   const data = salesData?.map((item) => item.totalSales);
 
@@ -28,9 +28,13 @@ const DashboardChart = ({salesData}) => {
       {
         label: "Monthly Sales",
         data,
-        fill: false,
-        borderColor: "rgba(75,192,192,1)",
-        tension: 0.1,
+        backgroundColor: "rgba(54, 162, 235, 0.6)",
+        borderColor: "rgba(54, 162, 235, 1)",
+        borderWidth: 2,
+        hoverBackgroundColor: "rgba(54, 162, 235, 0.8)",
+        hoverBorderColor: "rgba(54, 162, 235, 1)",
+        borderRadius: 5,
+        barPercentage: 0.5,
       },
     ],
   };

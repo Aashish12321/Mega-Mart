@@ -33,7 +33,7 @@ const SuborderSchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ["Processing", "Completed"],
+      enum: ["Processing", "Shipped"],
       default: "Processing",
     },
   },
@@ -42,6 +42,6 @@ const SuborderSchema = new mongoose.Schema(
   }
 );
 
-const Suborder = mongoose.model("Suborder", SuborderSchema);
+const Suborder = mongoose.models.Suborder || mongoose.model("Suborder", SuborderSchema);
 
 module.exports = Suborder;

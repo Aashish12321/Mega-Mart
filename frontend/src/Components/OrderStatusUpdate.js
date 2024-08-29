@@ -5,7 +5,8 @@ import { toast } from "react-toastify";
 
 const OrderStatusUpdate = ({ order, onClose, callFunc }) => {
   const [status, setStatus] = useState(order?.status);
-  const token = localStorage.getItem("token");  
+  let isPaid = order?.payment?.isPaid;
+  const token = localStorage.getItem("token");
 
   const updateStatus = async () => {
     let response = await fetch(SummaryApi.update_order_status.url, {
@@ -17,6 +18,7 @@ const OrderStatusUpdate = ({ order, onClose, callFunc }) => {
       body: JSON.stringify({
         orderId: order?._id,
         status: status,
+        isPaid: isPaid,
       }),
     });
 

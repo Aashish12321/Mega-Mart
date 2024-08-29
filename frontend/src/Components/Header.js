@@ -22,9 +22,16 @@ const Header = () => {
   const [expandSearch, setExpandSearch] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const user = useSelector(selectUser);
   const context = useContext(Context);
+
+  const handleSearch = () => {
+    if (searchQuery){
+      navigate(`/search?query=${searchQuery}`);
+    }
+  };
 
   const allCategory = useCallback(async () => {
     let fetchCategory = await fetch(SummaryApi.get_categories.url, {
@@ -54,15 +61,19 @@ const Header = () => {
             </Link>
           </div>
 
-          <div className="hidden sm:flex w-full sm:max-w-xs lg:max-w-md xl:max-w-lg 2xl:max-w-xl bg-slate-100 items-center rounded-lg cursor-pointer">
+          <div className="hidden sm:flex w-full sm:max-w-xs lg:max-w-md xl:max-w-lg 2xl:max-w-xl bg-slate-100 items-center rounded-lg">
             <input
               className="w-full bg-transparent outline-none h-9 pl-1 border-l-8 border-red-500 rounded-l-lg"
               type="text"
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                e.key === "Enter" && handleSearch();
+              }}
               placeholder="Search for product, brand and more..."
             />
-            <div className="h-9 w-9 p-2.5 text-white rounded-r-lg bg-red-500">
+            <button className="h-9 w-9 p-2.5 text-white rounded-r-lg bg-red-500">
               <GoSearch />
-            </div>
+            </button>
           </div>
 
           <div
@@ -153,7 +164,7 @@ const Header = () => {
                       Admin
                     </Link>
                   )}
-                  
+
                   <Link
                     to={"/profile/cart"}
                     className="w-full flex items-center justify-center p-1 font-semibold hover:text-red-500"

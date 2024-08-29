@@ -46,6 +46,36 @@ const ProductSchema = new mongoose.Schema(
   }
 );
 
+
+// assigning weight for prioritizing during search implementation.
+ProductSchema.index(
+  {
+    name: "text",
+    description: "text",
+    brand: "text",
+    category: "text",
+    subCategory: "text",
+    products: "text",
+  },
+  {
+    weights: {
+      name: 10,
+      description: 5,
+      brand: 2,
+      category: 1,
+      subCategory: 1,
+      products: 8,
+    },
+  }
+);
+
+ProductSchema.index({ name: 1 });
+ProductSchema.index({ products: 1 });
+ProductSchema.index({ description: 1 });
+ProductSchema.index({ brand: 1 });
+ProductSchema.index({ category: 1 });
+ProductSchema.index({ subCategory: 1 });
+
 const Product = mongoose.model("Product", ProductSchema);
 
 module.exports = Product;
