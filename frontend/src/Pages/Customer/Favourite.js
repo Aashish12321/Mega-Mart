@@ -43,14 +43,14 @@ const Favourite = () => {
       </div>
 
       <div className="bg-stone-500 rounded-xl border-2 border-zinc-400">
-      {favouriteProducts?.length === 0 ? (
+      {loading ? (
+        <VPLoader />
+      ) : favouriteProducts?.length === 0 ? (
         <div className="w-full text-lg xl:text-2xl p-2 font-semibold flex justify-center items-center text-center h-80 bg-stone-700 rounded-xl">
           Looks like you have not added products so far ! <br /> Browse our collections and add something you wish to buy.
         </div>
-      ) : loading ? (
-        <VPLoader />
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  p-2 lg:p-4 gap-4 lg:gap-8 h-[calc(100vh-100px)] overflow-auto no-scrollbar">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 p-2 lg:p-4 gap-4 lg:gap-8">
           {products?.map((product, _) =>
             product?.variants?.map((variant, vindex) => (
               <VerticalProductCard

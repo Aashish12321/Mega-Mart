@@ -47,7 +47,6 @@ const ProductSchema = new mongoose.Schema(
 );
 
 
-// assigning weight for prioritizing during search implementation.
 ProductSchema.index(
   {
     name: "text",
@@ -56,11 +55,13 @@ ProductSchema.index(
     category: "text",
     subCategory: "text",
     products: "text",
+    price: { sell: "number" },  
   },
   {
     weights: {
       name: 10,
       description: 5,
+      price: { sell: 5 },
       brand: 2,
       category: 1,
       subCategory: 1,
@@ -68,13 +69,14 @@ ProductSchema.index(
     },
   }
 );
-
+// 1 means ascending.
 ProductSchema.index({ name: 1 });
 ProductSchema.index({ products: 1 });
 ProductSchema.index({ description: 1 });
 ProductSchema.index({ brand: 1 });
 ProductSchema.index({ category: 1 });
 ProductSchema.index({ subCategory: 1 });
+ProductSchema.index({ price: { sell: 1 } });
 
 const Product = mongoose.model("Product", ProductSchema);
 

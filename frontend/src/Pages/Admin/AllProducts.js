@@ -33,7 +33,7 @@ const AllProducts = () => {
         {loader ? (
           <VPLoader />
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 p-2 lg:p-4 gap-4 lg:gap-8 h-[calc(100vh-100px)] overflow-auto no-scrollbar">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 p-2 lg:p-4 gap-4 lg:gap-8">
             {products.map((product) =>
               product.variants.map((variant, variantIndex) => (
                 <AdminProductCard

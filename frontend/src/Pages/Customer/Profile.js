@@ -28,7 +28,7 @@ const Profile = () => {
   return (
     <div className="flex relative justify-between text-white">
       <aside
-        className={`fixed md:sticky flex flex-col transition-transform duration-500 ease-in-out md:transition-none ${
+        className={`fixed md:sticky top-12 2xl:top-16 h-full flex flex-col transition-transform duration-500 ease-in-out md:transition-none ${
           showProfileMenu
             ? "translate-x-0"
             : "-translate-x-full md:translate-x-0"
