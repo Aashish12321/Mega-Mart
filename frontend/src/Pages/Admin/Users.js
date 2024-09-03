@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
 import moment from "moment";
-import { MdDelete, MdEditSquare } from "react-icons/md";
+import { MdEditSquare } from "react-icons/md";
 import ChangeUserRole from "../../Components/ChangeUserRole";
 import Spinner from "../../Components/Loaders/Spinner";
 
@@ -85,7 +85,7 @@ const Users = () => {
                 <th>Role</th>
                 <th>Email</th>
                 <th>Created Date</th>
-                <th>Actions</th>
+                <th>Update</th>
               </tr>
             </thead>
             <tbody className="w-full bg-stone-700">
@@ -108,9 +108,6 @@ const Users = () => {
                       className="text-green-400 text-2xl text-center mx-auto"
                     >
                       <MdEditSquare />
-                    </button>
-                    <button className="text-red-600 text-2xl text-center mx-auto">
-                      <MdDelete />
                     </button>
                   </td>
                 </tr>

@@ -32,6 +32,8 @@ import AllOrders from "./Pages/Admin/AllOrders";
 import SuborderDetails from "./Pages/Admin/SuborderDetails";
 import Suborders from "./Pages/Admin/Suborders";
 import SearchProduct from "./Pages/SearchProduct";
+import CatgwiseSearch from "./Pages/CatgwiseSearch";
+import Coupons from "./Pages/Customer/Coupons";
 
 const router = createBrowserRouter([
   {
@@ -87,6 +89,10 @@ const router = createBrowserRouter([
         element: <SearchProduct />,
       },
       {
+        path: "/:category/:subCategory/:product",
+        element: <CatgwiseSearch />,
+      },
+      {
         path: "/product/:pid/:vid/add-review",
         element: (
           <ProtectedRoute>
@@ -133,6 +139,10 @@ const router = createBrowserRouter([
           {
             path: "favourites",
             element: <Favourite />,
+          },
+          {
+            path: "coupons",
+            element: <Coupons />,
           },
           {
             path: "orders",

@@ -3,13 +3,19 @@ import { useSelector } from "react-redux";
 import { selectCategories, selectUser } from "../Store/selector";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const CategoriesList = ({ showCategorySidebar, setShowCategorySidebar }) => {
   const user = useSelector(selectUser);
   const categories = useSelector(selectCategories);
   const [catg, setCatg] = useState("");
   const [subCatgs, setSubCatgs] = useState("");
-  // const [prods, setProds] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (category, subCategory, product) => {
+    navigate(`/${category}/${subCategory}/${product}`);
+    setShowCategorySidebar(false);
+  };
 
   useEffect(() => {
     !showCategorySidebar && setCatg("");
@@ -75,7 +81,13 @@ const CategoriesList = ({ showCategorySidebar, setShowCategorySidebar }) => {
                               <div className="flex">
                                 <div
                                   key={pindex}
-                                  // onClick={() => setProds(product.name)}
+                                  onClick={() =>
+                                    handleSearch(
+                                      category?.name,
+                                      subCategory?.name,
+                                      product?.name
+                                    )
+                                  }
                                   className="flex w-full bg-gray-200 text-start hover:bg-gray-300 hover:font-semibold p-3 justify-between cursor-pointer"
                                 >
                                   <div>{product.name}</div>

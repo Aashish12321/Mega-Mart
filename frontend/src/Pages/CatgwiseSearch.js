@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import SummaryApi from "../Common";
 import { toast } from "react-toastify";
 import VPLoader from "../Components/Loaders/VPLoader";
 import VerticalProductCard from "../Components/VerticalProductCard";
 
-const SearchProduct = () => {
-  const location = useLocation();
-  const query = new URLSearchParams(location?.search).get("query");
+const CatgwiseSearch = () => {
+  const { product } = useParams();
 
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,8 +31,8 @@ const SearchProduct = () => {
   };
 
   const handleSearchQuery = useCallback(async () => {
-    let response = await fetch(SummaryApi.search_products.url + `/${query}`, {
-      method: SummaryApi.search_products.method,
+    let response = await fetch(SummaryApi.search_by_catg.url + `/${product}`, {
+      method: SummaryApi.search_by_catg.method,
       headers: {
         "content-type": "application/json",
       },
@@ -46,7 +45,7 @@ const SearchProduct = () => {
       toast.error(response.message);
       setLoading(false);
     }
-  }, [query]);
+  }, [product]);
 
   useEffect(() => {
     handleSearchQuery();
@@ -137,7 +136,7 @@ const SearchProduct = () => {
       </div>
 
       <div className="w-full p-1 mt-2 sm:mt-0 sm:p-4">
-        <div className="w-full flex justify-between items-center pl-2 mb-4 border-2 border-zinc-400 bg-stone-500 rounded-full select-none">
+      <div className="w-full flex justify-between items-center pl-2 mb-4 border-2 border-zinc-400 bg-stone-500 rounded-full select-none">
           <span className="text-xl md:text-2xl font-semibold py-1">
             Search Result :{" "}
             {result?.reduce((acc, product) => {
@@ -182,4 +181,4 @@ const SearchProduct = () => {
   );
 };
 
-export default SearchProduct;
+export default CatgwiseSearch;

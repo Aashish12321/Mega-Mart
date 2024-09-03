@@ -159,7 +159,7 @@ const ProductDetails = () => {
   }, [product, vid, specId, favouriteProducts, cartProducts]);
 
   return (
-    <div className="w-full pt-1.5 lg:px-2 text-white">
+    <div className="w-full lg:px-2 text-white">
       {loading ? (
         <Spinner />
       ) : (
@@ -180,12 +180,12 @@ const ProductDetails = () => {
                               key={imgindex}
                               onLoad={() => setLargeImage(variant.images[0])}
                               onClick={() => setLargeImage(image)}
-                              className="hidden lg:flex w-full max-w-32 justify-center object-contain cursor-pointer bg-zinc-800 border-2 border-transparent hover:border-green-500"
+                              className="hidden lg:flex w-full max-w-32 justify-center cursor-pointer bg-zinc-800 border-2 border-transparent hover:border-green-500"
                             >
                               <img
                                 src={image}
                                 alt={`images ${imgindex + 1}.webp`}
-                                className="max-h-32"
+                                className="max-h-32 object-contain"
                               />
                             </div>
                           ))}
@@ -235,7 +235,7 @@ const ProductDetails = () => {
                           <img
                             src={variant.images[currentImgIndex]}
                             alt={`images ${currentImgIndex + 1}.webp`}
-                            className="max-h-80"
+                            className="h-80"
                           />
                         </div>
 

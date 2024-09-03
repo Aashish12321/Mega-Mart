@@ -13,6 +13,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useSelector } from "react-redux";
 import { selectUser } from "../Store/selector";
 import MapComponent from "../Components/MapComponent";
+import addToCart from "../helpers/addToCart";
 const stripepromise = loadStripe(
   "pk_test_51PoJ9AEYPKZSSLXyZmNGBuLcc7NrlQHHB8HwaGS5QyKs9xN347cCZPPDMy92ANbMYyDw50eb7uSXXbAdLNpRKPPi00ZoB21PMn"
 );
@@ -22,7 +23,7 @@ const Checkout = () => {
   const [loading, setLoading] = useState(true);
   const [couponCode, setCouponCode] = useState("");
   const [coupon, setCoupon] = useState({});
-  const { cartProducts } = context;
+  const { cartProducts, fetchCartProducts } = context;
   const user = useSelector(selectUser);
   const navigate = useNavigate();
 
@@ -86,6 +87,13 @@ const Checkout = () => {
     }
   }, [token]);
 
+  const removeProductFromCart = async (e) => {
+    cartProducts?.forEach((cartProduct) => {
+      addToCart(e, cartProduct?.productId, cartProduct?.variantId, cartProduct?.specId);
+    })
+    fetchCartProducts();
+  };
+
   useEffect(() => {
     fetchcartProductsDetails();
   }, [fetchcartProductsDetails]);
@@ -118,6 +126,7 @@ const Checkout = () => {
     response = await response.json();
     if (response.success) {
       toast.success(response.message);
+      removeProductFromCart();
     } else {
       toast.error(response.message);
     }
@@ -131,9 +140,11 @@ const Checkout = () => {
         subTotal: subTotal,
         coupon: coupon?.code,
         couponDiscount: coupon?.discountAmount || 0,
-        totalWeight: parseFloat(products?.reduce((acc, product) => {
-          return acc + (product?.quantity * product?.weight) / 1000;
-        }, 0)).toFixed(3),
+        totalWeight: parseFloat(
+          products?.reduce((acc, product) => {
+            return acc + (product?.quantity * product?.weight) / 1000;
+          }, 0)
+        ).toFixed(3),
         total: total + prev?.shippingCharge,
       }));
     }
@@ -141,7 +152,7 @@ const Checkout = () => {
 
   return (
     <div className="w-full p-1 md:p-4 xl:px-12 xl:py-4 text-white">
-      <div className="w-full text-xl lg:text-2xl mb-4 p-1 font-semibold text-center border-2 border-stone-400 bg-zinc-700">
+      <div className="w-full text-xl lg:text-2xl mb-4 p-1 font-semibold text-center border-2 border-stone-400 bg-stone-500">
         Products Checkout
       </div>
       {cartProducts?.length > 0 ? (
@@ -160,7 +171,15 @@ const Checkout = () => {
                   </div>
                 </div>
                 <div className="p-1">
-                  <span className="text-xl font-semibold">Contact Info</span>
+                  <div className="flex w-full justify-between items-center">
+                    <span className="text-xl font-semibold">Contact Info</span>
+                    <Link
+                      to={`/profile/account`}
+                      className="w-full max-w-24 p-1 text-center rounded-full bg-green-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+                    >
+                      Change
+                    </Link>
+                  </div>
                   <div className="my-2 border-2 p-1 border-zinc-500">
                     <span className="text-md font-semibold">
                       Mobile Number *
@@ -324,7 +343,7 @@ const Checkout = () => {
                   </div>
                 )}
                 <div className="w-full flex justify-between font-semibold py-1 border-zinc-500">
-                  <span>Total {order?.distance}, {order?.totalWeight}</span>
+                  <span>Total</span>
                   <span>{displayNepCurrency(order?.total)}</span>
                 </div>
               </div>

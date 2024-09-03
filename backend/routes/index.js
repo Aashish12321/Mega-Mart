@@ -47,6 +47,8 @@ const updateSuborderStatus = require("../controller/orders/updateSuborderStatus"
 const adminDashboard = require("../controller/dashboard/adminDashboard");
 const vendorDashboard = require("../controller/dashboard/vendorDashboard");
 const searchProducts = require("../controller/products/searchProducts");
+const searchByCatg = require("../controller/products/searchByCatg");
+const getCoupons = require("../controller/orders/getCoupons");
 
 
 router.post("/signup", userSignUp);
@@ -54,6 +56,7 @@ router.post("/login", userLogin);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
 router.get("/search/:query", searchProducts);
+router.get("/search-by-catg/:product", searchByCatg);
 router.get("/user-details", authToken, userDetails);
 router.get("/get-products", getAllProducts);
 router.post("/productdetails", productDetails);
@@ -76,6 +79,7 @@ router.post("/create-order", authToken, createOrder);
 router.get("/customer-orders", authToken, customerOrders);
 router.get("/customer-order-details/:orderId", authToken, customerOrderDetails);
 router.post("/update-user", authToken, updateUser);
+router.get("/get-customer-coupons", authToken, getCoupons);
 
 
 // cloudinary

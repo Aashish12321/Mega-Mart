@@ -28,8 +28,9 @@ const Header = () => {
   const context = useContext(Context);
 
   const handleSearch = () => {
-    if (searchQuery){
-      navigate(`/search?query=${searchQuery}`);
+    const query = searchQuery.trim();
+    if (query) {
+      navigate(`/search?query=${query}`);
     }
   };
 
@@ -71,7 +72,10 @@ const Header = () => {
               }}
               placeholder="Search for product, brand and more..."
             />
-            <button className="h-9 w-9 p-2.5 text-white rounded-r-lg bg-red-500">
+            <button
+              onClick={handleSearch}
+              className="h-9 w-9 p-2.5 text-white rounded-r-lg bg-red-500"
+            >
               <GoSearch />
             </button>
           </div>
@@ -95,9 +99,14 @@ const Header = () => {
                 <input
                   className="w-full bg-transparent outline-none h-12 pl-1 border-l-8 border-red-500 rounded-l-lg"
                   type="text"
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    e.key === "Enter" && handleSearch();
+                  }}
                   placeholder="Search for product, brand and more..."
                 />
                 <div
+                  onClick={handleSearch}
                   className={`w-12 p-3.5  rounded-r-lg text-xl text-white bg-red-500 cursor-pointer`}
                 >
                   <GoSearch />
@@ -152,6 +161,9 @@ const Header = () => {
               )}
               {showuserMenu && (
                 <div
+                  onMouseLeave={() => {
+                    setShowUserMenu(false);
+                  }}
                   className={`absolute mt-12 lg:mt-[51px] xl:mt-14 flex flex-col items-center w-28 border rounded-b-lg border-t-0 border-zinc-400 bg-stone-200 text-stone-700`}
                 >
                   <MdArrowDropUp className="absolute text-4xl text-stone-200 -my-5 text-center" />
@@ -167,7 +179,7 @@ const Header = () => {
 
                   <Link
                     to={"/profile/cart"}
-                    className="w-full flex items-center justify-center p-1 font-semibold hover:text-red-500"
+                    className={`w-full flex items-center justify-center p-1 ${user?.role === role.general && "py-2"} font-semibold hover:text-red-500`}
                     onClick={() => {
                       setShowUserMenu(!showuserMenu);
                     }}

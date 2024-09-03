@@ -6,6 +6,8 @@ import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Context from "../../Context";
+import logo from "../../Assets/loginIcon.gif";
+import imageTobase64 from "../../helpers/imageTobase64";
 
 const genders = [
   { label: "Male", icon: "♂" },
@@ -20,6 +22,14 @@ const Account = () => {
   const navigate = useNavigate();
   const context = useContext(Context);
   const { fetchUserDetails } = context;
+
+  const handlePicUpload = async (e) => {
+    const file = e.target.files[0];
+    const imagePic = await imageTobase64(file); 
+    setIsChange(true);
+    
+    setUpdatedUser({...updatedUser, profilePic: imagePic})
+  };
 
   useEffect(() => {
     if (currentUser) {
@@ -71,10 +81,24 @@ const Account = () => {
         </div>
 
         <div className="w-full flex flex-col gap-8 px-4 py-4 bg-stone-700 rounded-xl border-2 border-zinc-400">
+          <div className="w-24 mx-auto mt-2 overflow-hidden rounded-full cursor-pointer">
+            <img src={updatedUser?.profilePic || logo} alt="logo" />
+            <div className="text-xs bg-slate-500 text-white pb-4 pt-2 text-center -mt-10">
+              <input
+                type="file"
+                name="profilePic"
+                id="fileInput"
+                className="hidden overflow-auto"
+                onChange={handlePicUpload}
+              />
+              <label htmlFor="fileInput">Upload</label>
+            </div>
+          </div>
           <span className="text-lg font-semibold border-b-2 border-zinc-400">
             Personal Information
           </span>
-          <div className="w-full">
+
+          <div className="w-full flex justify-between items-center gap-8">
             <FloatingInput
               label="Full Name"
               user={updatedUser?.name}

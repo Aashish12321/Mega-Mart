@@ -3,7 +3,6 @@ const Product = require("../../models/Product");
 async function productDetails(req, resp) {
   try {
     const { pid } = req.body;
-    // console.log(pid);
     const productDetails = await Product.findById(pid).select(
       "-timestamps -updatedAt -customerReviews -price.cost -ratings -__v"
     );

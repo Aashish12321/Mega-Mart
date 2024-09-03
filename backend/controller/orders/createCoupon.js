@@ -15,6 +15,11 @@ async function createCoupon(req, resp) {
       applicableUsers,
     } = req.body;
 
+    const isCouponExist = await Coupon.findOne({code: code});
+    if (isCouponExist){
+      throw new Error("Coupon code already exists. Please choose another code.");
+    }
+
     let newCoupon = new Coupon({
       code,
       discount,

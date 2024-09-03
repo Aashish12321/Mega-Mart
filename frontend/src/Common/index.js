@@ -1,4 +1,3 @@
-// const backendDomain = "http://localhost:7000"
 
 const SummaryApi = {
     signup : {
@@ -47,6 +46,10 @@ const SummaryApi = {
     },
     search_products : {
         url: `/api/search`,
+        method: 'get'
+    },
+    search_by_catg : {
+        url: `/api/search-by-catg`,
         method: 'get'
     },
     admin_product_details : {
@@ -175,6 +178,10 @@ const SummaryApi = {
     },
     vendor_dashboard : {
         url: `/api/vendor-dashboard`,
+        method: 'get'
+    },
+    get_customer_coupons : {
+        url: `/api/get-customer-coupons`,
         method: 'get'
     },
 }

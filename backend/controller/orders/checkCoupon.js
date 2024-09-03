@@ -1,5 +1,5 @@
 const Coupon = require("../../models/Coupon");
-const Cart = require("../../models/Cart");
+const Order = require("../../models/Order");
 
 async function checkCoupon(req, resp) {
   try {
@@ -7,14 +7,14 @@ async function checkCoupon(req, resp) {
     const { couponCode, products, cartProducts } = req.body;
     const currentDate = new Date();
 
-    const user = await Cart.findOne({ userId: userId }); // replace cart by order model.
+    const isCouponUsed = await Order.findOne({ user: userId, coupon: couponCode });
     const coupon = await Coupon.findOne({ code: couponCode });
     let calculatedDiscount = 0;
     let isCouponValid = false;
 
     if (coupon) {
       if (coupon?.isActive && currentDate < coupon?.validUntil) {
-        if (user) {
+        if (!isCouponUsed) {
           if (coupon?.applicableProductId) {
             isCouponValid = products.some(
               (product) =>

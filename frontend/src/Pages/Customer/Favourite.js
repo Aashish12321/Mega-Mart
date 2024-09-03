@@ -30,7 +30,7 @@ const Favourite = () => {
   }, [token]);
 
   useEffect(() => {
-    if (favouriteProducts?.length > 0) {
+    if (favouriteProducts) {
       fetchFavouriteProductsDetails();
     }
   }, [favouriteProducts, fetchFavouriteProductsDetails]);
