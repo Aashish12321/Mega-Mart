@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Suborder = require("../../models/SubOrder");
+const Suborder = require("../../models/Suborder");
 
 async function suborderDetails(req, resp) {
   try {

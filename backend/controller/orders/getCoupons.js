@@ -1,5 +1,3 @@
-const { default: mongoose } = require("mongoose");
-const User = require("../../models/User");
 const Coupon = require("../../models/Coupon");
 const Order = require("../../models/Order");
 

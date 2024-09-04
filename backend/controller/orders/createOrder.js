@@ -1,6 +1,6 @@
 const Order = require("../../models/Order");
 const Coupon = require("../../models/Coupon");
-const SubOrder = require("../../models/SubOrder");
+const Suborder = require("../../models/Suborder");
 
 async function createOrder(req, resp) {
   try {
@@ -53,7 +53,7 @@ async function createOrder(req, resp) {
     });
 
     subOrders.forEach(async (subOrder) => {
-      let saveSubOrder = new SubOrder(subOrder);
+      let saveSubOrder = new Suborder(subOrder);
       saveSubOrder = await saveSubOrder.save();
     });
 

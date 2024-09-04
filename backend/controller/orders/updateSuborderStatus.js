@@ -1,4 +1,4 @@
-const Suborder = require("../../models/SubOrder");
+const Suborder = require("../../models/Suborder");
 
 async function updateSuborderStatus(req, resp) {
   try {
