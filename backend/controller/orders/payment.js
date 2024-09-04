@@ -5,9 +5,10 @@ const stripe = require("stripe")(
 async function payment(req, resp) {
   try {
     const { total } = req.body;
+    const totalAmountInPaisa = total * 100;
 
     let paymentIntent = await stripe.paymentIntents.create({
-      amount: total,
+      amount: totalAmountInPaisa,     // amount should be in smallest unit of that currency("paisa" for npr currency).
       currency: "npr",
       automatic_payment_methods: {
         enabled: true,

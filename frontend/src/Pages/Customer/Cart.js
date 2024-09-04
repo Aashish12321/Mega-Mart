@@ -22,6 +22,12 @@ const Cart = () => {
     let spec = variant?.specs?.find((spec) => spec?._id === sid);
     let result = quantity > 0 && quantity <= spec?.stock;
     // console.log("data are: ", product, variant, spec, quantity, result);
+    if (quantity === 0) {
+      toast.info("Minimum quantity must be 1.")
+    } 
+    if (quantity > spec?.stock) {
+      toast.info("We have limited stock for the requested quantity");
+    }
     return result;
   };
 
@@ -87,7 +93,7 @@ const Cart = () => {
       </div>
 
       {cartProducts?.length === 0 ? (
-        <div className="w-full text-xl p-2 text-center font-semibold flex justify-center items-center h-80 my-2 bg-stone-700 rounded-xl border-2 border-zinc-400">
+        <div className="w-full text-lg xl:text-xl p-2 text-center font-semibold flex justify-center items-center h-80 my-2 bg-stone-700 rounded-xl border-2 border-zinc-400">
           No treasures here yet ! <br /> Browse our collections and add
           something delightful to your cart {":)"}
         </div>

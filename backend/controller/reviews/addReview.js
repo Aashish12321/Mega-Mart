@@ -1,4 +1,4 @@
-const Cart = require("../../models/Cart");
+const Order = require("../../models/Order");
 const Review = require("../../models/Review");
 
 async function addReview(req, resp) {
@@ -6,7 +6,7 @@ async function addReview(req, resp) {
     const userId = req.userId;
     const { productId } = req.body;
 
-    const order = await Cart.findOne({ userId: userId, productId: productId });
+    const order = await Order.exists({ user: userId, "products._id": productId });
 
     let payload = {
       ...req.body,

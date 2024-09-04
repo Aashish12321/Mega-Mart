@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import displayNepCurrency from "../helpers/displayNepCurrency";
 import StarRating from "./StarRating";
 import { FaCartShopping } from "react-icons/fa6";
@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import addToCart from "../helpers/addToCart";
 import addToFavourite from "../helpers/addToFavourite";
 import Context from "../Context";
+import productRating from "../helpers/productRating";
 
 const ProductCard = ({ product, variant }) => {
   const context = useContext(Context);
@@ -19,6 +20,7 @@ const ProductCard = ({ product, variant }) => {
 
   const [isFavourite, setIsFavourite] = useState(false);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
+  const [reviewMetrics, setReviewMetrics] = useState({});
 
   const handleProductToCart = async (e) => {
     await addToCart(e, product?._id, variant?._id, variant?.specs[0]?._id);
@@ -29,6 +31,15 @@ const ProductCard = ({ product, variant }) => {
     await addToFavourite(e, product?._id, variant?._id);
     fetchFavouriteProducts();
   };
+
+  const fetchReviewMatrices = useCallback(async () => {
+    const data = await productRating(product?._id);
+    setReviewMetrics(data);
+  }, [product]);
+
+  useEffect(() => {
+    fetchReviewMatrices();
+  },[fetchReviewMatrices]);
 
   useEffect(() => {
     const isProductInCart = cartProducts?.some(
@@ -66,12 +77,8 @@ const ProductCard = ({ product, variant }) => {
           <div className="mx-2">
             <h1 className="text-ellipsis line-clamp-2">{product?.name}</h1>
             <div className="flex gap-1 md:gap-2">
-              {/* <StarRating rating={product.ratings.average} /> */}
-              {/* <span className="mt-0.5">{product.ratings.average}/5 ({product.ratings.total})</span> */}
-              <StarRating rating={4.5} dimension={"13px"} />
-              {/* <span className="mt-0.5 font-light">
-              {4.5}/5({50})
-            </span> */}
+              <StarRating rating={reviewMetrics?.avgRating} dimension={"13px"} />
+              {/* <span className="mt-0.5">{reviewMetrics?.avgRating}/5 ({reviewMetrics?.ratingCount})</span> */}
             </div>
 
             <div className="flex justify-between">

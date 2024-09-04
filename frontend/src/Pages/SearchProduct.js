@@ -82,7 +82,7 @@ const SearchProduct = () => {
 
   return (
     <div className="w-full flex justify-between text-white">
-      <div
+      <aside
         className={`fixed md:sticky top-12 2xl:top-16 h-full flex flex-col transition-transform duration-500 ease-in-out md:transition-none ${
           showProfileMenu
             ? "translate-x-0"
@@ -134,9 +134,12 @@ const SearchProduct = () => {
             </select>
           </div>
         </form>
-      </div>
+      </aside>
 
-      <div className="w-full p-1 mt-2 sm:mt-0 sm:p-4">
+      <div
+        onMouseDown={() => setShowProfileMenu(false)}
+        className="w-full p-1 mt-2 sm:mt-0 sm:p-4"
+      >
         <div className="w-full flex justify-between items-center pl-2 mb-4 border-2 border-zinc-400 bg-stone-500 rounded-full select-none">
           <span className="text-xl md:text-2xl font-semibold py-1">
             Search Result :{" "}

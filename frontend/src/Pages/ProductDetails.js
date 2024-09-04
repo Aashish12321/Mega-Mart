@@ -19,6 +19,7 @@ import Context from "../Context";
 import ProductReviews from "../Components/ProductReviews";
 import productRating from "../helpers/productRating";
 import RecommendedProducts from "../Components/RecommendedProducts";
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const [product, setProduct] = useState({
@@ -218,7 +219,14 @@ const ProductDetails = () => {
                               {isAddedToCart ? "Added" : "Add to Cart "}
                               <FaCartShopping />
                             </button>
-                            <button className="flex w-full p-2 gap-2 justify-center items-center bg-yellow-600 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
+                            <button
+                              onClick={() => {
+                                toast.info(
+                                  "Buy now is under development. Please go through add to cart method"
+                                );
+                              }}
+                              className="flex w-full p-2 gap-2 justify-center items-center bg-yellow-600 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+                            >
                               Buy Now <GiElectric />
                             </button>
                           </div>
@@ -415,7 +423,7 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          <div className="mt-2 md:mx-6">
+          <div className="mt-2 md:mx-6 ">
             <RecommendedProducts
               vid={vid}
               category={`${product?.products}`}

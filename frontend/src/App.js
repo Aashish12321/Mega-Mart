@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./App.css";
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import SummaryApi from "./Common";
@@ -21,6 +21,11 @@ const App = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const [favouriteProducts, setFavouriteProducts] = useState([]);
   const token = localStorage.getItem("token");
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   const fetchUserDetails = useCallback(async () => {
     let currentUserData = await fetch(SummaryApi.current_user.url, {

@@ -37,7 +37,7 @@ const Profile = () => {
         <div className="w-full pt-6 pb-2 rounded-lg text-white">
           {user?.profilePic ? (
             <img
-              className="w-20 h-20 mx-auto rounded-full"
+              className="w-20 h-20 mx-auto rounded-full object-cover"
               src={user?.profilePic}
               alt={user?.name}
             />
@@ -99,7 +99,10 @@ const Profile = () => {
         </div>
       </aside>
 
-      <div className="w-full bg-stone-600">
+      <div
+        onMouseDown={() => setShowProfileMenu(false)}
+        className="w-full bg-stone-600"
+      >
         <div className="md:hidden flex justify-end px-4 text-3xl text-white cursor-pointer">
           <span
             onClick={() => setShowProfileMenu(!showProfileMenu)}

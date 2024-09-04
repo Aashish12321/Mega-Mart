@@ -58,7 +58,7 @@ const OrderDetails = () => {
       {loading ? (
         <Spinner />
       ) : order?._id ? (
-        <div className="w-full p-2 my-2 bg-stone-700 border-2 border-zinc-400 rounded-xl">
+        <div className="w-full p-2 mt-1 bg-stone-700 border-2 border-zinc-400 rounded-xl">
           <div className="w-full flex flex-col md:flex-row justify-between gap-4">
             <div className="flex flex-col gap-4">
               <i className="text-xl font-semibold">Order ID : #{order?._id}</i>
@@ -199,14 +199,7 @@ const OrderDetails = () => {
             </div>
           </div>
 
-          <div className="flex justify-between mt-8">
-            <button className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-              Contact Support
-            </button>
-            <button className="px-6 py-3 bg-gray-300 text-black rounded-lg hover:bg-gray-400">
-              Return Policy
-            </button>
-          </div>
+          <div className="w-full h-20"></div>
         </div>
       ) : (
         <div className="w-full text-xl p-2 text-center font-semibold flex justify-center items-center h-80 my-2 bg-stone-700 rounded-xl border-2 border-zinc-400">

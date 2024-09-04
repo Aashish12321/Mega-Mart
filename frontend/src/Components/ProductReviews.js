@@ -5,12 +5,15 @@ import { IoStarSharp } from "react-icons/io5";
 import { FaCircleUser } from "react-icons/fa6";
 import { HiBadgeCheck } from "react-icons/hi";
 import moment from "moment";
+import DisplayFullImage from "./DisplayFullImage";
 
 const ProductReviews = ({ productId, reviewMetrics }) => {
   const [reviews, setReviews] = useState([]);
   const [starCounts, setStarCounts] = useState({});
   const [maxStarRatingCount, setMaxStarRatingCount] = useState({});
   const [loading, setLoading] = useState(true);
+  const [fullImage, setFullImage] = useState("");
+  const [openFullImage, setOpenFullImage] = useState(false);
   const barColor = {
     5: "bg-green-500",
     4: "bg-green-400",
@@ -45,8 +48,8 @@ const ProductReviews = ({ productId, reviewMetrics }) => {
   }, [fetchProductReviews]);
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col md:flex-row gap-4">
+    <div className="w-full flex flex-col gap-4">
+      <div className="w-full flex flex-col md:flex-row gap-4">
         <div className="w-full max-w-xs flex flex-col items-center justify-center">
           <span className="text-4xl font-bold">{reviewMetrics?.avgRating}</span>
           <StarRating rating={reviewMetrics?.avgRating} dimension={"20px"} />
@@ -84,7 +87,7 @@ const ProductReviews = ({ productId, reviewMetrics }) => {
       <div className="w-full h-0.5 bg-gray-500"></div>
 
       <div className="w-full">
-        {reviews?.map((review, index) => (
+        {reviews?.map((review) => (
           <div className="w-full mt-4">
             <div className="flex p-1 gap-2">
               {review?.userId?.profilePic ? (
@@ -100,7 +103,7 @@ const ProductReviews = ({ productId, reviewMetrics }) => {
               <div className="w-full flex flex-col">
                 <span className="flex items-center gap-1">
                   <span className="font-semibold">{review?.userId?.name}</span>
-                  {!review?.verified && (
+                  {review?.verified && (
                     <HiBadgeCheck className="text-gray-300" />
                   )}
                 </span>
@@ -115,9 +118,31 @@ const ProductReviews = ({ productId, reviewMetrics }) => {
             <div className="w-full px-2 py-1 line-clamp-3 text-balance font-Roboto">
               {review?.comment}
             </div>
+            <div className="flex gap-2 mx-2">
+              {review?.images?.map((image, index) => (
+                <img
+                  src={image}
+                  alt={`reviewimg${index}`}
+                  className="w-16 h-16 object-contain bg-zinc-800 rounded-md cursor-pointer"
+                  onClick={() => {
+                    setOpenFullImage(true);
+                    setFullImage(image);
+                  }}
+                />
+              ))}
+            </div>
             <div className="w-full border mt-4 border-gray-500"></div>
           </div>
         ))}
+      </div>
+
+      <div className="left-4">
+        {openFullImage && (
+          <DisplayFullImage
+            imgUrl={fullImage}
+            onClose={() => setOpenFullImage(false)}
+          />
+        )}
       </div>
     </div>
   );

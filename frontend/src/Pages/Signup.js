@@ -73,7 +73,7 @@ const Signup = () => {
           className="w-full flex flex-col gap-2 mt-2"
         >
           <div className="w-20 mx-auto mt-2 overflow-hidden rounded-full cursor-pointer">
-            <img src={user?.profilePic || logo} alt="logo" />
+            <img src={user?.profilePic || logo} alt="logo" className="w-20 h-20 object-cover"/>
             <div className="text-xs bg-slate-500 text-white pb-4 pt-2 text-center -mt-10">
               <input
                 type="file"

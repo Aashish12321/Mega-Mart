@@ -82,7 +82,7 @@ const Account = () => {
 
         <div className="w-full flex flex-col gap-8 px-4 py-4 bg-stone-700 rounded-xl border-2 border-zinc-400">
           <div className="w-24 mx-auto mt-2 overflow-hidden rounded-full cursor-pointer">
-            <img src={updatedUser?.profilePic || logo} alt="logo" />
+            <img src={updatedUser?.profilePic || logo} alt="logo" className="w-24 h-24 object-cover"/>
             <div className="text-xs bg-slate-500 text-white pb-4 pt-2 text-center -mt-10">
               <input
                 type="file"

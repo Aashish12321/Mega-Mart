@@ -150,7 +150,7 @@ const Header = () => {
                 >
                   {user?.profilePic ? (
                     <img
-                      className="w-full h-full rounded-full"
+                      className="w-full h-full rounded-full object-cover"
                       src={user?.profilePic}
                       alt={user?.username}
                     />

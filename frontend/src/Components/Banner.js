@@ -11,7 +11,6 @@ const Banner = () => {
   const banners = [img2, img3, img4];
   const mobilebanners = [img2_mobile, img3_mobile, img4_mobile];
   const [currentBanner, setCurrentBanner] = useState(0);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -25,9 +24,6 @@ const Banner = () => {
 
   return (
     <div className="w-full">
-      {loading && (
-        <div className="w-full h-56 md:h-64 bg-gray-300 animate-pulse"></div>
-      )}
       <div className="w-full relative overflow-auto no-scrollbar cursor-pointer">
         <div
           style={{ transform: `translateX(-${currentBanner * 100}%)` }}
@@ -37,7 +33,6 @@ const Banner = () => {
             <img
               key={index}
               src={banner}
-              onLoad={() => setLoading(false)}
               alt={`Banner ${index}.jpg`}
             />
           ))}

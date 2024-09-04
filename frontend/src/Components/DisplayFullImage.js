@@ -23,7 +23,7 @@ const DisplayFullImage = ({imgUrl, onClose}) => {
   },[onClose, imgUrl]);
 
   return (
-    <div className='fixed flex justify-center w-full left-0 top-[60px] right-0 bottom-0 bg-opacity-30 bg-slate-200'>
+    <div className='fixed flex z-10 justify-center w-full left-0 top-14 xl:top-16 right-0 bottom-0 bg-opacity-100 bg-stone-500'>
       <img ref={modalRef} src={imgUrl} alt="photos" className='h-auto object-contain bg-zinc-800'/>
       <button onClick={onClose} className='mb-auto -ml-6 text-2xl'>
         <FaWindowClose />

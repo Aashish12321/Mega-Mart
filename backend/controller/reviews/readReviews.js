@@ -4,6 +4,7 @@ async function readReviews(req, resp) {
   try {
     const { productId } = req.body;
     const reviews = await Review.find({ productId: productId })
+      .sort({ rating: -1 })
       .populate("userId", "name profilePic")
       .populate({
         path: "replies",
@@ -28,7 +29,7 @@ async function readReviews(req, resp) {
       return maxCount;
     };
     let maxCount = -1;
-    const maxStarRatingCount = getMaxStarRatingCount();    
+    const maxStarRatingCount = getMaxStarRatingCount();
 
     // filter out review with no comments
     const filteredReviews = reviews.filter((review) => review?.comment);
@@ -39,7 +40,7 @@ async function readReviews(req, resp) {
         data: {
           reviews: reviews,
           starCounts: starCounts,
-          maxStarRatingCount: maxStarRatingCount
+          maxStarRatingCount: maxStarRatingCount,
         },
         success: true,
         error: false,
@@ -50,7 +51,7 @@ async function readReviews(req, resp) {
         data: {
           reviews: filteredReviews,
           starCounts: starCounts,
-          maxStarRatingCount: maxStarRatingCount
+          maxStarRatingCount: maxStarRatingCount,
         },
         success: true,
         error: false,
