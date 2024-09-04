@@ -7,7 +7,6 @@ It offers a seamless shopping experience with integrated Stripe payment processi
 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
-- [Installation](#installation)
 - [Usage](#usage)
 - [Cloud Storage](#cloud-storage)
 - [State Management](#state-management)
@@ -31,26 +30,6 @@ It offers a seamless shopping experience with integrated Stripe payment processi
 - **Database**: MongoDB
 - **Payment Gateway**: Stripe
 - **Cloud Storage**: Cloudinary  
-
-## Installation
-
-### Install server dependencies
-cd .\backend\
-npm install
-
-### Install client dependencies
-cd .\frontend\
-npm install
-
-## Run the development server
-
-### Run backend server
-cd .\backend\
-npm run dev
-
-### Run frontend server
-cd .\frontend\
-npm start
 
 ## Usage
 - **Browse Products**: Navigate through the product catalog. Use the search bar to find specific items and filter options to narrow down your choices.
