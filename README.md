@@ -43,11 +43,11 @@ npm install
 ## Run the development server
 
 ### Run backend server
-cd backend
+cd .\backend\
 npm run dev
 
 ### Run frontend server
-cd ../frontend
+cd .\frontend\
 npm start
 
 ## Usage
