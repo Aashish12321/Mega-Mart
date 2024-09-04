@@ -9,6 +9,7 @@ It offers a seamless shopping experience with integrated Stripe payment processi
 - [Tech Stack](#tech-stack)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Cloud Storage](#cloud-storage)
 - [State Management](#state-management)
 - [Payment Integration](#payment-integration)
 
@@ -29,6 +30,7 @@ It offers a seamless shopping experience with integrated Stripe payment processi
 - **Backend**: Node.js, Express
 - **Database**: MongoDB
 - **Payment Gateway**: Stripe
+- **Cloud Storage**: Cloudinary  
 
 ## Installation
 
@@ -56,6 +58,11 @@ npm start
 - **Favourite**: Save your favorite products to revisit them later.
 - **Checkout**: Proceed to checkout to review your order, enter shipping details, and provide payment information. The checkout process is handled securely via Stripe.
 - **Order History**: After placing an order, you can view your order history in the user profile section. Track your orders and view their status.
+
+## Cloud Storage
+Cloudinary is used for managing product and user images:
+
+- **Image Uploads**: Product images and users review images are uploaded to Cloudinary and accessed via Cloudinary URLs.
 
 ## State Management
 This project uses both Context API and React-Redux for managing application state:
