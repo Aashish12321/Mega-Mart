@@ -14,7 +14,14 @@ cloudinary.config({
 const port = 7000;
 
 const app = express();
-app.use(cors());
+
+// CORS to only allow all origins.
+// app.use(cors());
+
+// CORS to only allow specific origins.
+app.use(cors({
+  origin: process.env.FRONTEND_URL
+}));
 
 app.use(express.json({ limit: "10mb" }));
 
