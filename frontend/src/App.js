@@ -5,7 +5,7 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import SummaryApi from "./Common";
 
-import Context from "./Context";
+import Context from "./Context/index";
 
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

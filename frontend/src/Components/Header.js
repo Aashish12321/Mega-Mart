@@ -14,7 +14,7 @@ import { setCategories } from "../Store/categorySlice";
 import role from "../Common/role";
 import CategoriesList from "./CategoriesList";
 import { selectUser } from "../Store/selector";
-import Context from "../Context";
+import Context from "../Context/index";
 
 const Header = () => {
   const [showuserMenu, setShowUserMenu] = useState(false);

@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SummaryApi from "../Common";
-import Context from "../Context";
+import Context from "../Context/index";
 import { toast } from "react-toastify";
 import Spinner from "../Components/Loaders/Spinner";
 import displayNepCurrency from "../helpers/displayNepCurrency";
