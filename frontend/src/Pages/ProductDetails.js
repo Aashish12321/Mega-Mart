@@ -15,7 +15,7 @@ import { FaCartShopping, FaHeart, FaRegStar } from "react-icons/fa6";
 import { GiElectric } from "react-icons/gi";
 import addToCart from "../helpers/addToCart";
 import addToFavourite from "../helpers/addToFavourite";
-import Context from "../Context/index";
+import Context from "../Context/Context";
 import ProductReviews from "../Components/ProductReviews";
 import productRating from "../helpers/productRating";
 import RecommendedProducts from "../Components/RecommendedProducts";

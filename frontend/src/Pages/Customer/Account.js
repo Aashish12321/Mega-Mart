@@ -5,7 +5,7 @@ import { selectUser } from "../../Store/selector";
 import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import Context from "../../Context/index";
+import Context from "../../Context/Context";
 import logo from "../../Assets/loginIcon.gif";
 import imageTobase64 from "../../helpers/imageTobase64";
 

@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://mega-mart-i6hp.onrender.com",
+  "proxy": "http://localhost:7000",
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.5",
     "@stripe/react-stripe-js": "^2.8.0",

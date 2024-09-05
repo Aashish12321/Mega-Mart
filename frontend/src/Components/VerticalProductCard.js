@@ -6,7 +6,7 @@ import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import addToCart from "../helpers/addToCart";
 import addToFavourite from "../helpers/addToFavourite";
-import Context from "../Context/index";
+import Context from "../Context/Context";
 import productRating from "../helpers/productRating";
 
 const VerticalProductCard = ({ product, variant }) => {

@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import Context from "../../Context/index";
+import Context from "../../Context/Context";
 import VerticalProductCard from "../../Components/VerticalProductCard";
 import SummaryApi from "../../Common";
 import { toast } from "react-toastify";
