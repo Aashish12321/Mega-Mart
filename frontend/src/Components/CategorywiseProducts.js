@@ -60,7 +60,7 @@ const CategorywiseProducts = ({ category, heading }) => {
         {loading ? (
           <HPLoader wrap={""} />
         ) : (
-          products.map((product, index) =>
+          products.map((product) =>
             product.variants.map((variant, variantIndex) => (
               <HorizontalProductCard
                 key={variantIndex}

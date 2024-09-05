@@ -1,4 +1,5 @@
 const Order = require("../../models/Order");
+const Product = require("../../models/Product");
 const Review = require("../../models/Review");
 
 async function addReview(req, resp) {
@@ -6,7 +7,10 @@ async function addReview(req, resp) {
     const userId = req.userId;
     const { productId } = req.body;
 
-    const order = await Order.exists({ user: userId, "products._id": productId });
+    const order = await Order.exists({
+      user: userId,
+      "products._id": productId,
+    });
 
     let payload = {
       ...req.body,
@@ -16,6 +20,22 @@ async function addReview(req, resp) {
 
     let newReview = new Review(payload);
     newReview = await newReview.save();
+
+    // update ratings of product
+    const reviews = await Review.find({ productId: productId });
+    const totalRating = reviews?.reduce(
+      (acc, review) => acc + review?.rating,
+      0
+    );
+    let averageRating = totalRating / reviews?.length;
+    averageRating = Math.round(averageRating * 10) / 10;
+    const filterComment = reviews?.filter((review) => review?.comment);
+
+    let product = await Product.findById(productId);
+    product.ratings.avgRating = averageRating || 0;
+    product.ratings.ratingCount = reviews?.length;
+    product.ratings.commentCount = filterComment?.length;
+    await product.save();
 
     resp.status(200).json({
       message: "Thanks for your response",

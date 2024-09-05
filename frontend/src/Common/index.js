@@ -117,10 +117,6 @@ const SummaryApi = {
         url: `${base_url}/api/reply-to-review`,
         method: 'post'
     },
-    product_rating : {
-        url: `${base_url}/api/product-rating`,
-        method: 'post'
-    },
     delete_media : {
         url: `${base_url}/api/delete-media`,
         method: 'post'

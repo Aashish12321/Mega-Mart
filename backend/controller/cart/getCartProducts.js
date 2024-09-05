@@ -10,7 +10,7 @@ async function getCartProducts(req, resp) {
       allProductsInCart = await Promise.all(
         cartProducts.map(async (cartProduct) => {
           let product = await Product.findById(cartProduct?.productId).select(
-            "-timestamps -updatedAt -customerReviews -price.cost -ratings -__v"
+            "-timestamps -updatedAt -price.cost -__v"
           );
           let variant = product?.variants?.find((variant) =>
             variant?._id.equals(cartProduct?.variantId)

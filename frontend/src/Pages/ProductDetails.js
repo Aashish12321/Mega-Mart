@@ -17,7 +17,6 @@ import addToCart from "../helpers/addToCart";
 import addToFavourite from "../helpers/addToFavourite";
 import Context from "../Context/Context";
 import ProductReviews from "../Components/ProductReviews";
-import productRating from "../helpers/productRating";
 import RecommendedProducts from "../Components/RecommendedProducts";
 import { toast } from "react-toastify";
 
@@ -26,7 +25,6 @@ const ProductDetails = () => {
     variants: [],
     size: [],
   });
-  const [reviewMetrics, setReviewMetrics] = useState({});
   const [loading, setLoading] = useState(true);
   const [isFavourite, setIsFavourite] = useState(false);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
@@ -108,11 +106,6 @@ const ProductDetails = () => {
     }
   };
 
-  const fetchReviewMatrices = useCallback(async () => {
-    const data = await productRating(pid);
-    setReviewMetrics(data);
-  }, [pid]);
-
   const fetchDetails = useCallback(async () => {
     let response = await fetch(SummaryApi.productdetails.url, {
       method: SummaryApi.productdetails.method,
@@ -130,8 +123,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     fetchDetails();
-    fetchReviewMatrices();
-  }, [fetchDetails, fetchReviewMatrices]);
+  }, [fetchDetails]);
 
   useEffect(() => {
     if (product?.variants?.length > 0) {
@@ -282,30 +274,30 @@ const ProductDetails = () => {
 
             <div className="w-full flex flex-col flex-grow top-0 gap-1 p-1">
               <div className="relative flex flex-col p-4 gap-2 border-2 border-zinc-400 bg-stone-700">
-                <div className="font-bold text-lg">{product.brand}</div>
-                <div className="text-lg line-clamp-2">{product.name}</div>
+                <div className="font-bold text-lg">{product?.brand}</div>
+                <div className="text-lg line-clamp-2">{product?.name}</div>
                 <div className="flex gap-4">
                   <span className="flex items-center bg-green-500 py-0.5 px-2 gap-2 rounded-md">
-                    {reviewMetrics?.avgRating} <IoStarSharp />
+                    {product?.ratings?.avgRating} <IoStarSharp />
                   </span>
                   <span>
-                    {reviewMetrics?.ratingCount} Ratings &{" "}
-                    {reviewMetrics?.commentCount} Reviews
+                    {product?.ratings?.ratingCount} Ratings &{" "}
+                    {product?.ratings?.commentCount} Reviews
                   </span>
                 </div>
                 <div className="text-green-400">
                   Extra{" "}
-                  {displayNepCurrency(product.price.mrp - product.price.sell)}{" "}
+                  {displayNepCurrency(product?.price?.mrp - product?.price?.sell)}{" "}
                   off
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-2xl font-semibold">
-                    {displayNepCurrency(product.price.sell)}
+                    {displayNepCurrency(product?.price?.sell)}
                   </div>
                   <div className="text-red-500 line-through ">
-                    {displayNepCurrency(product.price.mrp)}
+                    {displayNepCurrency(product?.price?.mrp)}
                   </div>
-                  <div className="text-yellow-400">{product.discount}% off</div>
+                  <div className="text-yellow-400">{product?.discount}% off</div>
                 </div>
                 <div className="w-full">
                   {product.variants.length > 1 && (
@@ -354,7 +346,7 @@ const ProductDetails = () => {
                       required
                     >
                       {product?.variants?.map(
-                        (variant, index) =>
+                        (variant) =>
                           variant?._id === vid &&
                           variant.specs.map((spec, sindex) => (
                             <option key={sindex} value={spec?._id}>
@@ -369,7 +361,7 @@ const ProductDetails = () => {
                 <div className="flex gap-4">
                   <span className="w-20 font-semibold">Seller</span>
                   <span> : </span>
-                  <span>{product.seller.name}</span>
+                  <span>{product?.seller?.name}</span>
                 </div>
                 <div className="flex gap-4">
                   <span className="w-20 font-semibold">Description</span>
@@ -414,10 +406,7 @@ const ProductDetails = () => {
                   </Link>
                 </div>
                 <div className="mt-4">
-                  <ProductReviews
-                    productId={pid}
-                    reviewMetrics={reviewMetrics}
-                  />
+                  <ProductReviews product={product} />
                 </div>
               </div>
             </div>

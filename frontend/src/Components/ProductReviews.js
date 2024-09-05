@@ -7,7 +7,7 @@ import { HiBadgeCheck } from "react-icons/hi";
 import moment from "moment";
 import DisplayFullImage from "./DisplayFullImage";
 
-const ProductReviews = ({ productId, reviewMetrics }) => {
+const ProductReviews = ({ product }) => {
   const [reviews, setReviews] = useState([]);
   const [starCounts, setStarCounts] = useState({});
   const [maxStarRatingCount, setMaxStarRatingCount] = useState({});
@@ -32,7 +32,7 @@ const ProductReviews = ({ productId, reviewMetrics }) => {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({ productId: productId }),
+      body: JSON.stringify({ productId: product?._id }),
     });
     response = await response.json();
     if (response?.success) {
@@ -41,7 +41,7 @@ const ProductReviews = ({ productId, reviewMetrics }) => {
       setMaxStarRatingCount(response?.data?.maxStarRatingCount);
       setLoading(false);
     }
-  }, [productId]);
+  }, [product]);
 
   useEffect(() => {
     fetchProductReviews();
@@ -51,10 +51,10 @@ const ProductReviews = ({ productId, reviewMetrics }) => {
     <div className="w-full flex flex-col gap-4">
       <div className="w-full flex flex-col md:flex-row gap-4">
         <div className="w-full max-w-xs flex flex-col items-center justify-center">
-          <span className="text-4xl font-bold">{reviewMetrics?.avgRating}</span>
-          <StarRating rating={reviewMetrics?.avgRating} dimension={"20px"} />
+          <span className="text-4xl font-bold">{product?.ratings?.avgRating}</span>
+          <StarRating rating={product?.ratings?.avgRating} dimension={"20px"} />
           <span>
-            {reviewMetrics?.ratingCount} Ratings & {reviewMetrics?.commentCount}{" "}
+            {product?.ratings?.ratingCount} Ratings & {product?.ratings?.commentCount}{" "}
             Reviews
           </span>
         </div>

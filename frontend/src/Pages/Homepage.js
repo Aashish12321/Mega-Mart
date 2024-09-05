@@ -22,7 +22,7 @@ const Homepage = () => {
       </div>
       
       <div className='md:mx-6'>
-        <CategorywiseProducts category={"Refrigerators"} heading={"Refrigerators"}/>
+        <CategorywiseProducts category={"Refrigerators"} heading={"Premium Refrigerators for Modern Kitchens"}/>
       </div>
 
       <div className='md:mx-6'>
@@ -30,11 +30,27 @@ const Homepage = () => {
       </div>
 
       <div className='md:mx-6'>
-        <CategorywiseProducts category={"Television"} heading={"Televisions"}/>
+        <CategorywiseProducts category={"Television"} heading={"Best Televisions for Every Space"}/>
+      </div>
+
+      <div className='md:mx-6'>
+        <CategorywiseProducts category={"Headphones"} heading={"Premium Headphones for You"}/>
       </div>
 
       <div className='md:mx-6'>
         <CategorywiseProducts category={"Trimmers"} heading={"Men's Grooming and Trimmers"}/>
+      </div>
+
+      <div className='md:mx-6'>
+        <CategorywiseProducts category={"Camera"} heading={"Top-Notch Cameras for Every Photographer"}/>
+      </div>
+
+      <div className='md:mx-6'>
+        <CategorywiseProducts category={"Neckband Earphones"} heading={"Comfortable and Reliable Neckband Earphones"}/>
+      </div>
+
+      <div className='md:mx-6'>
+        <CategorywiseProducts category={"Mouse"} heading={"Find Your Perfect Mouse"}/>
       </div>
 
     </div>

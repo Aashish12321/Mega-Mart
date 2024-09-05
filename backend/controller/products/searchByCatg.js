@@ -7,7 +7,7 @@ async function searchByCatg(req, resp) {
     if (product) {
       results = await Product.find({
         $or: [{ products: { $regex: product, $options: "i" } }],
-      });
+      }).select("-timestamps -updatedAt -price.cost -__v");
     }
 
     resp.status(200).json({

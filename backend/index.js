@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const router = require("./routes");
+const path = require("path");
 require("dotenv").config();
 
 const cloudinary = require('cloudinary').v2;
@@ -26,6 +27,14 @@ app.use(cors({
 app.use(express.json({ limit: "10mb" }));
 
 app.use("/api", router);
+
+// Serve static files from react frontend app (if host on the same server)
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+// Catch-all route for react router
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
+});
 
 connectDB().then(() => {
   app.listen(port, () => {

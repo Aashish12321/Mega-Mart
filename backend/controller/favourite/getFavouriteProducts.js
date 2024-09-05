@@ -12,7 +12,7 @@ async function getFavouriteProducts(req, resp) {
           let product = await Product.findById(
             favouriteProduct?.productId
           ).select(
-            "-timestamps -updatedAt -customerReviews -price.cost -ratings -__v"
+            "-timestamps -updatedAt -price.cost -__v"
           );
           let variant = product?.variants?.find((variant) =>
             variant?._id.equals(favouriteProduct?.variantId)

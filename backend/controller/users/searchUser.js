@@ -9,7 +9,7 @@ async function searchUser(req, resp) {
         { email: { $regex: req.params.key, $options: "i" } },
         { role: { $regex: req.params.key, $options: "i" } },
       ],
-    });
+    }).select('_id name email role createdAt');
 
     resp.status(200).json({
       message: "Searched Users fetched successful",

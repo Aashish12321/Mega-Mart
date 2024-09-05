@@ -3,10 +3,10 @@ const Product = require("../../models/Product");
 async function searchProducts(req, resp) {
   try {
     const { query } = req.params;
-    
+
     const preprocessQuery = (query) => {
       const cleanedQuery = query.replace(/[^\w\s]/g, "");
-      
+
       return cleanedQuery
         .replace(
           /\bbest|cheap|expensive|top|new|affordable|latest|lowest|budget|discount|under|above|quality|deal|sale|more|between\b/gi,
@@ -65,7 +65,9 @@ async function searchProducts(req, resp) {
         ],
       }));
 
-      results = await Product.find({ $or: regexQueries });
+      results = await Product.find({ $or: regexQueries }).select(
+        "-timestamps -updatedAt -price.cost -__v"
+      );
     }
 
     resp.status(200).json({

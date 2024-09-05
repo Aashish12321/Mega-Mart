@@ -33,7 +33,11 @@ const ProductSchema = new mongoose.Schema(
     category: { type: String, required: true },
     subCategory: { type: String, required: true },
     products: { type: String, required: true },
-
+    ratings: {
+      avgRating: { type: Number, default: 0 },
+      ratingCount: { type: Number, default: 0 },
+      commentCount: { type: Number, default: 0 },
+    },
     variants: [variantSchema],
     seller: {
       id: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },

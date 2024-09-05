@@ -5,9 +5,9 @@ async function catgwiseProducts(req, resp) {
     const { products } = req.body;
     const catwiseProducts = await Product.find({ products: products })
       .select(
-        "-timestamps -updatedAt -customerReviews -price.cost -ratings -__v"
+        "-timestamps -updatedAt -price.cost -__v"
       )
-      .sort({ updatedAt: -1 });
+      .sort({ "ratings.ratingCount": -1 });
 
     resp.status(201).json({
       message: "Products fetched successfully",

@@ -26,7 +26,6 @@ const getFavouriteProducts = require("../controller/favourite/getFavouriteProduc
 const addReview = require("../controller/reviews/addReview");
 const readReviews = require("../controller/reviews/readReviews");
 const replyToReview = require("../controller/reviews/replyToReview");
-const productRating = require("../controller/reviews/productRating");
 const deleteMedia = require("../controller/cloudinary/deleteMedia");
 const adminProductDetails = require("../controller/products/adminProductDetails");
 const createCoupon = require("../controller/orders/createCoupon");
@@ -73,7 +72,6 @@ router.get("/favourite-products-details", authToken, getFavouriteProducts);
 router.post("/add-new-review", authToken, addReview);
 router.post("/read-reviews", readReviews);
 router.post("/reply-to-review", authToken, replyToReview);
-router.post("/product-rating",  productRating);
 router.post("/create-payment-intent", payment);
 router.post("/create-order", authToken, createOrder);
 router.get("/customer-orders", authToken, customerOrders);
