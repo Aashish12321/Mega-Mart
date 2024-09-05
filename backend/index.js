@@ -5,7 +5,7 @@ const router = require("./routes");
 const path = require("path");
 require("dotenv").config();
 
-const cloudinary = require('cloudinary').v2;
+const cloudinary = require("cloudinary").v2;
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -20,21 +20,26 @@ const app = express();
 // app.use(cors());
 
 // CORS to only allow specific origins.
-app.use(cors({
-  origin: process.env.FRONTEND_URL
-}));
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+  })
+);
 
 app.use(express.json({ limit: "10mb" }));
 
 app.use("/api", router);
 
-// Serve static files from react frontend app (if host on the same server)
-app.use(express.static(path.join(__dirname, "../frontend/build")));
+// Serve static assets if in production
+if (process.env.NODE_ENV === "production") {
+  // Set static folder for the frontend
+  app.use(express.static(path.join(__dirname, "frontend", "build")));
 
-// Catch-all route for react router
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
-});
+  // Serve the index.html file for unknown routes
+  app.get("*", (req, resp) => {
+    resp.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+  });
+}
 
 connectDB().then(() => {
   app.listen(port, () => {
