@@ -23,8 +23,8 @@ const CategoriesList = ({ showCategorySidebar, setShowCategorySidebar }) => {
   }, [showCategorySidebar]);
 
   return (
-    <div className="w-56 md:w-64 bg-gray-200 text-start">
-      <div className="flex items-center p-[18px] bg-red-500 text-white justify-start gap-2 text-xl">
+    <div className="w-56 md:w-64 bg-stone-700 text-white text-start">
+      <div className="flex items-center p-[18px] bg-zinc-800 justify-start gap-2 text-xl">
         {!catg && (
           <IoChevronBackCircleOutline
             onClick={() => setShowCategorySidebar(false)}
@@ -39,14 +39,14 @@ const CategoriesList = ({ showCategorySidebar, setShowCategorySidebar }) => {
           <div key={cindex} className="flex w-full max-w-56 md:max-w-64">
             <div
               onClick={() => setCatg(category.name)}
-              className="flex w-full hover:bg-gray-300 hover:font-semibold p-3 justify-between cursor-pointer"
+              className="flex w-full hover:bg-stone-600 hover:font-semibold p-3 justify-between cursor-pointer"
             >
               <div>{category.name}</div>
               <MdKeyboardArrowRight className="mt-1.5" />
             </div>
             {category.name === catg ? (
-              <div className="w-full max-w-56 md:max-w-64 h-[100vh] fixed top-[64px] left-0 bg-gray-200 duration-700 ease-in-out">
-                <div className="flex bg-customCard text-white text-md gap-2 p-3">
+              <div className="w-full max-w-56 md:max-w-64 h-[100vh] fixed top-16 left-0 bg-stone-700 duration-500 ease-in-out">
+                <div className="flex bg-stone-500 text-md gap-2 p-3">
                   <IoChevronBackCircleOutline
                     onClick={() => setCatg("")}
                     className="w-6 text-xl mt-0.5 cursor-pointer"
@@ -59,15 +59,15 @@ const CategoriesList = ({ showCategorySidebar, setShowCategorySidebar }) => {
                       <div
                         key={sindex}
                         onClick={() => setSubCatgs(subCategory.name)}
-                        className="flex w-full bg-gray-200 text-start hover:bg-gray-300 hover:font-semibold p-3 justify-between cursor-pointer"
+                        className="flex w-full bg-stone-700 text-start hover:bg-stone-600 hover:font-semibold p-3 justify-between cursor-pointer"
                       >
                         <div>{subCategory.name}</div>
                         <MdKeyboardArrowRight className="mt-1.5" />
                       </div>
 
                       {subCategory.name === subCatgs ? (
-                        <div className="w-full max-w-56 md:max-w-64 h-[100vh] fixed top-[64px] left-0 bg-gray-200 duration-500 ease-in-out">
-                          <div className="flex bg-customCard text-white text-md gap-2 p-3">
+                        <div className="w-full max-w-56 md:max-w-64 h-[100vh] fixed top-16 left-0 bg-stone-700 duration-500 ease-in-out">
+                          <div className="flex bg-stone-500 text-md gap-2 p-3">
                             <IoChevronBackCircleOutline
                               onClick={() => setSubCatgs("")}
                               className="w-6 text-xl mt-0.5 cursor-pointer"
@@ -88,7 +88,7 @@ const CategoriesList = ({ showCategorySidebar, setShowCategorySidebar }) => {
                                       product?.name
                                     )
                                   }
-                                  className="flex w-full bg-gray-200 text-start hover:bg-gray-300 hover:font-semibold p-3 justify-between cursor-pointer"
+                                  className="flex w-full bg-stone-700 text-start hover:bg-stone-600 hover:font-semibold p-3 justify-between cursor-pointer"
                                 >
                                   <div>{product.name}</div>
                                 </div>
@@ -96,13 +96,13 @@ const CategoriesList = ({ showCategorySidebar, setShowCategorySidebar }) => {
                             ))}
                         </div>
                       ) : (
-                        <div className="w-full max-w-56 md:max-w-64 h-[100vh] fixed top-[64px] -left-[350px] bg-gray-200 duration-300 ease-in-out"></div>
+                        <div className="w-full max-w-56 md:max-w-64 h-[100vh] fixed top-[64px] -left-[350px] bg-stone-700 duration-500 ease-in-out"></div>
                       )}
                     </div>
                   ))}
               </div>
             ) : (
-              <div className="w-full max-w-56 md:max-w-64 h-[100vh] fixed top-[64px] -left-[350px] bg-gray-200 duration-300 ease-in-out"></div>
+              <div className="w-full max-w-56 md:max-w-64 h-[100vh] fixed top-[64px] -left-[350px] bg-stone-700 duration-500 ease-in-out"></div>
             )}
           </div>
         ))}

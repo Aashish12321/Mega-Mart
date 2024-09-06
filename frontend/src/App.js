@@ -57,7 +57,6 @@ const App = () => {
     });
     response = await response.json();
     setCartProducts(response?.data?.cartProducts);
-    // console.log(response?.data?.cartProducts);
 
     setCartProductsCount(response?.data?.count);
   }, [token]);
@@ -71,7 +70,6 @@ const App = () => {
     });
     response = await response.json();
     setFavouriteProducts(response?.data?.favouriteProducts);
-    // console.log(response?.data);
   }, [token]);
 
   useEffect(() => {

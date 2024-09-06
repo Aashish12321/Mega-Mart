@@ -15,7 +15,18 @@ const ProtectedRoute = ({ children }) => {
     const token = localStorage.getItem("token");
     const checkAdmin = async () => {
       try {
-        if (user?.role === "ADMIN" || user?.role === "VENDOR") {
+        if (user?.role === "ADMIN") {
+          setLoader(false);
+          return;
+        } else if (user?.role === "VENDOR") {
+          if (
+            currentRoute === "/admin/users" ||
+            currentRoute === "/admin/create-coupon"
+          ) {
+            navigate("/permission-denied");
+            setLoader(false);
+            return;
+          }
           setLoader(false);
           return;
         } else if (user?.role === "GENERAL") {

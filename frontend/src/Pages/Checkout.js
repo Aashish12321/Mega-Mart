@@ -88,10 +88,13 @@ const Checkout = () => {
   }, [token]);
 
   const removeProductFromCart = async (e) => {
+    const removeProduct = async (cartProduct) => {
+      await addToCart(e, cartProduct?.productId, cartProduct?.variantId, cartProduct?.specId);
+      fetchCartProducts();
+    }
     cartProducts?.forEach((cartProduct) => {
-      addToCart(e, cartProduct?.productId, cartProduct?.variantId, cartProduct?.specId);
+      removeProduct(cartProduct);
     })
-    fetchCartProducts();
   };
 
   useEffect(() => {

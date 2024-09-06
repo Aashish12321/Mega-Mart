@@ -57,7 +57,7 @@ router.post("/reset-password", resetPassword);
 router.get("/search/:query", searchProducts);
 router.get("/search-by-catg/:product", searchByCatg);
 router.get("/user-details", authToken, userDetails);
-router.get("/get-products", getAllProducts);
+router.get("/get-products", authToken, getAllProducts);
 router.post("/productdetails", productDetails);
 router.get("/get-categories", getCategories);
 router.post("/catgwiseproducts", catgwiseProducts);

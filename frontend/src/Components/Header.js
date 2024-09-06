@@ -25,7 +25,7 @@ const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const user = useSelector(selectUser);
-  const context = useContext(Context);
+  const context = useContext(Context);  
 
   const handleSearch = () => {
     const query = searchQuery.trim();

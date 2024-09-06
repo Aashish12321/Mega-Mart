@@ -16,10 +16,10 @@ const port = 7000;
 
 const app = express();
 
-// CORS to only allow all origins.
+// allow all origins.
 // app.use(cors());
 
-// CORS to only allow specific origins.
+// allow specific origins.
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
@@ -29,17 +29,6 @@ app.use(
 app.use(express.json({ limit: "10mb" }));
 
 app.use("/api", router);
-
-// Serve static assets if in production
-if (process.env.NODE_ENV === "production") {
-  // Set static folder for the frontend
-  app.use(express.static(path.join(__dirname, "frontend", "build")));
-
-  // Serve the index.html file for unknown routes
-  app.get("*", (req, resp) => {
-    resp.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
-  });
-}
 
 connectDB().then(() => {
   app.listen(port, () => {

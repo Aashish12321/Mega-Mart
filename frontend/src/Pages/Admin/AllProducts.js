@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import SummaryApi from "../../Common";
 import AdminProductCard from "../../Components/AdminProductCard";
 import VPLoader from "../../Components/Loaders/VPLoader";
@@ -6,27 +6,35 @@ import VPLoader from "../../Components/Loaders/VPLoader";
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [loader, setLoader] = useState(true);
+  const token = localStorage.getItem("token");
 
-  const handleAllProducts = async () => {
-    let productResponse = await fetch(SummaryApi.all_products.url, {
+  const handleAllProducts = useCallback(async () => {
+    let response = await fetch(SummaryApi.all_products.url, {
       method: SummaryApi.all_products.method,
+      headers: {
+        "content-type": "application/json",
+        authorization: `${token}`,
+      },
     });
 
-    productResponse = await productResponse.json();
-    if (productResponse.success) {
+    response = await response.json();
+    if (response.success) {
       setLoader(false);
-      setProducts(productResponse.data);
+      setProducts(response.data);
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     handleAllProducts();
-  }, []);
+  }, [handleAllProducts]);
 
   return (
     <div className="m-2 md:p-2">
-      <div className="px-2 py-1 mb-4 border-2 border-zinc-400 bg-stone-500 rounded-full">
+      <div className="flex justify-between px-2 py-1 mb-4 border-2 border-zinc-400 bg-stone-500 rounded-full">
         <span className="text-xl font-bold">All Products</span>
+        <span className="text-xl font-semibold">
+          {products?.length} Products
+        </span>
       </div>
 
       <div className="bg-stone-500 rounded-xl border-2 border-zinc-400">

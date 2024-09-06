@@ -18,7 +18,10 @@ const PaymentSuccess = () => {
           <span className="text-md md:text-lg font-Roboto font-semibold">
             Your order has been created.
           </span>
-          <Link to={"/profile/orders"} className="w-full max-w-36 p-1 text-center rounded-full bg-green-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all">
+          <Link
+            to={"/profile/orders"}
+            className="w-full max-w-36 p-1 text-center rounded-full bg-green-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+          >
             Go to Orders
           </Link>
         </div>

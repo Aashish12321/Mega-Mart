@@ -10,6 +10,7 @@ import { selectUser } from "../../Store/selector";
 import { RxCross2 } from "react-icons/rx";
 import { HiMiniBars3 } from "react-icons/hi2";
 import { BiSolidNotepad } from "react-icons/bi";
+import role from "../../Common/role"
 
 const Admin = () => {
   const user = useSelector(selectUser);
@@ -50,7 +51,7 @@ const Admin = () => {
           <Link
             to={"users"}
             onClick={() => setShowProfileMenu(false)}
-            className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
+            className={`cursor-pointer ${user?.role === role?.admin ? "flex" : "hidden"} space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full`}
           >
             <IoPeople className="text-lg mt-1" />
             <p>Users</p>
@@ -58,7 +59,7 @@ const Admin = () => {
           <Link
             to={"create-coupon"}
             onClick={() => setShowProfileMenu(false)}
-            className="cursor-pointer flex space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full"
+            className={`cursor-pointer ${user?.role === role?.admin ? "flex" : "hidden"} space-x-3 px-3 py-1.5 hover:bg-stone-700 transition-colors rounded-full`}
           >
             <RiCoupon2Fill className="text-lg mt-1" />
             <p>Create Coupon</p>
