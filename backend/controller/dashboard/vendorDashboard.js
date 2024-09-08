@@ -42,8 +42,9 @@ async function vendorDashboard(req, resp) {
     });
 
     const totalCustomers = uniqueCustomers.size;
-    const changeInCustomers =
+    let changeInCustomers =
       (((totalCustomers - pmtotalCustomers) * 100) / pmtotalCustomers) || 0;
+    changeInCustomers = parseFloat(changeInCustomers).toFixed(2);
 
     const newOrders = await Suborder.find({
       seller: vendorId,
@@ -63,7 +64,8 @@ async function vendorDashboard(req, resp) {
       (acc, order) => acc + order?.subTotal,
       0
     );
-    const openAvgOrderValue = openOrderValue / openOrders.length;
+    let openAvgOrderValue = openOrderValue / openOrders.length;
+    openAvgOrderValue = parseFloat(openAvgOrderValue).toFixed(2);
 
     const monthlySales = await Suborder.aggregate([
       {
@@ -90,7 +92,8 @@ async function vendorDashboard(req, resp) {
       (acc, order) => acc + order?.subTotal,
       0
     );
-    const avgPurchaseOrder = lifetimeSales / allOrders.length;
+    let avgPurchaseOrder = lifetimeSales / allOrders.length;
+    avgPurchaseOrder = parseFloat(avgPurchaseOrder).toFixed(2);
 
     resp.status(200).json({
       message: "All Data fetched successfully",

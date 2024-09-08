@@ -46,8 +46,8 @@ const Coupons = () => {
           </div>
         ) : (
           <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {coupons?.map((coupon) => (
-            <div className="max-w-sm mx-auto bg-stone-700 shadow-lg rounded-lg border-2 border-zinc-500">
+            {coupons?.map((coupon, index) => (
+            <div key={index} className="max-w-sm mx-auto bg-stone-700 shadow-lg rounded-lg border-2 border-zinc-500">
               <div className="px-6 py-4">
                 <h2 className="text-xl font-bold mb-2">
                   Save {coupon?.discount}% on {coupon?.applicableBrand}{" "}

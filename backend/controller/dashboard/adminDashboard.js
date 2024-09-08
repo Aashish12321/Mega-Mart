@@ -24,8 +24,9 @@ async function adminDashboard(req, resp) {
       },
     }).countDocuments();
     const totalVendors = await User.find({ role: "VENDOR" }).countDocuments();
-    const changeInVendors =
+    let changeInVendors =
       ((totalVendors - pmtotalVendors) * 100) / pmtotalVendors;
+    changeInVendors = parseFloat(changeInVendors).toFixed(2);
 
     const pmtotalCustomers = await User.find({
       role: "GENERAL",
@@ -36,8 +37,9 @@ async function adminDashboard(req, resp) {
     const totalCustomers = await User.find({
       role: "GENERAL",
     }).countDocuments();
-    const changeInCustomers =
+    let changeInCustomers =
       ((totalCustomers - pmtotalCustomers) * 100) / pmtotalCustomers;
+    changeInCustomers = parseFloat(changeInCustomers).toFixed(2);
 
     const newOrders = await Order.find({
       status: { $ne: "Delivered" },
@@ -52,7 +54,8 @@ async function adminDashboard(req, resp) {
       (acc, order) => acc + order?.subTotal,
       0
     );
-    const openAvgOrderValue = openOrderValue / openOrders.length;
+    let openAvgOrderValue = openOrderValue / openOrders.length;
+    openAvgOrderValue = parseFloat(openAvgOrderValue).toFixed(2);
 
     const monthlySales = await Order.aggregate([
       {
@@ -78,7 +81,8 @@ async function adminDashboard(req, resp) {
       (acc, order) => acc + order?.subTotal,
       0
     );
-    const avgPurchaseOrder = lifetimeSales / allOrders.length;
+    let avgPurchaseOrder = lifetimeSales / allOrders.length;
+    avgPurchaseOrder = parseFloat(avgPurchaseOrder).toFixed(2);
 
     resp.status(200).json({
       message: "All Data fetched successfully",

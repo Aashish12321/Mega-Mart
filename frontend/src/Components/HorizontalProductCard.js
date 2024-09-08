@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import addToCart from "../helpers/addToCart";
 import addToFavourite from "../helpers/addToFavourite";
 import Context from "../Context/Context";
+import { toast } from "react-toastify";
 
 const ProductCard = ({ product, variant }) => {
   const context = useContext(Context);
@@ -21,7 +22,11 @@ const ProductCard = ({ product, variant }) => {
   const [isAddedToCart, setIsAddedToCart] = useState(false);
 
   const handleProductToCart = async (e) => {
-    await addToCart(e, product?._id, variant?._id, variant?.specs[0]?._id);
+    if (variant?.specs[0]?.available > 0) {
+      await addToCart(e, product?._id, variant?._id, variant?.specs[0]?._id);
+    } else {
+      toast.info("This product is out of stock");
+    }
     fetchCartProducts();
   };
 
@@ -66,7 +71,10 @@ const ProductCard = ({ product, variant }) => {
           <div className="mx-2">
             <h1 className="text-ellipsis line-clamp-2">{product?.name}</h1>
             <div className="flex gap-1 md:gap-2">
-              <StarRating rating={product?.ratings?.avgRating} dimension={"13px"} />
+              <StarRating
+                rating={product?.ratings?.avgRating}
+                dimension={"13px"}
+              />
               {/* <span className="mt-0.5">{product?.ratings?.avgRating}/5 ({product?.ratings?.ratingCount})</span> */}
             </div>
 

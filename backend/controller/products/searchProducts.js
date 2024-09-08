@@ -16,9 +16,10 @@ async function searchProducts(req, resp) {
     };
 
     const synonyms = {
-      headphones: ["headset", "earphones", "earbuds", "airdopes", "airpods"],
+      headphones: ["headset", "earphones", "earbuds", "airdopes", "airpods", "earpods"],
       smartphones: ["mobile", "smartphones", "handset"],
       refrigerator: ["freeze", "fridge", "cooling"],
+      mouse: ["mice"],
     };
 
     const expandQueryWithSynonyms = (query) => {

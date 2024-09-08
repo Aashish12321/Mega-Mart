@@ -65,11 +65,11 @@ ProductSchema.index(
     weights: {
       name: 10,
       description: 5,
+      products: 6,
       price: { sell: 5 },
       brand: 2,
       category: 1,
       subCategory: 1,
-      products: 8,
     },
   }
 );

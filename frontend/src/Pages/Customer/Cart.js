@@ -17,21 +17,30 @@ const Cart = () => {
   const [products, setProducts] = useState([]);
 
   const checkQuantity = (pid, vid, sid, quantity) => {
-    let product = products?.find((product) => product?._id === pid);
-    let variant = product?.variants?.find((variant) => variant?._id === vid);
-    let spec = variant?.specs?.find((spec) => spec?._id === sid);
-    let result = quantity > 0 && quantity <= spec?.stock;
-    // console.log("data are: ", product, variant, spec, quantity, result);
+    let product = products?.find(
+      (product) =>
+        product?._id === pid &&
+        product?.variants[0]?._id === vid &&
+        product?.variants[0]?.specs[0]?._id === sid
+    );
+    let variant = product?.variants[0];
+    let spec = variant?.specs[0];
+    let result = quantity > 0 && quantity <= spec?.available;
     if (quantity === 0) {
-      toast.info("Minimum quantity must be 1.")
-    } 
-    if (quantity > spec?.stock) {
-      toast.info("We have limited stock for the requested quantity");
+      toast.info("Minimum quantity must be 1.");
+    }
+    if (quantity > spec?.available) {
+      toast.info("We have limited stock for this product");
     }
     return result;
   };
 
-  const updateQuantityInCart = async (variantId, specId, quantity) => {
+  const updateQuantityInCart = async (
+    productId,
+    variantId,
+    specId,
+    quantity
+  ) => {
     let response = await fetch(SummaryApi.update_cart.url, {
       method: SummaryApi.update_cart.method,
       headers: {
@@ -39,6 +48,7 @@ const Cart = () => {
         authorization: `${token}`,
       },
       body: JSON.stringify({
+        productId: productId,
         variantId: variantId,
         specId: specId,
         quantity: quantity,
@@ -74,7 +84,7 @@ const Cart = () => {
   }, [token]);
 
   useEffect(() => {
-    if (cartProducts.length > 0) {
+    if (cartProducts?.length > 0) {
       fetchCartProductsDetails();
     }
   }, [cartProducts, fetchCartProductsDetails]);
@@ -111,171 +121,166 @@ const Cart = () => {
               </tr>
             </thead>
             <tbody className="w-full bg-stone-700">
-              {cartProducts?.map((cartVariant) =>
-                products?.map((product, pindex) =>
-                  product?.variants?.map(
-                    (variant) =>
-                      variant?._id === cartVariant?.variantId &&
-                      variant?.specs.map(
-                        (spec) =>
-                          spec?._id === cartVariant?.specId && (
-                            <tr
-                              key={spec?._id}
-                              style={{
-                                animation:
-                                  remove[spec?._id] &&
-                                  "slideLeft 0.8s ease-out",
-                              }}
-                              className="select-none border-t-2 border-gray-500"
-                            >
-                              <td className="p-2">
-                                <Link
-                                  to={`/product/${product?._id}/${variant?._id}`}
-                                  className="flex flex-col md:flex-row object-contain"
-                                >
-                                  <span className="w-full flex items-center max-w-28 max-h-28 bg-gray-300">
-                                    <img
-                                      src={variant?.images[0]}
-                                      alt={`CartProduct ${pindex}`}
-                                      className="w-full max-h-28 object-contain"
-                                    />
-                                  </span>
-                                  <span className="w-full max-w-sm inline-block text-wrap md:mx-4">
-                                    <span className="line-clamp-2 md:line-clamp-none hover:text-gray-300">
-                                      {product?.name}
-                                    </span>
-                                    {spec?.size && (
-                                      <span className="flex font-bold w-full gap-1 md:gap-4 items-center">
-                                        <span>Size</span>
-                                        <span> : </span>
-                                        <span>{spec?.size}</span>
-                                      </span>
-                                    )}
-                                    <span className="w-full flex mt-2 gap-4">
-                                      <button
-                                        onClick={(e) =>
-                                          removeItemFromCart(
-                                            e,
-                                            product?._id,
-                                            variant?._id,
-                                            spec?._id
-                                          )
-                                        }
-                                        className="bg-red-500 w-20 py-1 text-sm text-white rounded-full shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
-                                      >
-                                        Remove
-                                      </button>
-                                    </span>
-                                  </span>
-                                </Link>
-                                <span className="flex md:hidden mt-4">
-                                  <span
-                                    onClick={() => {
-                                      let check = checkQuantity(
-                                        cartVariant?.productId,
-                                        cartVariant?.variantId,
-                                        cartVariant?.specId,
-                                        cartVariant?.quantity - 1
-                                      );
-                                      if (check) {
-                                        updateQuantityInCart(
-                                          cartVariant?.variantId,
-                                          cartVariant?.specId,
-                                          cartVariant?.quantity - 1
-                                        );
-                                      }
-                                    }}
-                                    className="text-2xl select-none active:text-red-500 cursor-pointer font-bold bg-zinc-800 px-2 border border-gray-500"
-                                  >
-                                    -
-                                  </span>
-                                  <span className="text-2xl select-none bg-zinc-800 px-2 border border-gray-500">
-                                    {cartVariant?.quantity}
-                                  </span>
-                                  <span
-                                    onClick={() => {
-                                      let check = checkQuantity(
-                                        cartVariant?.productId,
-                                        cartVariant?.variantId,
-                                        cartVariant?.specId,
-                                        cartVariant?.quantity + 1
-                                      );
-                                      if (check) {
-                                        updateQuantityInCart(
-                                          cartVariant?.variantId,
-                                          cartVariant?.specId,
-                                          cartVariant?.quantity + 1
-                                        );
-                                      }
-                                    }}
-                                    className="text-2xl select-none active:text-green-500 cursor-pointer bg-zinc-800 px-2 border border-gray-500"
-                                  >
-                                    +
-                                  </span>
-                                </span>
-                              </td>
-                              <td className="hidden md:table-cell text-center p-2">
-                                <span className="flex">
-                                  <span
-                                    onClick={() => {
-                                      let check = checkQuantity(
-                                        cartVariant?.productId,
-                                        cartVariant?.variantId,
-                                        cartVariant?.specId,
-                                        cartVariant?.quantity - 1
-                                      );
-                                      if (check) {
-                                        updateQuantityInCart(
-                                          cartVariant?.variantId,
-                                          cartVariant?.specId,
-                                          cartVariant?.quantity - 1
-                                        );
-                                      }
-                                    }}
-                                    className="text-2xl select-none active:text-red-500 cursor-pointer font-bold bg-zinc-800 px-2 border border-gray-500"
-                                  >
-                                    -
-                                  </span>
-                                  <span className="text-2xl bg-zinc-800 px-2 border border-gray-500">
-                                    {cartVariant?.quantity}
-                                  </span>
-                                  <span
-                                    onClick={() => {
-                                      let check = checkQuantity(
-                                        cartVariant?.productId,
-                                        cartVariant?.variantId,
-                                        cartVariant?.specId,
-                                        cartVariant?.quantity + 1
-                                      );
-                                      if (check) {
-                                        updateQuantityInCart(
-                                          cartVariant?.variantId,
-                                          cartVariant?.specId,
-                                          cartVariant?.quantity + 1
-                                        );
-                                      }
-                                    }}
-                                    className="text-2xl select-none active:text-green-500 cursor-pointer bg-zinc-800 px-2 border border-gray-500"
-                                  >
-                                    +
-                                  </span>
-                                </span>
-                              </td>
-                              <td className="text-center p-2">
-                                {displayNepCurrency(product?.price?.sell)}
-                              </td>
-                              <td className="text-center p-2">
-                                <span>
-                                  {displayNepCurrency(
-                                    parseInt(cartVariant?.quantity) *
-                                      product?.price?.sell
-                                  )}
-                                </span>
-                              </td>
-                            </tr>
-                          )
-                      )
-                  )
+              {products?.map((product, pindex) =>
+                product?.variants?.map((variant) =>
+                  variant?.specs?.map((spec) => (
+                    <tr
+                      key={spec?._id}
+                      style={{
+                        animation:
+                          remove[spec?._id] && "slideLeft 0.8s ease-out",
+                      }}
+                      className="select-none border-t-2 border-gray-500"
+                    >
+                      <td className="p-2">
+                        <Link
+                          to={`/product/${product?._id}/${variant?._id}`}
+                          className="flex flex-col md:flex-row object-contain"
+                        >
+                          <span className="w-full flex items-center max-w-28 max-h-28 bg-gray-300">
+                            <img
+                              src={variant?.images[0]}
+                              alt={`CartProduct ${pindex}`}
+                              className="w-full max-h-28 object-contain"
+                            />
+                          </span>
+                          <span className="w-full max-w-sm inline-block text-wrap md:mx-4">
+                            <span className="line-clamp-2 md:line-clamp-none hover:text-gray-300">
+                              {product?.name}
+                            </span>
+                            {spec?.size && (
+                              <span className="flex font-bold w-full gap-1 md:gap-4 items-center">
+                                <span>Size</span>
+                                <span> : </span>
+                                <span>{spec?.size}</span>
+                              </span>
+                            )}
+                            <span className="w-full flex mt-2 gap-4">
+                              <button
+                                onClick={(e) =>
+                                  removeItemFromCart(
+                                    e,
+                                    product?._id,
+                                    variant?._id,
+                                    spec?._id
+                                  )
+                                }
+                                className="bg-red-500 w-20 py-1 text-sm text-white rounded-full shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
+                              >
+                                Remove
+                              </button>
+                            </span>
+                          </span>
+                        </Link>
+                        <span className="flex md:hidden mt-4">
+                          <span
+                            onClick={() => {
+                              let check = checkQuantity(
+                                product?._id,
+                                variant?._id,
+                                spec?._id,
+                                product?.quantity - 1
+                              );
+                              if (check) {
+                                updateQuantityInCart(
+                                  product?._id,
+                                  variant?._id,
+                                  spec?._id,
+                                  product?.quantity - 1
+                                );
+                              }
+                            }}
+                            className="text-2xl select-none active:text-red-500 cursor-pointer font-bold bg-zinc-800 px-2 border border-gray-500"
+                          >
+                            -
+                          </span>
+                          <span className="text-2xl select-none bg-zinc-800 px-2 border border-gray-500">
+                            {product?.quantity}
+                          </span>
+                          <span
+                            onClick={() => {
+                              let check = checkQuantity(
+                                product?._id,
+                                variant?._id,
+                                spec?._id,
+                                product?.quantity + 1
+                              );
+                              if (check) {
+                                updateQuantityInCart(
+                                  product?._id,
+                                  variant?._id,
+                                  spec?._id,
+                                  product?.quantity + 1
+                                );
+                              }
+                            }}
+                            className="text-2xl select-none active:text-green-500 cursor-pointer bg-zinc-800 px-2 border border-gray-500"
+                          >
+                            +
+                          </span>
+                        </span>
+                      </td>
+                      <td className="hidden md:table-cell text-center p-2">
+                        <span className="flex">
+                          <span
+                            onClick={() => {
+                              let check = checkQuantity(
+                                product?._id,
+                                variant?._id,
+                                spec?._id,
+                                product?.quantity - 1
+                              );
+                              if (check) {
+                                updateQuantityInCart(
+                                  product?._id,
+                                  variant?._id,
+                                  spec?._id,
+                                  product?.quantity - 1
+                                );
+                              }
+                            }}
+                            className="text-2xl select-none active:text-red-500 cursor-pointer font-bold bg-zinc-800 px-2 border border-gray-500"
+                          >
+                            -
+                          </span>
+                          <span className="text-2xl bg-zinc-800 px-2 border border-gray-500">
+                            {product?.quantity}
+                          </span>
+                          <span
+                            onClick={() => {
+                              let check = checkQuantity(
+                                product?._id,
+                                variant?._id,
+                                spec?._id,
+                                product?.quantity + 1
+                              );
+                              if (check) {
+                                updateQuantityInCart(
+                                  product?._id,
+                                  variant?._id,
+                                  spec?._id,
+                                  product?.quantity + 1
+                                );
+                              }
+                            }}
+                            className="text-2xl select-none active:text-green-500 cursor-pointer bg-zinc-800 px-2 border border-gray-500"
+                          >
+                            +
+                          </span>
+                        </span>
+                      </td>
+                      <td className="text-center p-2">
+                        {displayNepCurrency(product?.price?.sell)}
+                      </td>
+                      <td className="text-center p-2">
+                        <span>
+                          {displayNepCurrency(
+                            parseInt(product?.quantity) * product?.price?.sell
+                          )}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
                 )
               )}
             </tbody>

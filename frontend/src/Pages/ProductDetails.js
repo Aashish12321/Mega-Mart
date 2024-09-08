@@ -49,10 +49,19 @@ const ProductDetails = () => {
 
   const handleSpecIdChange = (e) => {
     setSpecId(e.target.value);
-    console.log(specId);
   };
 
   const handleProductToCart = async (e) => {
+    for (const variant of product?.variants) {
+      if (variant?._id === vid) {
+        for (const spec of variant?.specs) {
+          if (spec?._id === specId && spec?.available === 0) {
+            toast.info("This product is out of stock");
+            return;
+          } 
+        }
+      }
+    }
     await addToCart(e, pid, vid, specId);
     fetchCartProducts();
   };
@@ -127,29 +136,43 @@ const ProductDetails = () => {
 
   useEffect(() => {
     if (product?.variants?.length > 0) {
-      product?.variants?.forEach((variant, _) => {
+      product?.variants?.forEach((variant) => {
         if (variant?._id === vid) {
           setVariantImagesCount(variant?.images?.length);
           if (variant?.specs?.length > 1) {
             setShowSize(true);
           }
-          if (!specId) {
-            setSpecId(variant?.specs[0]?._id);
-          }
         }
       });
     }
-
-    const isProductInCart = cartProducts?.some(
-      (product) => product?.variantId === vid && product?.specId === specId
-    );
-    setIsAddedToCart(isProductInCart);
 
     const isProductInFavourite = favouriteProducts?.some(
       (product) => product?.variantId === vid
     );
     setIsFavourite(isProductInFavourite);
-  }, [product, vid, specId, favouriteProducts, cartProducts]);
+  }, [product, vid, specId, favouriteProducts]);
+
+  useEffect(() => {
+    product?.variants?.forEach((variant) => {
+      if (variant?._id === vid) {
+        setSpecId(variant?.specs[0]?._id);
+      }
+    });
+  }, [product, vid]);
+
+  useEffect(() => {
+    if (showSize) {
+      const isProductInCart = cartProducts?.some(
+        (product) => product?.variantId === vid && product?.specId === specId
+      );
+      setIsAddedToCart(isProductInCart);
+    } else {
+      const isProductInCart = cartProducts?.some(
+        (product) => product?.variantId === vid
+      );
+      setIsAddedToCart(isProductInCart);
+    }
+  }, [vid, specId, cartProducts, showSize]);
 
   return (
     <div className="w-full lg:px-2 text-white">
@@ -157,11 +180,11 @@ const ProductDetails = () => {
         <Spinner />
       ) : (
         <div>
-          <div className="gap-2 lg:flex ">
+          <div className="gap-2 lg:flex">
             <div className="w-full lg:max-w-2xl">
               {product?.variants?.map(
                 (variant, vindex) =>
-                  variant._id === vid && (
+                  variant?._id === vid && (
                     <div
                       key={vindex}
                       className="w-full lg:justify-center lg:gap-1"
@@ -205,7 +228,10 @@ const ProductDetails = () => {
 
                           <div className="flex w-full justify-between text-xl gap-1">
                             <button
-                              onClick={handleProductToCart}
+                              onClick={(e) => {
+                                handleProductToCart(e);
+                                // , variant?.specs[0]?._id
+                              }}
                               className="flex w-full p-2 gap-2 justify-center items-center bg-green-500 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
                             >
                               {isAddedToCart ? "Added" : "Add to Cart "}
@@ -214,7 +240,7 @@ const ProductDetails = () => {
                             <button
                               onClick={() => {
                                 toast.info(
-                                  "Buy now is under development. Please go through add to cart method"
+                                  "This feature is under development. Please go through add to cart method"
                                 );
                               }}
                               className="flex w-full p-2 gap-2 justify-center items-center bg-yellow-600 shadow-sm shadow-white active:shadow-none active:translate-y-0.5 transition-all"
@@ -233,7 +259,7 @@ const ProductDetails = () => {
                           className="flex w-full justify-center object-contain gap-1 overflow-auto no-scrollbar scroll-smooth bg-zinc-800"
                         >
                           <img
-                            src={variant.images[currentImgIndex]}
+                            src={variant?.images[currentImgIndex]}
                             alt={`images ${currentImgIndex + 1}.webp`}
                             className="h-80"
                           />
@@ -287,7 +313,9 @@ const ProductDetails = () => {
                 </div>
                 <div className="text-green-400">
                   Extra{" "}
-                  {displayNepCurrency(product?.price?.mrp - product?.price?.sell)}{" "}
+                  {displayNepCurrency(
+                    product?.price?.mrp - product?.price?.sell
+                  )}{" "}
                   off
                 </div>
                 <div className="flex items-center gap-4">
@@ -297,16 +325,34 @@ const ProductDetails = () => {
                   <div className="text-red-500 line-through ">
                     {displayNepCurrency(product?.price?.mrp)}
                   </div>
-                  <div className="text-yellow-400">{product?.discount}% off</div>
+                  <div className="text-yellow-400">
+                    {product?.discount}% off
+                  </div>
+                </div>
+                <div>
+                  {product?.variants?.map(
+                    (variant) =>
+                      variant?._id === vid &&
+                      variant?.specs?.map(
+                        (spec) =>
+                          spec?._id === specId &&
+                          spec?.available === 0 && (
+                            <span className="bg-red-500 rounded-md px-2 py-1 font-semibold">
+                              Out of Stock
+                            </span>
+                          )
+                      )
+                  )}
                 </div>
                 <div className="w-full">
-                  {product.variants.length > 1 && (
+                  {product?.variants?.length > 1 && (
                     <div className="flex w-full gap-4 items-center">
                       <span className="w-20 font-semibold">Colors</span>
                       <span> : </span>
                       <div className="flex flex-wrap bg-customCard gap-1">
-                        {product.variants.map((variant, vindex) => (
+                        {product?.variants?.map((variant, vindex) => (
                           <Link
+                            key={vindex}
                             to={`/product/${pid}/${variant?._id}`}
                             className={`bg-zinc-800 border-2 
                             ${
@@ -317,7 +363,7 @@ const ProductDetails = () => {
                           >
                             <img
                               key={vindex}
-                              src={variant.images[0]}
+                              src={variant?.images[0]}
                               alt={`images ${vindex + 1}`}
                               className="w-full max-w-20 md:max-w-24"
                               onClick={() => {
@@ -348,7 +394,7 @@ const ProductDetails = () => {
                       {product?.variants?.map(
                         (variant) =>
                           variant?._id === vid &&
-                          variant.specs.map((spec, sindex) => (
+                          variant?.specs?.map((spec, sindex) => (
                             <option key={sindex} value={spec?._id}>
                               {spec?.size}
                             </option>

@@ -13,10 +13,10 @@ async function getCartProducts(req, resp) {
             "-timestamps -updatedAt -price.cost -__v"
           );
           let variant = product?.variants?.find((variant) =>
-            variant?._id.equals(cartProduct?.variantId)
+            variant?._id?.equals(cartProduct?.variantId)
           );
           let spec = variant?.specs?.find((spec) =>
-            spec?._id.equals(cartProduct?.specId)
+            spec?._id?.equals(cartProduct?.specId)
           );
           variant["specs"] = spec;
           product["variants"] = variant;

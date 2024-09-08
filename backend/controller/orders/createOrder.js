@@ -1,6 +1,8 @@
 const Order = require("../../models/Order");
 const Coupon = require("../../models/Coupon");
 const Suborder = require("../../models/Suborder");
+const Product = require("../../models/Product");
+
 
 async function createOrder(req, resp) {
   try {
@@ -56,6 +58,36 @@ async function createOrder(req, resp) {
       let saveSubOrder = new Suborder(subOrder);
       saveSubOrder = await saveSubOrder.save();
     });
+
+
+    const updateProduct = async (product) => {
+      const updatedProd = await Product.findById(product?._id);
+      if (updatedProd) {
+        updatedProd?.variants?.forEach((variant) => {
+          if (
+            variant?._id.toString() === product?.variants[0]?._id.toString()
+          ) {
+            variant?.specs?.forEach((spec) => {
+              if (
+                spec?._id.toString() === product?.variants[0]?.specs[0]?._id.toString()
+              ) {
+                const newAvailable = spec?.available - product?.quantity;
+                spec.available = newAvailable < 0 ? 0 : newAvailable;
+              }
+            });
+          }
+        });
+      }
+      await updatedProd.save();
+    };
+
+    const updateAllProducts = async () => {
+      for (const product of mainOrder?.products) {
+        await updateProduct(product);
+      }
+    };
+
+    await updateAllProducts();
 
     if (newOrder) {
       resp.status(201).json({

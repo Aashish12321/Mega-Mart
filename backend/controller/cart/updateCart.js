@@ -3,10 +3,10 @@ const Cart = require("../../models/Cart");
 async function updateCart(req, resp) {
   try {
     const userId = req.userId;
-    const { variantId, specId, quantity } = req.body;
+    const { productId, variantId, specId, quantity } = req.body;
 
     const changeQuantity = await Cart.findOneAndUpdate(
-      { userId: userId, variantId: variantId, specId: specId },
+      { userId: userId, productId: productId, variantId: variantId, specId: specId },
       { $set: { quantity: quantity } },
     );
 

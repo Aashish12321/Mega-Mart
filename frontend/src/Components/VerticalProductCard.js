@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import addToCart from "../helpers/addToCart";
 import addToFavourite from "../helpers/addToFavourite";
 import Context from "../Context/Context";
+import { toast } from "react-toastify";
 
 const VerticalProductCard = ({ product, variant }) => {
   const context = useContext(Context);
@@ -21,7 +22,11 @@ const VerticalProductCard = ({ product, variant }) => {
   const [isAddedToCart, setIsAddedToCart] = useState(false);
 
   const handleProductToCart = async (e) => {
-    await addToCart(e, product?._id, variant?._id, variant?.specs[0]?._id);
+    if (variant?.specs[0]?.available > 0) {
+      await addToCart(e, product?._id, variant?._id, variant?.specs[0]?._id);
+    } else {
+      toast.info("This product is out of stock");
+    }
     fetchCartProducts();
   };
 

@@ -88,7 +88,7 @@ const ProductReviews = ({ product }) => {
 
       <div className="w-full">
         {reviews?.map((review) => (
-          <div className="w-full mt-4">
+          <div key={review?._id} className="w-full mt-4">
             <div className="flex p-1 gap-2">
               {review?.userId?.profilePic ? (
                 <img
@@ -121,6 +121,7 @@ const ProductReviews = ({ product }) => {
             <div className="flex gap-2 mx-2">
               {review?.images?.map((image, index) => (
                 <img
+                  key={index}
                   src={image}
                   alt={`reviewimg${index}`}
                   className="w-16 h-16 object-contain bg-zinc-800 rounded-md cursor-pointer"
